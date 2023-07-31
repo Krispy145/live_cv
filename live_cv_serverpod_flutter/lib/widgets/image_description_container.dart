@@ -4,7 +4,7 @@ import 'package:live_cv_serverpod_flutter/enums/description.dart';
 import 'package:live_cv_serverpod_flutter/helpers/sizes/edge_insets.dart';
 import 'package:live_cv_serverpod_flutter/helpers/sizes/screen_size.dart';
 import 'package:live_cv_serverpod_flutter/helpers/sizes/spacers.dart';
-import 'package:live_cv_serverpod_flutter/widgets/image.dart';
+import 'package:live_cv_serverpod_flutter/widgets/circle_image.dart';
 import 'package:live_cv_serverpod_flutter/widgets/read_more_container.dart';
 import 'package:live_cv_serverpod_flutter/widgets/responsive_layout.dart';
 

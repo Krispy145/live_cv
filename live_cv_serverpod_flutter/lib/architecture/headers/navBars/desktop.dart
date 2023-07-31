@@ -80,7 +80,7 @@ class NavbarDesktop extends Header {
                   if (onLeftOptionTap != null) onLeftOptionTap!();
                   // BlocProvider.of<YNavBarBloc>(context).add(UpdateSelectedIndexEvent(index: 0));
                 },
-                child: Icon(Icons.circle, color: Colors.blueGrey[700]),
+                child: const SizedBox(width: 40),
               ),
         ],
       ),

@@ -8,9 +8,5 @@ void main() {
     environment: Environment.dev,
     client: Client('http://localhost:8080/')..connectivityMonitor = FlutterConnectivityMonitor(),
   );
-  // flavorConfig.client.description.insert(
-  //   Description(header: "About", subheader: "A brief overview", paragraph: aboutParagraph, type: DescriptionType.about.name,),
-  // );
-
   mainEntry(flavorConfig: flavorConfig);
 }

@@ -9,7 +9,7 @@ class DetailsFooterDesktop extends Footer {
   DetailsFooterDesktop({
     super.key,
     super.backgroundColor,
-    this.footerHeight = 183,
+    this.footerHeight = 190,
     required this.details,
   }) : preferredSize = Size.fromHeight(footerHeight);
 

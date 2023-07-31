@@ -41,22 +41,22 @@ class ReadMoreContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: backgroundColor,
-      padding: AppEdgeInsets.all(Sizes.l),
+      padding: AppEdgeInsets.symmetric(horizontal: Sizes.l),
       child: Column(
         children: [
-          Sizes.m.spacer(),
+          if (header != null) Sizes.m.spacer(),
           if (header != null)
             Text(
               header!,
               style: AppTheme.currentTheme.textTheme.titleLarge?.copyWith(color: textColor),
             ),
-          Sizes.m.spacer(),
+          if (subheader != null) Sizes.m.spacer(),
           if (subheader != null)
             Text(
               subheader!,
               style: AppTheme.currentTheme.textTheme.titleSmall?.copyWith(color: textColor),
             ),
-          Sizes.m.spacer(),
+          if (paragraph != null) Sizes.m.spacer(),
           if (paragraph != null)
             readMoreDialog
                 ? ReadMoreTextDialog(
@@ -73,7 +73,6 @@ class ReadMoreContainer extends StatelessWidget {
                     maxCharacterCount: maxCharacters,
                     textColor: textColor,
                   ),
-          Sizes.m.spacer(),
         ],
       ),
     );
@@ -108,8 +107,6 @@ class ReadMoreTextState extends State<ReadMoreText> {
 
   @override
   Widget build(BuildContext context) {
-    print("Max Count: ${widget.maxCharacterCount}  => ${widget.text.length}");
-
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -118,7 +115,7 @@ class ReadMoreTextState extends State<ReadMoreText> {
             isExpanded ? expandedText : displayText,
             style: AppTheme.currentTheme.textTheme.bodyMedium?.copyWith(color: widget.textColor),
           ),
-          if (widget.text.length > widget.maxCharacterCount) Sizes.xl.spacer(),
+          if (widget.text.length > widget.maxCharacterCount) Sizes.xs.spacer(),
           if (widget.text.length > widget.maxCharacterCount)
             Button.textPill(
               color: Colors.blueGrey[700],
@@ -129,7 +126,8 @@ class ReadMoreTextState extends State<ReadMoreText> {
                   isExpanded = !isExpanded;
                 });
               },
-            )
+            ),
+          if (widget.text.length > widget.maxCharacterCount) Sizes.m.spacer(),
         ],
       ),
     );
@@ -173,54 +171,56 @@ class ReadMoreTextDialog extends StatelessWidget {
               color: Colors.blueGrey[700],
               horizontalScaling: const ScalingStyle.shrink(),
               buttonText: 'Read More',
-              onTap: () {
-                Managers.navigationService.showDialogBase(
-                    view: Column(
-                      children: [
-                        if (path == null)
-                          DescriptionContainer(
-                            description: Description(
-                              type: type.name,
-                              header: header,
-                              subheader: subheader,
-                              paragraph: paragraph,
-                            ),
-                          ),
-                        if (path != null && isAsset)
-                          ImageDescriptionContainer.asset(
-                              textColor: textColor,
-                              imageDescription: ImageDescription(
-                                type: type.name,
-                                path: path,
-                                subheader: subheader,
-                                paragraph: paragraph.concatenateWithNewline().trim(),
-                              ),
-                              maxDescriptionCharacters: paragraph.concatenateWithNewline().length),
-                        if (path != null && !isAsset)
-                          ImageDescriptionContainer.network(
-                              textColor: textColor,
-                              imageDescription: ImageDescription(
-                                type: type.name,
-                                path: path,
-                                subheader: subheader,
-                                paragraph: paragraph.concatenateWithNewline().trim(),
-                              ),
-                              maxDescriptionCharacters: paragraph.concatenateWithNewline().length),
-                        Button.textPill(
-                          color: Colors.blueGrey[700],
-                          horizontalScaling: const ScalingStyle.shrink(),
-                          buttonText: 'Close',
-                          onTap: () => Managers.navigationService.pop(),
-                        ),
-                        if (paragraph.concatenateWithNewline().length > maxCharacterCount) Sizes.xl.spacer(),
-                      ],
-                    ),
-                    params: DialogParams("readMore"));
-              },
+              onTap: () => _showReadMoreDialog(),
             ),
         ],
       ),
     );
+  }
+
+  void _showReadMoreDialog() {
+    Managers.navigationService.showDialogBase(
+        view: Column(
+          children: [
+            if (path == null)
+              DescriptionContainer(
+                description: Description(
+                  type: type.name,
+                  header: header,
+                  subheader: subheader,
+                  paragraph: paragraph,
+                ),
+              ),
+            if (path != null && isAsset)
+              ImageDescriptionContainer.asset(
+                  textColor: textColor,
+                  imageDescription: ImageDescription(
+                    type: type.name,
+                    path: path,
+                    subheader: subheader,
+                    paragraph: paragraph.concatenateWithNewline().trim(),
+                  ),
+                  maxDescriptionCharacters: paragraph.concatenateWithNewline().length),
+            if (path != null && !isAsset)
+              ImageDescriptionContainer.network(
+                  textColor: textColor,
+                  imageDescription: ImageDescription(
+                    type: type.name,
+                    path: path,
+                    subheader: subheader,
+                    paragraph: paragraph.concatenateWithNewline().trim(),
+                  ),
+                  maxDescriptionCharacters: paragraph.concatenateWithNewline().length),
+            Button.textPill(
+              color: Colors.blueGrey[700],
+              horizontalScaling: const ScalingStyle.shrink(),
+              buttonText: 'Close',
+              onTap: () => Managers.navigationService.pop(),
+            ),
+            if (paragraph.concatenateWithNewline().length > maxCharacterCount) Sizes.xl.spacer(),
+          ],
+        ),
+        params: DialogParams("readMore"));
   }
 
   String _getDisplayText() {

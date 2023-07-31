@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:live_cv_serverpod_flutter/architecture/footers/details/desktop.dart';
 import 'package:live_cv_serverpod_flutter/architecture/footers/details/mobile.dart';
 import 'package:live_cv_serverpod_flutter/enums/description.dart';
+import 'package:live_cv_serverpod_flutter/helpers/container/container.dart';
 import 'package:live_cv_serverpod_flutter/helpers/sizes/edge_insets.dart';
 import 'package:live_cv_serverpod_flutter/helpers/sizes/spacers.dart';
 import 'package:live_cv_serverpod_flutter/helpers/wrappers/scroll_index/wrapper.dart';
@@ -12,6 +13,7 @@ import 'package:live_cv_serverpod_flutter/widgets/expandable_container.dart';
 import 'package:live_cv_serverpod_flutter/widgets/image_description_container.dart';
 import 'package:live_cv_serverpod_flutter/widgets/image_description_list_container.dart';
 import 'package:live_cv_serverpod_flutter/widgets/read_more_container.dart';
+import 'package:live_cv_serverpod_flutter/widgets/skills_flag.dart';
 import 'package:provider/provider.dart';
 
 class HomeView extends StatelessWidget {
@@ -35,11 +37,19 @@ class HomeView extends StatelessWidget {
                           bodyItemsBuilder: (context, index) {
                             switch (index) {
                               case 0:
-                                return ImageDescriptionContainer.network(
-                                  backgroundColor: Colors.blueGrey[700],
-                                  textColor: Colors.white,
-                                  padding: AppEdgeInsets.symmetric(vertical: Sizes.s),
-                                  imageDescription: viewModel.profile,
+                                return AppContainer(
+                                  color: Colors.blueGrey[700],
+                                  child: Column(
+                                    children: [
+                                      ImageDescriptionContainer.network(
+                                        backgroundColor: Colors.blueGrey[700],
+                                        textColor: Colors.white,
+                                        padding: AppEdgeInsets.only(top: Sizes.s),
+                                        imageDescription: viewModel.profile,
+                                      ),
+                                      const SkillsFlag()
+                                    ],
+                                  ),
                                 );
                               case 1:
                                 return ImageDescriptionListContainer(

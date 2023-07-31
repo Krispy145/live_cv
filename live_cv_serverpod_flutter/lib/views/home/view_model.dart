@@ -54,9 +54,6 @@ class HomeViewModel extends ChangeNotifier {
 
   Future<void> getPortfolios() async {
     porfolios = await Managers.api.imageDescription.fetchListByType(DescriptionType.portfolio.name);
-    for (var element in porfolios) {
-      print(element);
-    }
   }
 
   Future<void> getExperienceItems() async {

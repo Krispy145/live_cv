@@ -47,7 +47,7 @@ class _ExpandableContainerState extends State<ExpandableContainer> {
   Widget build(BuildContext context) {
     return AppContainer(
       color: widget.backgroundColor ?? Colors.blueGrey[700],
-      shape: const AppShape.rectangle(radius: AppBorderRadius.rectangleXXXXXXRounded, maxWidth: 1120),
+      shape: const AppShape.rectangle(radius: AppBorderRadius.rectangleXXXXXXRounded),
       margin: AppEdgeInsets.symmetric(horizontal: Sizes.xl, vertical: Sizes.m),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
