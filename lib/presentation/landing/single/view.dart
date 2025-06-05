@@ -2,7 +2,6 @@ import "package:auto_route/auto_route.dart";
 import "package:cv_app/dependencies/injection.dart";
 import "package:cv_app/presentation/components/header_view.dart";
 import "package:cv_package/data/models/header_model.dart";
-import "package:cv_package/data/models/portfolio_model.dart";
 import "package:cv_package/presentation/components/contact.dart";
 import "package:cv_package/presentation/components/portfolio.dart";
 import "package:cv_package/presentation/components/skills.dart";
@@ -97,7 +96,7 @@ class LandingView extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: PortfolioModel.list.map<Widget>((portfolio) => PortfolioBuilder(portfolio: portfolio)).toList(),
+              children: appWrapperStore.userDetails!.portfolio.map<Widget>((portfolio) => PortfolioBuilder(portfolio: portfolio)).toList(),
             ),
           ),
         );

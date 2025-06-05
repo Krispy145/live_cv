@@ -24,6 +24,9 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _headlineTextStyle = context.isScreenWidthGreaterThanTablet
+        ? context.textTheme.headlineMedium?.copyWith(color: context.colorScheme.onSurface)
+        : context.textTheme.headlineSmall?.copyWith(color: context.colorScheme.onSurface);
     return ColoredBox(
       color: context.theme.appBarTheme.backgroundColor ?? context.colorScheme.surface,
       child: PreferredSize(
@@ -51,7 +54,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
                       onTap: () => store.scrollToIndex(0),
                       child: Text(
                         title,
-                        style: context.textTheme.headlineMedium?.copyWith(color: context.colorScheme.onSurface),
+                        style: _headlineTextStyle,
                       ),
                     ),
                   ],
