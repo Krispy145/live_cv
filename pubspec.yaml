@@ -1,0 +1,86 @@
+name: cv_app
+description:
+version: 0.0.1+12
+publish_to: none
+
+scripts:
+  #* Generate the files for the project
+  gen: make gen
+
+  #* clean the project
+  clean: make clean
+
+  #* Run the tests for the project
+  test: make test
+
+  #* Build the project with ios/android/web release builds
+  #? Used for building the project with the development environment
+  build:dev: make build ENV=dev
+
+  #? Used for building the project with the staging environment
+  build:stage: make build ENV=stage
+
+  #? Used for building the project with the production environment
+  build:prod: make build ENV=prod
+
+  #* Deploy the projects using fastlane to the respective environments
+  #? Used for bumping only the build number
+  #? required flags: ENV and VERSION_TYPE
+  bump: make bump-version
+
+  #? Used for deploying the project to the development environment
+  #? required flags: ENV and CHANNEL and PLATFORM
+  deploy: make deploy
+
+environment:
+  sdk: ">=3.0.3 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  navigation:
+    path: ../../lets_yak/packages/navigation
+  utilities:
+    path: ../../lets_yak/packages/utilities
+  theme:
+    path: ../../lets_yak/packages/theme
+  cv_package:
+    path: ../cv_package
+  flutter_gen: ^5.3.2
+  get_it: ^7.6.4
+  firebase_core: ^3.11.0
+  firebase_analytics: ^11.4.2
+  firebase_crashlytics: ^4.3.2
+  frontend_server_client: ^4.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  mobx_codegen: ^2.3.0
+  build_runner:
+  flutter_gen_runner:
+  auto_route_generator: ^9.0.0
+  dart_mappable_builder: ^4.2.3
+  envied_generator: ^1.0.0
+
+flutter_gen:
+  output: lib/core/assets/
+  line_length: 200
+  integrations:
+    flutter_svg: true
+    rive: true
+    lottie: true
+
+  assets:
+    outputs:
+      class_name: Assets
+    exclude: []
+
+# The following section is specific to Flutter packages.
+flutter:
+  uses-material-design: true
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/images/
+    - assets/themes/

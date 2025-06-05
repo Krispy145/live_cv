@@ -1,0 +1,149 @@
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+#TODO: Beta App Review Information
+#TODO: Localized App Information
+#TODO: Localized Build Information
+#TODO: External groups csv to import in App Store Connect for External Testers
+#TODO: capture_ios_screenshots lane to capture screenshots for all devices
+#TODO: Release Metadata for App Store Connect Distribution
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Deploy a new version to TestFlight for Development environment"
+  lane :deploy_dev do |options|
+    track = options[:channel]
+    deploy_to_apple("development",track, options)
+  end
+
+  desc "Deploy a new version to TestFlight for Staging environment"
+  lane :deploy_stage do |options|
+    track = options[:channel]
+    deploy_to_apple("staging",track, options)
+  end
+
+  desc "Deploy a new version to App Store for Production environment"
+  lane :deploy_prod do |options|
+    track = "production"
+    deploy_to_apple("production",track, options)
+  end
+
+  def deploy_to_apple(env, track, options)    
+    filePath = options[:filePath]
+    success = nil
+
+    if env == "development" || env == "staging"
+      if track == "alpha"
+        success = upload_to_testflight(
+          api_key_path: "./Firebase/#{env}/app_store_connect.json",
+          ipa: filePath,
+          skip_waiting_for_build_processing: true
+        )
+        set_app_encryption(env: env)
+      end
+      if track == "beta"
+        setup_ci
+        testers = ["External Testers"]
+        success = upload_to_testflight(
+          distribute_external: true,
+          app_platform: "ios",
+          beta_app_review_info: {
+            contact_email: "marketing@letsyak.com",
+            contact_first_name: "Lets Yak",
+            contact_last_name: "Dev",            
+            demo_account_name: "demo",
+            demo_account_password: "demo"
+          },
+          localized_app_info: {
+            "en-US": {
+              feedback_email: "marketing@letsyak.com",
+              marketing_url: "",
+              privacy_policy_url: "",
+              description: "App #{env.capitalize} Version"
+            }
+          },
+          localized_build_info: {
+            "en-US": {
+              whats_new: "App #{env.capitalize} Version changes"
+            }
+          },
+          distribute_only: true,
+          groups: testers
+        )
+        set_app_encryption(env: env)
+      end
+    end
+    if env == "production" && track == "production"
+      upload_to_testflight(
+        api_key_path: "./Firebase/#{env}/app_store_connect.json",
+        ipa: filePath,
+        skip_waiting_for_build_processing: true
+      )
+      success = upload_to_app_store(
+        submit_for_review: true,
+        automatic_release: false,
+        force: true
+      )
+      set_app_encryption(env: env)
+    end
+
+    send_email(
+      subject: "App Deployment to #{track.capitalize} - #{env}",
+      message: "The app was successfully deployed to #{env.capitalize} environment.",
+      success: success
+    )
+  end
+
+  desc "Set App Encryption Status"
+  private_lane :set_app_encryption do |options|
+    env = options[:env]
+    require 'spaceship'
+    
+    # Load API key from JSON file
+    json_key_path = "./Firebase/#{env}/app_store_connect.json"
+    api_key_data = JSON.parse(File.read(json_key_path))
+
+    # Create an API token
+    token = Spaceship::ConnectAPI::Token.create(
+      key_id: api_key_data['key_id'],
+      issuer_id: api_key_data['issuer_id'],
+      key: api_key_data['key']
+    )
+
+    # Set the token for Spaceship
+    Spaceship::ConnectAPI.token = token
+
+    # Find the app by bundle identifier
+    app = Spaceship::ConnectAPI::App.find(app_identifier) 
+
+    # Update the app's encryption status
+    app.update_attributes({
+      usesEncryption: false # or true, depending on your app's encryption status
+    })
+
+    UI.message("App encryption status updated successfully.")
+  end
+
+  private_lane :send_email do |options|
+    subject = options[:subject]
+    message = options[:message]
+    success = options[:success]
+
+    mailgun(
+      apikey: "5c5c324cf8cfd7cd526e063817de2feb-f68a26c9-eb516c6f",
+      postmaster: "postmaster@sandbox1660d5c9cae340f7b284744331e39b20.mailgun.org",
+      to: "marketing@letsyak.com",
+      app_link: "app_link",
+      subject: subject,
+      message: message,
+      success: success
+    )
+
+    if success
+      puts "Email notification sent successfully: #{subject}"
+    else
+      puts "Failed to send email notification: #{subject}"
+    end
+  end
+end

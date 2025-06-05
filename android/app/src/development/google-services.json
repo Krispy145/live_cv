@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "743079054366",
+    "project_id": "cv-personal-app-dev",
+    "storage_bucket": "cv-personal-app-dev.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:743079054366:android:2eb1673c7752f9b253b20f",
+        "android_client_info": {
+          "package_name": "com.david.cv.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUblpIOZt88jlP1WWVqHiILIRRqNzxaG4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

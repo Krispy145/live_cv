@@ -1,0 +1,17 @@
+json_key_file("app/src/development/google_play_dev.json") 
+package_name("com.david.cv.dev") 
+
+for_platform :android do
+    for_lane :deploy_dev do
+        package_name("com.david.cv.dev")
+        json_key_file("app/src/development/google_play_dev.json")
+    end
+    for_lane :deploy_stage do
+        package_name("com.david.cv.stage")
+        json_key_file("app/src/staging/google_play_stage.json")
+    end
+    for_lane :deploy_prod do
+        package_name("com.david.cv")
+        json_key_file("app/src/main/google_play.json")
+    end
+end

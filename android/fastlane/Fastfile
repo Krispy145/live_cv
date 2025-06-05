@@ -1,0 +1,98 @@
+
+# # Uncomment the line if you want fastlane to automatically update itself
+# # update_fastlane
+
+default_platform(:android)
+
+# Define a lane for deploying to the dev environment
+desc "Deploy a new version to the Google Play Console for dev environment"
+lane :deploy_dev do |options|
+  env = "dev"
+  track = options[:channel] == "alpha" ? "internal" : "alpha"
+  deploy_to_play_store(env, track, options)
+end
+
+# Define a lane for deploying to the stage environment
+desc "Deploy a new version to the Google Play Console for stage environment"
+lane :deploy_stage do |options|
+  env = "stage"
+  track = options[:channel] == "alpha" ? "internal" : "alpha"
+  deploy_to_play_store(env, track, options)
+end
+
+# Define a lane for deploying to the prod environment
+desc "Deploy a new version to the Google Play Console for prod environment"
+lane :deploy_prod do |options|
+  env = "prod"
+  track = "production"
+  deploy_to_play_store(env, track, options)
+end
+
+# Helper method to handle deployment logic
+def deploy_to_play_store(env, track, options)
+  filePath = options[:filePath]
+  version_code = flutter_version()['version_code']   
+  
+  UI.message("Deploying to track: #{track.capitalize} for #{env} environment")
+
+  if env == "dev" || env == "stage"
+    success = upload_to_play_store(
+      track: track,
+      aab: filePath,
+      version_code: version_code
+    )
+  else
+    upload_to_play_store(
+      track: "internal",
+      aab: filePath,
+      version_code: version_code
+    )
+    success = upload_to_play_store(
+      track_promote_to: track,
+      skip_upload_apk: true,
+      skip_upload_aab: true,
+      version_code: version_code
+    )
+  end
+
+  send_email_notification(env, track, success)
+end
+
+# Helper method to send email notification
+def send_email_notification(env, track, success)
+  subject = "App Deployment to Play Store - #{env.capitalize}"
+  message = "The app was successfully deployed to Play Store in the #{track.capitalize} Channel, for #{env.capitalize} environment."
+
+  send_email(
+    subject: subject,
+    message: message,
+    success: success
+  )
+
+  if success
+    puts "Email notification sent successfully: #{subject}"
+  else
+    puts "Failed to send email notification: #{subject}"
+  end
+end
+
+# Define a private lane for sending email
+private_lane :send_email do |options|
+  subject = options[:subject]
+  message = options[:message]
+  success = options[:success]
+
+  UI.message("Sending email notification: #{subject}: #{message} #{success}")
+
+  mailgun(
+    apikey: "5c5c324cf8cfd7cd526e063817de2feb-f68a26c9-eb516c6f",
+    postmaster: "postmaster@sandbox1660d5c9cae340f7b284744331e39b20.mailgun.org",
+    to: "marketing@letsyak.com",
+    app_link: "app_link",
+    subject: subject,
+    message: message,
+    success: success
+  )
+
+  success
+end
