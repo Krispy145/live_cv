@@ -124,20 +124,34 @@ class DevAppBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                       ),
 
-                      TextButton.icon(
-                        onPressed: appWrapperStore.updateUserDetails,
-                        icon: Icon(
-                          Icons.save,
-                          size: store.showDevTools ? 24 : 0,
-                          color: context.colorScheme.onSurface,
-                        ),
-                        label: Text(
-                          "Save User Details to DB",
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: context.colorScheme.onSurface,
-                          ),
-                        ),
-                      ),
+                      // TextButton.icon(
+                      //   onPressed: appWrapperStore.updateUserDetails,
+                      //   icon: Icon(
+                      //     Icons.save,
+                      //     size: store.showDevTools ? 24 : 0,
+                      //     color: context.colorScheme.onSurface,
+                      //   ),
+                      //   label: Text(
+                      //     "Save User Details to DB",
+                      //     style: context.textTheme.bodySmall?.copyWith(
+                      //       color: context.colorScheme.onSurface,
+                      //     ),
+                      //   ),
+                      // ),
+                      // TextButton.icon(
+                      //   onPressed: () => appWrapperStore.addPortfolioPiece(PortfolioModel.flutterPackageAdmob),
+                      //   icon: Icon(
+                      //     Icons.add,
+                      //     size: store.showDevTools ? 24 : 0,
+                      //     color: context.colorScheme.onSurface,
+                      //   ),
+                      //   label: Text(
+                      //     "Add Portfolio Piece",
+                      //     style: context.textTheme.bodySmall?.copyWith(
+                      //       color: context.colorScheme.onSurface,
+                      //     ),
+                      //   ),
+                      // ),
 
                       TextButton.icon(
                         onPressed: ThemeChanger.saveJsonToFile,

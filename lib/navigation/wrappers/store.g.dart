@@ -45,6 +45,15 @@ mixin _$AppStore on _AppStore, Store {
     });
   }
 
+  late final _$addPortfolioPieceAsyncAction =
+      AsyncAction('_AppStore.addPortfolioPiece', context: context);
+
+  @override
+  Future<void> addPortfolioPiece(PortfolioModel portfolio) {
+    return _$addPortfolioPieceAsyncAction
+        .run(() => super.addPortfolioPiece(portfolio));
+  }
+
   late final _$updateUserDetailsAsyncAction =
       AsyncAction('_AppStore.updateUserDetails', context: context);
 

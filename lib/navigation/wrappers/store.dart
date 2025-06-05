@@ -1,5 +1,6 @@
 import "package:cv_app/core/assets/assets.gen.dart";
 import "package:cv_package/data/models/header_model.dart";
+import "package:cv_package/data/models/portfolio_model.dart";
 import "package:cv_package/data/models/user_details_model.dart";
 import "package:cv_package/domain/repositories/details.repository.dart";
 import "package:mobx/mobx.dart";
@@ -30,6 +31,12 @@ abstract class _AppStore with LoadStateStore, Store {
     final userDetails = await _userDetailsRepository.getAllUserDetailsModels();
     this.userDetails = userDetails.second.first?.copyWith(imageUrl: Assets.images.avatar.path);
     setLoaded();
+  }
+
+  @action
+  Future<void> addPortfolioPiece(PortfolioModel portfolio) async {
+    userDetails = userDetails!.copyWith(portfolio: userDetails!.portfolio..insert(3, portfolio));
+    await updateUserDetails();
   }
 
   @action
