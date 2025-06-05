@@ -1,5 +1,8 @@
+import "dart:math";
+
 import "package:cv_package/data/models/header_model.dart";
 import "package:cv_package/presentation/components/avatar.dart";
+import "package:cv_package/presentation/components/curved_banner.dart";
 import "package:flutter/material.dart";
 import "package:theme/extensions/build_context.dart";
 import "package:utilities/helpers/extensions/build_context.dart";
@@ -28,9 +31,10 @@ class HeaderView extends StatelessWidget {
       child: Column(
         children: [
           Sizes.xl.spacer(),
-          Banner(
-            message: "Open to work",
-            location: BannerLocation.bottomStart,
+          ProfileWithArcBanner(
+            bannerText: "Open to work",
+            arcRadius: 80,
+            sweepAngle: pi / 2,
             color: context.colorScheme.primary,
             textStyle: context.textTheme.bodySmall?.copyWith(
                   color: context.colorScheme.onPrimary,
