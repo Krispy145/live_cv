@@ -1,0 +1,102 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Cv App (Dev)",
+      "program": "lib/environments/dev/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "args": ["--flavor", "development"]
+    },
+    {
+      "name": "Cv App (profile mode) (Dev)",
+      "program": "lib/environments/dev/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile",
+      "args": ["--flavor", "development"]
+    },
+    {
+      "name": "Cv App (release mode) (Dev)",
+      "program": "lib/environments/dev/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "args": ["--flavor", "development"]
+    },
+
+    {
+      "name": "Cv App (Staging)",
+      "program": "lib/environments/stage/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "args": ["--flavor", "staging"]
+    },
+    {
+      "name": "Cv App (profile mode) (Staging)",
+      "program": "lib/environments/stage/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile",
+      "args": ["--flavor", "staging"]
+    },
+    {
+      "name": "Cv App (release mode) (Staging)",
+      "program": "lib/environments/stage/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "args": ["--flavor", "staging"]
+    },
+    {
+      "name": "Cv App (Prod)",
+      "program": "lib/environments/prod/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "args": ["--flavor", "production"]
+    },
+    {
+      "name": "Cv App (profile mode) (Prod)",
+      "program": "lib/environments/prod/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile",
+      "args": ["--flavor", "production"]
+    },
+    {
+      "name": "Cv App (release mode) (Prod)",
+      "program": "lib/environments/prod/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "args": ["--flavor", "production"]
+    },
+    {
+      "name": "Cv App Web (Dev)",
+      "program": "lib/environments/dev/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug",
+      "args": ["-d", "chrome"]
+    },
+    {
+      "name": "Cv App Web (Staging)",
+      "program": "lib/environments/stage/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug",
+      "args": ["-d", "chrome"]
+    },
+    {
+      "name": "Cv App Web (Prod)",
+      "program": "lib/environments/prod/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug",
+      "args": ["-d", "chrome"]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "projects": {
+    "development": "cv-personal-app-dev",
+    "default": "cv-personal-app-dev"
+  },
+  "targets": {
+    "cv-personal-app-dev": {
+      "hosting": {
+        "development": [
+          "cv-personal-app-dev"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

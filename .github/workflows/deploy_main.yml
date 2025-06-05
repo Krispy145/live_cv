@@ -1,0 +1,110 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Set up Play Store Secret
+        run: |
+          echo "$" | base64 --decode > android/play_store_secret.json
+
+      - name: Setup Fastlane
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+          rubygems: latest
+
+      - name: Build and Deploy
+        run: |
+          flutter clean && flutter pub get
+          make deploy-android ENV=prod
+
+  ios:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Set up App Store Connect
+        run: |
+          echo "$" | base64 --decode > ios/app_store_connect.json
+
+      - name: Setup Fastlane
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+          rubygems: latest
+
+      - name: Build and Deploy and Bump Major Version
+        run: |
+          flutter clean && flutter pub get
+          make deploy-ios ENV=prod
+
+  web:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      - name: Make Web Build
+        run: |
+          make build-web ENV=prod
+
+      - name: Deploy Web Production Build
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "$"
+          firebaseServiceAccount: "$"
+          channelId: live
+          projectId: cv-app-prod
+
+  tag:
+    runs-on: ubuntu-latest
+    needs: [android, ios, web]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Get Flutter Version
+        run: |
+          versionName=`cat pubspec.yaml | grep -o 'version:[^:]*' | cut -f2 -d":" | xargs`
+          echo "VERSION_NAME=v$versionName" >> $GITHUB_ENV
+
+      - name: Create Tag and Release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: $
+          title: $
+          automatic_release_tag: $
+          draft: false
+          prerelease: false

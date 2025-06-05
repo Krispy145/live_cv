@@ -1,0 +1,217 @@
+{
+  "name": "Let's Yak Theme",
+  "id": "b0c90d0a-d0bc-4930-9718-6984d4918723",
+  "colors": {
+    "primary": {
+      "light": {
+        "primary": "#2a6139ff",
+        "onPrimary": "#f1efe7ff",
+        "primaryContainer": "#fef9eeff",
+        "onPrimaryContainer": "#1d3724ff",
+        "secondary": "#f16b40ff",
+        "onSecondary": "#f1efe7ff",
+        "secondaryContainer": "#6c2d19ff",
+        "onSecondaryContainer": "#fef9eeff",
+        "tertiary": "#333333ff",
+        "onTertiary": "#c4cfc4ff",
+        "tertiaryContainer": "#d79c9cff",
+        "onTertiaryContainer": "#333333ff",
+        "error": "#ba1a1aff",
+        "onError": "#ffffffff",
+        "disabled": "#9e9e9eff",
+        "errorContainer": "#ffdad6ff",
+        "onErrorContainer": "#4bbbff",
+        "confirmation": "#3bc773ff",
+        "onConfirmation": "#eee7d5ff",
+        "confirmationContainer": "#fef9eeff",
+        "onConfirmationContainer": "#1d3724ff",
+        "information": "#219ef3ff",
+        "onInformation": "#ffffffff",
+        "informationContainer": "#bce1ffff",
+        "onInformationContainer": "#b273dff",
+        "warning": "#ff98ffff",
+        "onWarning": "#ffffffff",
+        "warningContainer": "#ffe0b3ff",
+        "onWarningContainer": "#4c2e1fff",
+        "outline": "#767680ff",
+        "background": "#fef9eeff",
+        "onBackground": "#333333ff",
+        "surface": "#fef9eeff",
+        "onSurface": "#333333ff",
+        "surfaceVariant": "#e2e1ecff",
+        "onSurfaceVariant": "#45464fff",
+        "inverseSurface": "#303034ff",
+        "onInverseSurface": "#f2f0f4ff",
+        "inversePrimary": "#b5c4ffff",
+        "shadow": "#000ff",
+        "surfaceTint": "#3557bcff",
+        "outlineVariant": "#c6c6d0ff",
+        "scrim": "#000ff"
+      },
+      "dark": {
+        "primary": "#f16b40ff",
+        "onPrimary": "#fef9eeff",
+        "primaryContainer": "#333333ff",
+        "onPrimaryContainer": "#f16b40ff",
+        "secondary": "#333333ff",
+        "onSecondary": "#f8f7f7ff",
+        "secondaryContainer": "#fef9eeff",
+        "onSecondaryContainer": "#1d3724ff",
+        "tertiary": "#fef9eeff",
+        "onTertiary": "#333333ff",
+        "tertiaryContainer": "#d1e77cff",
+        "onTertiaryContainer": "#333333ff",
+        "error": "#ba1a1aff",
+        "onError": "#ffffffff",
+        "disabled": "#9e9e9eff",
+        "errorContainer": "#ffdad6ff",
+        "onErrorContainer": "#4bbbff",
+        "confirmation": "#3bc773ff",
+        "onConfirmation": "#eee7d5ff",
+        "confirmationContainer": "#fef9eeff",
+        "onConfirmationContainer": "#1d3724ff",
+        "information": "#2196f3ff",
+        "onInformation": "#ffffffff",
+        "informationContainer": "#bce1ffff",
+        "onInformationContainer": "#b273dff",
+        "warning": "#ff98ffff",
+        "onWarning": "#ffffffff",
+        "warningContainer": "#ffe0b3ff",
+        "onWarningContainer": "#4c2e1fff",
+        "outline": "#767680ff",
+        "background": "#333333ff",
+        "onBackground": "#fef9eeff",
+        "surface": "#333333ff",
+        "onSurface": "#fef9eeff",
+        "surfaceVariant": "#e2e1ecff",
+        "onSurfaceVariant": "#f7ffff95",
+        "inverseSurface": "#303034ff",
+        "onInverseSurface": "#f2f0f4ff",
+        "inversePrimary": "#b5c4ffff",
+        "shadow": "#000ff",
+        "surfaceTint": "#3557bcff",
+        "outlineVariant": "#c6c6d0ff",
+        "scrim": "#000ff"
+      }
+    }
+  },
+  "textStyles": {
+    "primary": {
+      "display": {
+        "large": {
+          "fontFamilyName_font": "Prompt",
+          "fontWeight_double": 400,
+          "fontSize_double": 12,
+          "letterSpacing_double": 0,
+          "fontFamilyStyle_enum_fontStyle": "normal"
+        },
+        "medium": {
+          "fontFamilyName_font": "Prompt",
+          "fontWeight_double": 400,
+          "fontSize_double": 12,
+          "letterSpacing_double": 0,
+          "fontFamilyStyle_enum_fontStyle": "normal"
+        },
+        "small": {
+          "fontFamilyName_font": "Prompt",
+          "fontWeight_double": 400,
+          "fontSize_double": 12,
+          "letterSpacing_double": 0,
+          "fontFamilyStyle_enum_fontStyle": "normal"
+        }
+      },
+      "headline": {
+        "large": {
+          "fontFamilyName_font": "Prompt",
+          "fontWeight_double": 400,
+          "fontSize_double": 12,
+          "letterSpacing_double": 0,
+          "fontFamilyStyle_enum_fontStyle": "normal"
+        },
+        "medium": {
+          "fontFamilyName_font": "Prompt",
+          "fontWeight_double": 400,
+          "fontSize_double": 12,
+          "letterSpacing_double": 0,
+          "fontFamilyStyle_enum_fontStyle": "normal"
+        },
+        "small": {
+          "fontFamilyName_font": "Prompt",
+          "fontWeight_double": 400,
+          "fontSize_double": 12,
+          "letterSpacing_double": 0,
+          "fontFamilyStyle_enum_fontStyle": "normal"
+        }
+      },
+      "title": {
+        "large": {
+          "fontFamilyName_font": "Prompt",
+          "fontWeight_double": 400,
+          "fontSize_double": 12,
+          "letterSpacing_double": 0,
+          "fontFamilyStyle_enum_fontStyle": "normal"
+        },
+        "medium": {
+          "fontFamilyName_font": "Prompt",
+          "fontWeight_double": 400,
+          "fontSize_double": 12,
+          "letterSpacing_double": 0,
+          "fontFamilyStyle_enum_fontStyle": "normal"
+        },
+        "small": {
+          "fontFamilyName_font": "Prompt",
+          "fontWeight_double": 400,
+          "fontSize_double": 12,
+          "letterSpacing_double": 0,
+          "fontFamilyStyle_enum_fontStyle": "normal"
+        }
+      },
+      "body": {
+        "large": {
+          "fontFamilyName_font": "Prompt",
+          "fontWeight_double": 400,
+          "fontSize_double": 12,
+          "letterSpacing_double": 0,
+          "fontFamilyStyle_enum_fontStyle": "normal"
+        },
+        "medium": {
+          "fontFamilyName_font": "Prompt",
+          "fontWeight_double": 400,
+          "fontSize_double": 12,
+          "letterSpacing_double": 0,
+          "fontFamilyStyle_enum_fontStyle": "normal"
+        },
+        "small": {
+          "fontFamilyName_font": "Prompt",
+          "fontWeight_double": 400,
+          "fontSize_double": 12,
+          "letterSpacing_double": 0,
+          "fontFamilyStyle_enum_fontStyle": "normal"
+        }
+      },
+      "label": {
+        "large": {
+          "fontFamilyName_font": "Prompt",
+          "fontWeight_double": 400,
+          "fontSize_double": 12,
+          "letterSpacing_double": 0,
+          "fontFamilyStyle_enum_fontStyle": "normal"
+        },
+        "medium": {
+          "fontFamilyName_font": "Prompt",
+          "fontWeight_double": 400,
+          "fontSize_double": 12,
+          "letterSpacing_double": 0,
+          "fontFamilyStyle_enum_fontStyle": "normal"
+        },
+        "small": {
+          "fontFamilyName_font": "Prompt",
+          "fontWeight_double": 400,
+          "fontSize_double": 12,
+          "letterSpacing_double": 0,
+          "fontFamilyStyle_enum_fontStyle": "normal"
+        }
+      }
+    }
+  }
+}

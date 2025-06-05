@@ -1,0 +1,407 @@
+{
+  "name": "Digital Oasis Base",
+  "id": "03c74465-7e66-48dc-bd39-b776cfa774f1",
+  "filledButtons": {
+    "primary": {
+      "elevation": 0.0,
+      "backgroundColor": "tertiary",
+      "shape": {
+        "type": "rounded",
+        "value": {
+          "borderRadius": {
+            "type": "only",
+            "value": {
+              "topRight": 25.0,
+              "bottomLeft": 25.0
+            }
+          }
+        }
+      },
+      "padding": {
+        "type": "all",
+        "value": 8.0
+      },
+      "alignment": "center",
+      "minWidth": 64.0,
+      "height": 36.0,
+      "textStyle": "button",
+      "iconTheme": {
+        "size": 24.0,
+        "padding": {
+          "type": "all",
+          "value": 0.0
+        }
+      }
+    }
+  },
+  "inputDecorations": {
+    "primary": {
+      "isDense": false,
+      "isCollapsed": false,
+      "filled": true,
+      "errorBorder": {
+        "type": "border-outline",
+        "value": {
+          "borderRadius": null,
+          "borderSide": {
+            "color": "[0, 0, 0, 1.0]"
+          },
+          "gapPadding": 4.0
+        }
+      },
+      "focusedBorder": {
+        "type": "border-outline",
+        "value": {
+          "borderRadius": null,
+          "borderSide": {
+            "color": "[0, 0, 0, 1.0]"
+          },
+          "gapPadding": 4.0
+        }
+      },
+      "focusedErrorBorder": {
+        "type": "border-outline",
+        "value": {
+          "borderRadius": null,
+          "borderSide": {
+            "color": "[0, 0, 0, 1.0]"
+          },
+          "gapPadding": 4.0
+        }
+      },
+      "disabledBorder": {
+        "type": "border-outline",
+        "value": {
+          "borderRadius": null,
+          "borderSide": {
+            "color": "[0, 0, 0, 1.0]"
+          },
+          "gapPadding": 4.0
+        }
+      },
+      "enabledBorder": {
+        "type": "border-outline",
+        "value": {
+          "borderRadius": {
+            "type": "circular",
+            "value": {
+              "radius": {
+                "radius": 16.0
+              }
+            }
+          },
+          "borderSide": {
+            "color": "[0, 0, 0, 1.0]"
+          },
+          "gapPadding": 4.0
+        }
+      },
+      "border": {
+        "type": "border-outline",
+        "value": {
+          "borderRadius": {
+            "type": "circular",
+            "value": {
+              "radius": {
+                "radius": 16.0
+              }
+            }
+          },
+          "borderSide": {
+            "color": "[0, 0, 0, 1.0]"
+          },
+          "gapPadding": 4.0
+        }
+      },
+      "alignLabelWithHint": false
+    }
+  },
+  "cards": {
+    "primary": {
+      "elevation": 1.0,
+      "margin": {
+        "type": "all",
+        "value": 0.0
+      },
+      "shape": {
+        "type": "rounded",
+        "value": null
+      }
+    }
+  },
+  "snackbars": {
+    "primary": {
+      "elevation": 1.0,
+      "shape": {
+        "type": "rounded",
+        "value": null
+      },
+      "behavior": "floating"
+    }
+  },
+  "badges": {
+    "primary": {
+      "smallSize": 12.0,
+      "largeSize": 16.0,
+      "padding": {
+        "type": "all",
+        "value": 4.0
+      },
+      "alignment": "topRight"
+    }
+  },
+  "appbars": {
+    "primary": {
+      "elevation_double": 4.0,
+      "scrolledUnderElevation_double": 0.0,
+      "titleSpacing_double": 16.0,
+      "titleTextStyle_textStyleString": "title-medium",
+      "centerTitle_bool": true
+    }
+  },
+  "bottomAppbars": {
+    "primary": {
+      "elevation": 4.0,
+      "height": 56.0,
+      "padding": {
+        "type": "all",
+        "value": 0.0
+      }
+    }
+  },
+  "chips": {
+    "primary": {
+      "showCheckmark": false,
+      "labelPadding": {
+        "type": "all",
+        "value": 0.0
+      },
+      "padding": {
+        "type": "all",
+        "value": 0.0
+      },
+      "side": {
+        "width": 0.0
+      },
+      "shape": {
+        "type": "circle",
+        "value": null
+      },
+      "elevation": 0.0,
+      "pressElevation": 0.0
+    }
+  },
+  "dialogs": {
+    "primary": {
+      "elevation": 0.0,
+      "shape": {
+        "type": "rounded",
+        "value": {
+          "borderRadius": {
+            "type": "circular",
+            "value": {
+              "radius": {
+                "radius": 10.0
+              }
+            }
+          }
+        }
+      },
+      "alignment": "center",
+      "actionsPadding": {
+        "type": "all",
+        "value": 0.0
+      }
+    }
+  },
+  "popupMenus": {
+    "primary": {
+      "shape": {
+        "type": "circle",
+        "value": null
+      },
+      "elevation": 0.0,
+      "enableFeedback": true,
+      "position": "under",
+      "iconSize": 24.0
+    }
+  },
+  "sliders": {
+    "primary": {
+      "trackHeight": 4.0,
+      "minThumbSeparation": 8.0
+    }
+  },
+  "scrollbars": {
+    "primary": {
+      "thumbVisibility": true,
+      "thickness": 6.0,
+      "trackVisibility": true,
+      "radius": {
+        "type": "circular",
+        "value": {
+          "radius": 8.0
+        }
+      },
+      "crossAxisMargin": 0.0,
+      "mainAxisMargin": 0.0,
+      "minThumbLength": 18.0,
+      "interactive": true
+    }
+  },
+  "tooltips": {
+    "primary": {
+      "height": 32.0,
+      "padding": {
+        "type": "symmetric",
+        "value": {
+          "vertical": 0.0,
+          "horizontal": 8.0
+        }
+      },
+      "margin": {
+        "type": "all",
+        "value": 0.0
+      },
+      "verticalOffset": 0.0,
+      "preferBelow": true,
+      "excludeFromSemantics": false,
+      "decoration": {
+        "all": {
+          "borderRadius": {
+            "type": "circular",
+            "value": {
+              "radius": {
+                "radius": 4.0
+              }
+            }
+          },
+          "shape": "rectangle"
+        }
+      },
+      "enableFeedback": true
+    }
+  },
+  "navigationRails": {
+    "primary": {
+      "elevation": 8.0,
+      "groupAlignment": 0.0,
+      "useIndicator": true
+    }
+  },
+  "checkboxes": {
+    "primary": {
+      "splashRadius": 1.0,
+      "shape": {
+        "type": "circle",
+        "value": null
+      },
+      "side": {
+        "color": "[0, 0, 0, 1.0]"
+      }
+    }
+  },
+  "radios": {
+    "primary": {
+      "splashRadius": 1.0
+    }
+  },
+  "switches": {
+    "primary": {
+      "trackOutlineWidth": 1.0,
+      "splashRadius": 1.0
+    }
+  },
+  "drawers": {
+    "primary": {
+      "elevation": 0.0,
+      "shape": {
+        "type": "circle",
+        "value": null
+      },
+      "endShape": {
+        "type": "circle",
+        "value": null
+      },
+      "width": 0.0
+    }
+  },
+  "listTiles": {
+    "primary": {
+      "dense": false,
+      "shape": {
+        "type": "circle",
+        "value": null
+      },
+      "contentPadding": {
+        "type": "all",
+        "value": 0.0
+      },
+      "horizontalTitleGap": 0.0,
+      "minVerticalPadding": 0.0,
+      "minLeadingWidth": 0.0,
+      "enableFeedback": true
+    }
+  },
+  "menus": {
+    "primary": {
+      "elevation": 0.0,
+      "padding": {
+        "type": "all",
+        "value": 0.0
+      },
+      "side": {
+        "width": 0.0
+      },
+      "shape": {
+        "type": "circle",
+        "value": null
+      },
+      "alignment": "center"
+    }
+  },
+  "menuBars": {
+    "primary": {
+      "style": {
+        "elevation": 0.0,
+        "padding": {
+          "type": "all",
+          "value": 0.0
+        },
+        "side": {
+          "width": 0.0
+        },
+        "shape": {
+          "type": "circle",
+          "value": null
+        },
+        "alignment": "center"
+      }
+    }
+  },
+  "navigationBars": {
+    "primary": {
+      "height": 0.0,
+      "elevation": 0.0,
+      "indicatorShape": {
+        "type": "circle",
+        "value": null
+      }
+    }
+  },
+  "navigationDrawers": {
+    "primary": {
+      "tileHeight": 0.0,
+      "elevation": 0.0,
+      "indicatorShape": {
+        "type": "circle",
+        "value": null
+      }
+    }
+  },
+  "progressIndicators": {
+    "primary": {
+      "linearMinHeight": 6.0
+    }
+  }
+}

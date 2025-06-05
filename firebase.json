@@ -1,0 +1,66 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "cv-personal-app-dev",
+          "appId": "1:743079054366:android:2eb1673c7752f9b253b20f",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "cv-personal-app-dev",
+          "appId": "1:743079054366:ios:d437a1c2c00a2ba853b20f",
+          "uploadDebugSymbols": true,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "macos": {
+        "default": {
+          "projectId": "cv-personal-app-dev",
+          "appId": "1:743079054366:ios:d437a1c2c00a2ba853b20f",
+          "uploadDebugSymbols": true,
+          "fileOutput": "macos/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase/firebase_options_dev.dart": {
+          "projectId": "cv-personal-app-dev",
+          "configurations": {
+            "android": "1:743079054366:android:2eb1673c7752f9b253b20f",
+            "ios": "1:743079054366:ios:d437a1c2c00a2ba853b20f",
+            "macos": "1:743079054366:ios:d437a1c2c00a2ba853b20f",
+            "web": "1:743079054366:web:35bd08f57535e3bf53b20f"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "site": "cv-personal-app-dev",
+    "public": "build/web",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          },
+          {
+            "key": "Access-Control-Allow-Methods",
+            "value": "GET, POST, OPTIONS"
+          }
+        ]
+      }
+    ]
+  }
+}
