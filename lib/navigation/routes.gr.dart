@@ -1,3 +1,4 @@
+// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // **************************************************************************
@@ -18,14 +19,12 @@ import 'package:flutter/material.dart' as _i5;
 /// generated route for
 /// [_i1.AppWrapperView]
 class AppWrapperRoute extends _i4.PageRouteInfo<AppWrapperRouteArgs> {
-  AppWrapperRoute({
-    _i5.Key? key,
-    List<_i4.PageRouteInfo>? children,
-  }) : super(
-          AppWrapperRoute.name,
-          args: AppWrapperRouteArgs(key: key),
-          initialChildren: children,
-        );
+  AppWrapperRoute({_i5.Key? key, List<_i4.PageRouteInfo>? children})
+    : super(
+        AppWrapperRoute.name,
+        args: AppWrapperRouteArgs(key: key),
+        initialChildren: children,
+      );
 
   static const String name = 'AppWrapperRoute';
 
@@ -33,7 +32,8 @@ class AppWrapperRoute extends _i4.PageRouteInfo<AppWrapperRouteArgs> {
     name,
     builder: (data) {
       final args = data.argsAs<AppWrapperRouteArgs>(
-          orElse: () => const AppWrapperRouteArgs());
+        orElse: () => const AppWrapperRouteArgs(),
+      );
       return _i1.AppWrapperView(key: args.key);
     },
   );
@@ -53,22 +53,21 @@ class AppWrapperRouteArgs {
 /// generated route for
 /// [_i2.LandingView]
 class LandingRoute extends _i4.PageRouteInfo<LandingRouteArgs> {
-  LandingRoute({
-    _i5.Key? key,
-    List<_i4.PageRouteInfo>? children,
-  }) : super(
-          LandingRoute.name,
-          args: LandingRouteArgs(key: key),
-          initialChildren: children,
-        );
+  LandingRoute({_i5.Key? key, List<_i4.PageRouteInfo>? children})
+    : super(
+        LandingRoute.name,
+        args: LandingRouteArgs(key: key),
+        initialChildren: children,
+      );
 
   static const String name = 'LandingRoute';
 
   static _i4.PageInfo page = _i4.PageInfo(
     name,
     builder: (data) {
-      final args =
-          data.argsAs<LandingRouteArgs>(orElse: () => const LandingRouteArgs());
+      final args = data.argsAs<LandingRouteArgs>(
+        orElse: () => const LandingRouteArgs(),
+      );
       return _i2.LandingView(key: args.key);
     },
   );
@@ -94,14 +93,14 @@ class PortfolioRoute extends _i4.PageRouteInfo<PortfolioRouteArgs> {
     _i6.PortfolioModel? portfolioModel,
     List<_i4.PageRouteInfo>? children,
   }) : super(
-          PortfolioRoute.name,
-          args: PortfolioRouteArgs(
-            key: key,
-            id: id,
-            portfolioModel: portfolioModel,
-          ),
-          initialChildren: children,
-        );
+         PortfolioRoute.name,
+         args: PortfolioRouteArgs(
+           key: key,
+           id: id,
+           portfolioModel: portfolioModel,
+         ),
+         initialChildren: children,
+       );
 
   static const String name = 'PortfolioRoute';
 
@@ -109,7 +108,8 @@ class PortfolioRoute extends _i4.PageRouteInfo<PortfolioRouteArgs> {
     name,
     builder: (data) {
       final args = data.argsAs<PortfolioRouteArgs>(
-          orElse: () => const PortfolioRouteArgs());
+        orElse: () => const PortfolioRouteArgs(),
+      );
       return _i3.PortfolioView(
         key: args.key,
         id: args.id,
@@ -120,11 +120,7 @@ class PortfolioRoute extends _i4.PageRouteInfo<PortfolioRouteArgs> {
 }
 
 class PortfolioRouteArgs {
-  const PortfolioRouteArgs({
-    this.key,
-    this.id,
-    this.portfolioModel,
-  });
+  const PortfolioRouteArgs({this.key, this.id, this.portfolioModel});
 
   final _i5.Key? key;
 

@@ -13,6 +13,9 @@ import "package:theme/extensions/build_context.dart";
 import "package:utilities/helpers/extensions/build_context.dart";
 import "package:utilities/widgets/load_state/builder.dart";
 
+// Global key to access the ScrollablePositionedList
+final GlobalKey _scrollableListKey = GlobalKey();
+
 /// [LandingView] of the app.
 @RoutePage()
 class LandingView extends StatelessWidget {
@@ -20,9 +23,9 @@ class LandingView extends StatelessWidget {
   LandingView({super.key});
 
   /// [store] is an instance of [LandingStore], used in the [ScrollablePositionedList].
-  /// initialized in the constructor.
-  final LandingStore store = Managers.landingStore;
-  final appWrapperStore = Managers.appWrapperStore;
+  /// Retrieved from dependency injection to ensure singleton behavior.
+  LandingStore get store => Managers.landingStore;
+  late final appWrapperStore = Managers.appWrapperStore;
 
   HeaderModel get headerModel => Managers.appWrapperStore.headerModel;
 
@@ -33,6 +36,7 @@ class LandingView extends StatelessWidget {
         store: appWrapperStore,
         loadedBuilder: (context) {
           return ScrollablePositionedList.builder(
+            key: _scrollableListKey,
             itemCount: LandingOption.values.length,
             itemBuilder: _buildItem,
             itemScrollController: store.itemScrollController,

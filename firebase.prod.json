@@ -3,14 +3,14 @@
     "platforms": {
       "android": {
         "default": {
-          "projectId": "cv-personal-app-dev",
+          "projectId": "cv-personal-app-prod",
           "appId": "1:743079054366:android:2eb1673c7752f9b253b20f",
           "fileOutput": "android/app/google-services.json"
         }
       },
       "ios": {
         "default": {
-          "projectId": "cv-personal-app-dev",
+          "projectId": "cv-personal-app-prod",
           "appId": "1:743079054366:ios:d437a1c2c00a2ba853b20f",
           "uploadDebugSymbols": true,
           "fileOutput": "ios/Runner/GoogleService-Info.plist"
@@ -18,15 +18,15 @@
       },
       "macos": {
         "default": {
-          "projectId": "cv-personal-app-dev",
+          "projectId": "cv-personal-app-prod",
           "appId": "1:743079054366:ios:d437a1c2c00a2ba853b20f",
           "uploadDebugSymbols": true,
           "fileOutput": "macos/Runner/GoogleService-Info.plist"
         }
       },
       "dart": {
-        "lib/firebase/firebase_options_dev.dart": {
-          "projectId": "cv-personal-app-dev",
+        "lib/firebase/firebase_options_prod.dart": {
+          "projectId": "cv-personal-app-prod",
           "configurations": {
             "android": "1:743079054366:android:2eb1673c7752f9b253b20f",
             "ios": "1:743079054366:ios:d437a1c2c00a2ba853b20f",
@@ -38,7 +38,7 @@
     }
   },
   "hosting": {
-    "site": "cv-personal-app-dev",
+    "site": "cv-personal-app-prod",
     "public": "build/web",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
@@ -53,7 +53,7 @@
         "headers": [
           {
             "key": "Access-Control-Allow-Origin",
-            "value": "*"
+            "value": "https://cv-personal-app-prod.web.app,https://cv-personal-app-prod.firebaseapp.com,https://yourdomain.com"
           },
           {
             "key": "Access-Control-Allow-Methods",
@@ -70,6 +70,18 @@
           {
             "key": "Access-Control-Max-Age",
             "value": "86400"
+          },
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "X-Frame-Options",
+            "value": "DENY"
+          },
+          {
+            "key": "X-XSS-Protection",
+            "value": "1; mode=block"
           }
         ]
       }
