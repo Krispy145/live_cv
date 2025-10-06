@@ -2,8 +2,10 @@ import "package:cv_app/features/github/data/github_api.dart";
 import "package:cv_app/features/github/data/github_repository.dart";
 import "package:cv_app/features/github/domain/github_repo.dart";
 import "package:cv_app/features/github/domain/roadmap_summary.dart";
+import "package:cv_app/utils/loggers.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:shared_preferences/shared_preferences.dart";
+import "package:utilities/logger/logger.dart";
 
 /// Provider for GitHub API
 final githubApiProvider = Provider<GitHubApi>((ref) {
@@ -150,8 +152,17 @@ class GitHubNotifier extends StateNotifier<GitHubState> {
       _applyFilters();
 
       // Load roadmap data if roadmap repo exists
-      if (basicRepos.any((repo) => repo.isRoadmap)) {
+      final hasRoadmapRepo = basicRepos.any((repo) => repo.isRoadmap);
+      AppLogger.print("GitHub State Debug:", [CVAppLoggers.github]);
+      AppLogger.print("- Total repos loaded: ${basicRepos.length}", [CVAppLoggers.github]);
+      AppLogger.print("- Has roadmap repo: $hasRoadmapRepo", [CVAppLoggers.github]);
+      AppLogger.print("- Roadmap repo names: ${basicRepos.where((repo) => repo.isRoadmap).map((r) => r.name).toList()}", [CVAppLoggers.github]);
+
+      if (hasRoadmapRepo) {
+        AppLogger.print("Loading roadmap data...", [CVAppLoggers.github]);
         loadRoadmapData();
+      } else {
+        AppLogger.print("No roadmap repo found, skipping roadmap data load", [CVAppLoggers.github]);
       }
 
       // Enhance descriptions in background
@@ -274,17 +285,23 @@ class GitHubNotifier extends StateNotifier<GitHubState> {
   /// Extract all unique topics from repositories
   /// Load roadmap data
   Future<void> loadRoadmapData() async {
-    if (_repository == null) return;
+    if (_repository == null) {
+      AppLogger.print("Roadmap loading failed: Repository is null", [CVAppLoggers.github]);
+      return;
+    }
 
+    AppLogger.print("Starting roadmap data load for username: $_username", [CVAppLoggers.github]);
     state = state.copyWith(isLoadingRoadmap: true);
 
     try {
       final roadmapData = await _repository!.getRoadmapData(_username);
+      AppLogger.print("Roadmap data loaded successfully: ${roadmapData != null}", [CVAppLoggers.github]);
       state = state.copyWith(
         roadmapData: roadmapData,
         isLoadingRoadmap: false,
       );
     } catch (e) {
+      AppLogger.print("Roadmap loading error: $e", [CVAppLoggers.github]);
       state = state.copyWith(
         isLoadingRoadmap: false,
         // Don't set error for roadmap data failure, just log it
@@ -328,7 +345,7 @@ final githubNotifierProvider = StateNotifierProvider<GitHubNotifier, GitHubState
 
   return repositoryAsync.when(
     data: (repository) => GitHubNotifier(repository, username),
-    loading: () => GitHubNotifier._loading(),
+    loading: GitHubNotifier._loading,
     error: (error, stack) => GitHubNotifier._error(error.toString()),
   );
 });

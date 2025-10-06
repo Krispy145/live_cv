@@ -6,6 +6,7 @@ import "package:cv_app/features/github/state/github_state.dart";
 import "package:cv_app/presentation/components/header_view.dart";
 import "package:cv_app/presentation/landing/components/radial_contact_menu.dart";
 import "package:cv_app/presentation/landing/components/section_builder.dart";
+import "package:cv_app/utils/loggers.dart";
 import "package:cv_package/core/theme/theme_tokens.dart";
 import "package:cv_package/data/models/header_model.dart";
 import "package:cv_package/presentation/components/experience_card.dart";
@@ -15,6 +16,7 @@ import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:scrollable_positioned_list/scrollable_positioned_list.dart";
 import "package:url_launcher/url_launcher.dart";
+import "package:utilities/logger/logger.dart";
 import "package:utilities/widgets/load_state/builder.dart";
 
 // Global key to access the ScrollablePositionedList
@@ -22,16 +24,82 @@ final GlobalKey _scrollableListKey = GlobalKey();
 
 /// [LandingView] of the app.
 @RoutePage()
-class LandingView extends StatelessWidget {
+class LandingView extends StatefulWidget {
   /// [LandingView] constructor.
-  LandingView({super.key});
+  const LandingView({super.key});
 
+  @override
+  State<LandingView> createState() => _LandingViewState();
+}
+
+class _LandingViewState extends State<LandingView> {
   /// [store] is an instance of [LandingStore], used in the [ScrollablePositionedList].
   /// Retrieved from dependency injection to ensure singleton behavior.
   LandingStore get store => Managers.landingStore;
   late final appWrapperStore = Managers.appWrapperStore;
 
   HeaderModel get headerModel => Managers.appWrapperStore.headerModel;
+
+  @override
+  void initState() {
+    super.initState();
+    // Auto-load GitHub data when the landing page initializes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadGitHubData();
+    });
+  }
+
+  void _loadGitHubData() {
+    // Use a delayed approach to ensure providers are fully initialized
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (!mounted) return;
+
+      try {
+        final container = ProviderScope.containerOf(context);
+        final githubNotifier = container.read(githubNotifierProvider.notifier);
+        final githubState = container.read(githubNotifierProvider);
+
+        AppLogger.print("Landing View GitHub Loading Debug:", [CVAppLoggers.github]);
+        AppLogger.print("- isInitialized: ${githubNotifier.isInitialized}", [CVAppLoggers.github]);
+        AppLogger.print("- isLoading: ${githubState.isLoading}", [CVAppLoggers.github]);
+        AppLogger.print("- allRepos count: ${githubState.allRepos.length}", [CVAppLoggers.github]);
+        AppLogger.print("- error: ${githubState.error}", [CVAppLoggers.github]);
+
+        // Load if not already loading and no data exists
+        if (githubNotifier.isInitialized && !githubState.isLoading && githubState.allRepos.isEmpty) {
+          AppLogger.print("Triggering GitHub data load from LandingView", [CVAppLoggers.github]);
+          githubNotifier.loadRepositories();
+        } else if (githubState.error != null) {
+          AppLogger.print("GitHub error detected, retrying in 3 seconds", [CVAppLoggers.github]);
+          // Retry if there was an error
+          Future.delayed(const Duration(seconds: 3), () {
+            if (mounted) {
+              _loadGitHubData();
+            }
+          });
+        } else if (!githubNotifier.isInitialized) {
+          AppLogger.print("GitHub notifier not initialized yet, retrying in 1 second", [CVAppLoggers.github]);
+          // Retry if notifier is not initialized yet
+          Future.delayed(const Duration(seconds: 1), () {
+            if (mounted) {
+              _loadGitHubData();
+            }
+          });
+        } else {
+          AppLogger.print("GitHub data already loaded or loading, skipping", [CVAppLoggers.github]);
+        }
+      } catch (e) {
+        AppLogger.print("GitHub loading error in LandingView: $e", [CVAppLoggers.github]);
+        // Handle error silently - GitHub data is optional
+        // Retry after a delay if there was an error
+        Future.delayed(const Duration(seconds: 2), () {
+          if (mounted) {
+            _loadGitHubData();
+          }
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,21 +109,6 @@ class LandingView extends StatelessWidget {
         loadedBuilder: (context) {
           return Consumer(
             builder: (context, ref, child) {
-              // Auto-load GitHub data when the landing page loads
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                try {
-                  final githubNotifier = ref.read(githubNotifierProvider.notifier);
-                  final githubState = ref.read(githubNotifierProvider);
-
-                  // Load if not already loading and no data exists
-                  if (githubNotifier.isInitialized && !githubState.isLoading && githubState.allRepos.isEmpty) {
-                    githubNotifier.loadRepositories();
-                  }
-                } catch (e) {
-                  // Handle error silently
-                }
-              });
-
               return Stack(
                 children: [
                   ScrollablePositionedList.builder(
@@ -186,6 +239,21 @@ class LandingView extends StatelessWidget {
                           color: tokens.color.onSurfaceWithOpacity(0.7),
                         ),
                       ),
+                      SizedBox(height: tokens.spacing.md),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          final notifier = ref.read(githubNotifierProvider.notifier);
+                          if (notifier.isInitialized) {
+                            notifier.loadRepositories();
+                          }
+                        },
+                        icon: const Icon(Icons.refresh, size: 16),
+                        label: const Text("Retry"),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: tokens.color.primary,
+                          foregroundColor: tokens.color.onPrimary,
+                        ),
+                      ),
                     ],
                   ),
                 );
@@ -248,6 +316,21 @@ class LandingView extends StatelessWidget {
                           color: tokens.color.onSurfaceWithOpacity(0.7),
                         ),
                       ),
+                      SizedBox(height: tokens.spacing.md),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          final notifier = ref.read(githubNotifierProvider.notifier);
+                          if (notifier.isInitialized) {
+                            notifier.loadRepositories();
+                          }
+                        },
+                        icon: const Icon(Icons.refresh, size: 16),
+                        label: const Text("Retry"),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: tokens.color.primary,
+                          foregroundColor: tokens.color.onPrimary,
+                        ),
+                      ),
                     ],
                   ),
                 );
@@ -274,6 +357,21 @@ class LandingView extends StatelessWidget {
                           color: tokens.color.onSurfaceWithOpacity(0.7),
                         ),
                         textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: tokens.spacing.md),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          final notifier = ref.read(githubNotifierProvider.notifier);
+                          if (notifier.isInitialized) {
+                            notifier.loadRepositories();
+                          }
+                        },
+                        icon: const Icon(Icons.refresh, size: 16),
+                        label: const Text("Retry"),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: tokens.color.primary,
+                          foregroundColor: tokens.color.onPrimary,
+                        ),
                       ),
                     ],
                   ),

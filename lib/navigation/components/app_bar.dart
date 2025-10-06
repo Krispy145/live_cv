@@ -1,5 +1,6 @@
 import "package:auto_route/auto_route.dart";
 import "package:cv_app/dependencies/injection.dart";
+import "package:cv_app/navigation/components/animated_theme_toggle.dart";
 import "package:cv_package/presentation/landing/store.dart";
 import "package:flutter/material.dart";
 import "package:flutter_mobx/flutter_mobx.dart";
@@ -42,13 +43,8 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    IconButton(
-                      onPressed: Managers.themeStateStore.toggleThemeMode,
-                      icon: Icon(
-                        Icons.palette,
-                        size: 24,
-                        color: context.colorScheme.onSurface,
-                      ),
+                    AnimatedThemeToggle(
+                      color: context.colorScheme.onSurface,
                     ),
                     Sizes.l.spacer(axis: Axis.horizontal),
                     InkWell(
