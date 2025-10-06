@@ -1,407 +1,870 @@
 {
-  "name": "Digital Oasis Base",
   "id": "03c74465-7e66-48dc-bd39-b776cfa774f1",
+  "name": "CV Components Theme",
+  "elevatedButtons": {
+    "primary": {
+      "textStyle_textStyleString": null,
+      "backgroundColor_themeColorString": null,
+      "foregroundColor_themeColorString": null,
+      "overlayColor_themeColorString": null,
+      "shadowColor_themeColorString": null,
+      "surfaceTintColor_themeColorString": null,
+      "elevation_double": 0,
+      "padding_edgeInsets": {
+        "top_double": 8,
+        "left_double": 16,
+        "bottom_double": 8,
+        "right_double": 16
+      },
+      "iconColor_themeColorString": null,
+      "iconSize_double": null,
+      "side_borderSide": null,
+      "shape_outlinedBorder": null
+    }
+  },
   "filledButtons": {
     "primary": {
-      "elevation": 0.0,
-      "backgroundColor": "tertiary",
-      "shape": {
-        "type": "rounded",
-        "value": {
-          "borderRadius": {
-            "type": "only",
-            "value": {
-              "topRight": 25.0,
-              "bottomLeft": 25.0
-            }
-          }
-        }
+      "textStyle_textStyleString": null,
+      "backgroundColor_themeColorString": null,
+      "foregroundColor_themeColorString": null,
+      "overlayColor_themeColorString": null,
+      "shadowColor_themeColorString": null,
+      "surfaceTintColor_themeColorString": null,
+      "elevation_double": 0,
+      "padding_edgeInsets": {
+        "top_double": 8,
+        "left_double": 16,
+        "bottom_double": 8,
+        "right_double": 16
       },
-      "padding": {
-        "type": "all",
-        "value": 8.0
+      "iconColor_themeColorString": null,
+      "iconSize_double": null,
+      "side_borderSide": null,
+      "shape_outlinedBorder": null
+    }
+  },
+  "outlinedButtons": {
+    "primary": {
+      "textStyle_textStyleString": null,
+      "backgroundColor_themeColorString": null,
+      "foregroundColor_themeColorString": null,
+      "overlayColor_themeColorString": null,
+      "shadowColor_themeColorString": null,
+      "surfaceTintColor_themeColorString": null,
+      "elevation_double": 0,
+      "padding_edgeInsets": {
+        "top_double": 8,
+        "left_double": 16,
+        "bottom_double": 8,
+        "right_double": 16
       },
-      "alignment": "center",
-      "minWidth": 64.0,
-      "height": 36.0,
-      "textStyle": "button",
-      "iconTheme": {
-        "size": 24.0,
-        "padding": {
-          "type": "all",
-          "value": 0.0
-        }
-      }
+      "iconColor_themeColorString": null,
+      "iconSize_double": null,
+      "side_borderSide": null,
+      "shape_outlinedBorder": null
+    }
+  },
+  "textButtons": {
+    "primary": {
+      "textStyle_textStyleString": null,
+      "backgroundColor_themeColorString": null,
+      "foregroundColor_themeColorString": null,
+      "overlayColor_themeColorString": null,
+      "shadowColor_themeColorString": null,
+      "surfaceTintColor_themeColorString": null,
+      "elevation_double": 0,
+      "padding_edgeInsets": {
+        "top_double": 8,
+        "left_double": 16,
+        "bottom_double": 8,
+        "right_double": 16
+      },
+      "iconColor_themeColorString": null,
+      "iconSize_double": null,
+      "side_borderSide": null,
+      "shape_outlinedBorder": null
+    }
+  },
+  "toggleButtons": {
+    "primary": {
+      "textStyle_textStyleString": null,
+      "constraints_boxConstraints": {
+        "minWidth_double": null,
+        "maxWidth_double": null,
+        "minHeight_double": null,
+        "maxHeight_double": null
+      },
+      "color_themeColorString": null,
+      "selectedColor_themeColorString": null,
+      "disabledColor_themeColorString": null,
+      "fillColor_themeColorString": null,
+      "focusColor_themeColorString": null,
+      "highlightColor_themeColorString": null,
+      "hoverColor_themeColorString": null,
+      "splashColor_themeColorString": null,
+      "borderColor_themeColorString": null,
+      "selectedBorderColor_themeColorString": null,
+      "disabledBorderColor_themeColorString": null,
+      "borderRadius_borderRadius": {
+        "type_enum_borderRadiusType": null,
+        "topLeft_double": null,
+        "topRight_double": null,
+        "bottomLeft_double": null,
+        "bottomRight_double": null,
+        "all_double": null
+      },
+      "borderWidth_double": null
+    }
+  },
+  "iconButtons": {
+    "primary": {
+      "textStyle_textStyleString": null,
+      "backgroundColor_themeColorString": null,
+      "foregroundColor_themeColorString": null,
+      "overlayColor_themeColorString": null,
+      "shadowColor_themeColorString": null,
+      "surfaceTintColor_themeColorString": null,
+      "elevation_double": 0,
+      "padding_edgeInsets": {
+        "top_double": 8,
+        "left_double": 16,
+        "bottom_double": 8,
+        "right_double": 16
+      },
+      "iconColor_themeColorString": null,
+      "iconSize_double": null,
+      "side_borderSide": null,
+      "shape_outlinedBorder": null
+    }
+  },
+  "floatingActionButtons": {
+    "primary": {
+      "foregroundColor_themeColorString": null,
+      "backgroundColor_themeColorString": null,
+      "focusColor_themeColorString": null,
+      "hoverColor_themeColorString": null,
+      "splashColor_themeColorString": null,
+      "elevation_double": null,
+      "focusElevation_double": null,
+      "hoverElevation_double": null,
+      "disabledElevation_double": null,
+      "highlightElevation_double": null,
+      "shape_shapeBorder": null,
+      "enableFeedback_bool": null,
+      "iconSize_double": null,
+      "sizeConstraints_boxConstraints": {
+        "minWidth_double": null,
+        "maxWidth_double": null,
+        "minHeight_double": null,
+        "maxHeight_double": null
+      },
+      "smallSizeConstraints_boxConstraints": {
+        "minWidth_double": null,
+        "maxWidth_double": null,
+        "minHeight_double": null,
+        "maxHeight_double": null
+      },
+      "largeSizeConstraints_boxConstraints": {
+        "minWidth_double": null,
+        "maxWidth_double": null,
+        "minHeight_double": null,
+        "maxHeight_double": null
+      },
+      "extendedSizeConstraints_boxConstraints": {
+        "minWidth_double": null,
+        "maxWidth_double": null,
+        "minHeight_double": null,
+        "maxHeight_double": null
+      },
+      "extendedIconLabelSpacing_double": null,
+      "extendedPadding_edgeInsets": {
+        "top_double": null,
+        "left_double": null,
+        "bottom_double": null,
+        "right_double": null
+      },
+      "extendedTextStyle_textStyleString": null
+    }
+  },
+  "menuButtons": {
+    "primary": {
+      "textStyle_textStyleString": null,
+      "backgroundColor_themeColorString": null,
+      "foregroundColor_themeColorString": null,
+      "overlayColor_themeColorString": null,
+      "shadowColor_themeColorString": null,
+      "surfaceTintColor_themeColorString": null,
+      "elevation_double": 0,
+      "padding_edgeInsets": {
+        "top_double": 8,
+        "left_double": 16,
+        "bottom_double": 8,
+        "right_double": 16
+      },
+      "iconColor_themeColorString": null,
+      "iconSize_double": null,
+      "side_borderSide": null,
+      "shape_outlinedBorder": null
+    }
+  },
+  "segmentedButtons": {
+    "primary": {
+      "textStyle_textStyleString": null,
+      "backgroundColor_themeColorString": null,
+      "foregroundColor_themeColorString": null,
+      "overlayColor_themeColorString": null,
+      "shadowColor_themeColorString": null,
+      "surfaceTintColor_themeColorString": null,
+      "elevation_double": 0,
+      "padding_edgeInsets": {
+        "top_double": 8,
+        "left_double": 16,
+        "bottom_double": 8,
+        "right_double": 16
+      },
+      "iconColor_themeColorString": null,
+      "iconSize_double": null,
+      "side_borderSide": null,
+      "shape_outlinedBorder": null
     }
   },
   "inputDecorations": {
     "primary": {
-      "isDense": false,
-      "isCollapsed": false,
-      "filled": true,
-      "errorBorder": {
-        "type": "border-outline",
-        "value": {
-          "borderRadius": null,
-          "borderSide": {
-            "color": "[0, 0, 0, 1.0]"
-          },
-          "gapPadding": 4.0
-        }
+      "labelStyle_textStyleString": null,
+      "floatingLabelStyle_textStyleString": null,
+      "helperStyle_textStyleString": null,
+      "helperMaxLines_int": null,
+      "hintStyle_textStyleString": null,
+      "hintFadeDuration_duration": null,
+      "errorStyle_textStyleString": null,
+      "errorMaxLines_int": null,
+      "isDense_bool": true,
+      "contentPadding_edgeInsets": {
+        "top_double": 12,
+        "left_double": 16,
+        "bottom_double": 12,
+        "right_double": 16
       },
-      "focusedBorder": {
-        "type": "border-outline",
-        "value": {
-          "borderRadius": null,
-          "borderSide": {
-            "color": "[0, 0, 0, 1.0]"
-          },
-          "gapPadding": 4.0
-        }
+      "isCollapsed_bool": false,
+      "iconColor_themeColorString": null,
+      "prefixStyle_textStyleString": null,
+      "prefixIconColor_themeColorString": null,
+      "suffixStyle_textStyleString": null,
+      "suffixIconColor_themeColorString": null,
+      "counterStyle_textStyleString": null,
+      "filled_bool": true,
+      "fillColor_themeColorString": null,
+      "activeIndicatorBorder_borderSide": {
+        "color_themeColorString": null,
+        "width_double": null,
+        "style_enum_borderStyle": null,
+        "strokeAlign_double": null
       },
-      "focusedErrorBorder": {
-        "type": "border-outline",
-        "value": {
-          "borderRadius": null,
-          "borderSide": {
-            "color": "[0, 0, 0, 1.0]"
-          },
-          "gapPadding": 4.0
-        }
+      "outlineBorder_borderSide": {
+        "color_themeColorString": null,
+        "width_double": null,
+        "style_enum_borderStyle": null,
+        "strokeAlign_double": null
       },
-      "disabledBorder": {
-        "type": "border-outline",
-        "value": {
-          "borderRadius": null,
-          "borderSide": {
-            "color": "[0, 0, 0, 1.0]"
-          },
-          "gapPadding": 4.0
-        }
+      "focusColor_themeColorString": null,
+      "hoverColor_themeColorString": null,
+      "errorBorder_inputBorder": {
+        "type_enum_inputBorderType": "none",
+        "borderRadius_borderRadius": {
+          "type_enum_borderRadiusType": null,
+          "topLeft_double": null,
+          "topRight_double": null,
+          "bottomLeft_double": null,
+          "bottomRight_double": null,
+          "all_double": null
+        },
+        "borderSide_borderSide": {
+          "color_themeColorString": null,
+          "width_double": null,
+          "style_enum_borderStyle": null,
+          "strokeAlign_double": null
+        },
+        "gapPadding_double": null
       },
-      "enabledBorder": {
-        "type": "border-outline",
-        "value": {
-          "borderRadius": {
-            "type": "circular",
-            "value": {
-              "radius": {
-                "radius": 16.0
-              }
-            }
-          },
-          "borderSide": {
-            "color": "[0, 0, 0, 1.0]"
-          },
-          "gapPadding": 4.0
-        }
+      "focusedBorder_inputBorder": {
+        "type_enum_inputBorderType": "none",
+        "borderRadius_borderRadius": {
+          "type_enum_borderRadiusType": null,
+          "topLeft_double": null,
+          "topRight_double": null,
+          "bottomLeft_double": null,
+          "bottomRight_double": null,
+          "all_double": null
+        },
+        "borderSide_borderSide": {
+          "color_themeColorString": null,
+          "width_double": null,
+          "style_enum_borderStyle": null,
+          "strokeAlign_double": null
+        },
+        "gapPadding_double": null
       },
-      "border": {
-        "type": "border-outline",
-        "value": {
-          "borderRadius": {
-            "type": "circular",
-            "value": {
-              "radius": {
-                "radius": 16.0
-              }
-            }
-          },
-          "borderSide": {
-            "color": "[0, 0, 0, 1.0]"
-          },
-          "gapPadding": 4.0
-        }
+      "focusedErrorBorder_inputBorder": {
+        "type_enum_inputBorderType": "none",
+        "borderRadius_borderRadius": {
+          "type_enum_borderRadiusType": null,
+          "topLeft_double": null,
+          "topRight_double": null,
+          "bottomLeft_double": null,
+          "bottomRight_double": null,
+          "all_double": null
+        },
+        "borderSide_borderSide": {
+          "color_themeColorString": null,
+          "width_double": null,
+          "style_enum_borderStyle": null,
+          "strokeAlign_double": null
+        },
+        "gapPadding_double": null
       },
-      "alignLabelWithHint": false
+      "disabledBorder_inputBorder": {
+        "type_enum_inputBorderType": "none",
+        "borderRadius_borderRadius": {
+          "type_enum_borderRadiusType": null,
+          "topLeft_double": null,
+          "topRight_double": null,
+          "bottomLeft_double": null,
+          "bottomRight_double": null,
+          "all_double": null
+        },
+        "borderSide_borderSide": {
+          "color_themeColorString": null,
+          "width_double": null,
+          "style_enum_borderStyle": null,
+          "strokeAlign_double": null
+        },
+        "gapPadding_double": null
+      },
+      "enabledBorder_inputBorder": {
+        "type_enum_inputBorderType": "none",
+        "borderRadius_borderRadius": {
+          "type_enum_borderRadiusType": null,
+          "topLeft_double": null,
+          "topRight_double": null,
+          "bottomLeft_double": null,
+          "bottomRight_double": null,
+          "all_double": null
+        },
+        "borderSide_borderSide": {
+          "color_themeColorString": null,
+          "width_double": null,
+          "style_enum_borderStyle": null,
+          "strokeAlign_double": null
+        },
+        "gapPadding_double": null
+      },
+      "border_inputBorder": {
+        "type_enum_inputBorderType": "none",
+        "borderRadius_borderRadius": {
+          "type_enum_borderRadiusType": null,
+          "topLeft_double": null,
+          "topRight_double": null,
+          "bottomLeft_double": null,
+          "bottomRight_double": null,
+          "all_double": null
+        },
+        "borderSide_borderSide": {
+          "color_themeColorString": null,
+          "width_double": null,
+          "style_enum_borderStyle": null,
+          "strokeAlign_double": null
+        },
+        "gapPadding_double": null
+      },
+      "alignLabelWithHint_bool": false,
+      "constraints_boxConstraints": {
+        "minWidth_double": null,
+        "maxWidth_double": null,
+        "minHeight_double": null,
+        "maxHeight_double": null
+      }
+    }
+  },
+  "boxDecorations": {
+    "primary": {
+      "color_themeColorString": null,
+      "border_boxBorder": null,
+      "borderRadius_borderRadius": null,
+      "boxShadows_list_boxShadow": [],
+      "backgroundBlendMode_enum_blendMode": null,
+      "shape_enum_boxShape": "rectangle"
     }
   },
   "cards": {
     "primary": {
-      "elevation": 1.0,
-      "margin": {
-        "type": "all",
-        "value": 0.0
+      "color_themeColorString": null,
+      "shadowColor_themeColorString": null,
+      "surfaceTintColor_themeColorString": null,
+      "elevation_double": 1.0,
+      "margin_edgeInsets": {
+        "top_double": 8,
+        "left_double": 8,
+        "bottom_double": 8,
+        "right_double": 8
       },
-      "shape": {
-        "type": "rounded",
-        "value": null
-      }
+      "shape_shapeBorder": null
     }
   },
   "snackbars": {
     "primary": {
-      "elevation": 1.0,
-      "shape": {
-        "type": "rounded",
-        "value": null
-      },
-      "behavior": "floating"
+      "backgroundColor_themeColorString": null,
+      "actionTextColor_themeColorString": null,
+      "disabledActionTextColor_themeColorString": null,
+      "contentTextStyle_textStyleString": null,
+      "elevation_double": 1.0,
+      "shape_outlinedBorder": null,
+      "behavior_enum_snackBarBehavior": "floating",
+      "width_double": null,
+      "insetPadding_edgeInsets": null,
+      "showCloseIcon_bool": null,
+      "closeIconColor_themeColorString": null,
+      "actionOverflowThreshold_double": null,
+      "actionBackgroundColor_themeColorString": null,
+      "disabledActionBackgroundColor_themeColorString": null
     }
   },
   "badges": {
     "primary": {
-      "smallSize": 12.0,
-      "largeSize": 16.0,
-      "padding": {
-        "type": "all",
-        "value": 4.0
-      },
-      "alignment": "topRight"
+      "backgroundColor_themeColorString": null,
+      "textColor_themeColorString": null,
+      "smallSize_double": null,
+      "largeSize_double": null,
+      "textStyle_textStyleString": null,
+      "padding_edgeInsets": null,
+      "alignment_enum_alignmentOptions": null,
+      "offset_offset": null
     }
   },
   "appbars": {
     "primary": {
-      "elevation_double": 4.0,
-      "scrolledUnderElevation_double": 0.0,
-      "titleSpacing_double": 16.0,
-      "titleTextStyle_textStyleString": "title-medium",
-      "centerTitle_bool": true
+      "color_themeColorString": null,
+      "backgroundColor_themeColorString": null,
+      "foregroundColor_themeColorString": null,
+      "elevation_double": 0,
+      "scrolledUnderElevation_double": null,
+      "shadowColor_themeColorString": null,
+      "surfaceTintColor_themeColorString": null,
+      "shape_shapeBorder": null,
+      "centerTitle_bool": false,
+      "titleSpacing_double": null,
+      "toolbarHeight_double": 56.0,
+      "toolbarTextStyle_textStyleString": null,
+      "titleTextStyle_textStyleString": null
     }
   },
   "bottomAppbars": {
     "primary": {
-      "elevation": 4.0,
-      "height": 56.0,
-      "padding": {
-        "type": "all",
-        "value": 0.0
-      }
+      "color_themeColorString": null,
+      "elevation_double": null,
+      "height_double": null,
+      "surfaceTintColor_themeColorString": null,
+      "shadowColor_themeColorString": null,
+      "padding_edgeInsets": null
+    }
+  },
+  "dropdowns": {
+    "primary": {
+      "textStyle_textStyleString": null,
+      "inputDecoration_inputDecoration": null,
+      "menuStyle_menu": null
     }
   },
   "chips": {
     "primary": {
-      "showCheckmark": false,
-      "labelPadding": {
-        "type": "all",
-        "value": 0.0
+      "color_themeColorString": null,
+      "backgroundColor_themeColorString": "primary",
+      "deleteIconColor_themeColorString": null,
+      "disabledColor_themeColorString": null,
+      "selectedColor_themeColorString": null,
+      "secondarySelectedColor_themeColorString": null,
+      "shadowColor_themeColorString": null,
+      "surfaceTintColor_themeColorString": null,
+      "selectedShadowColor_themeColorString": null,
+      "showCheckmark_bool": null,
+      "checkmarkColor_themeColorString": null,
+      "labelPadding_edgeInsets": {
+        "top_double": null,
+        "left_double": 6,
+        "bottom_double": null,
+        "right_double": 6
       },
-      "padding": {
-        "type": "all",
-        "value": 0.0
+      "padding_edgeInsets": {
+        "top_double": 8,
+        "left_double": 16,
+        "bottom_double": 8,
+        "right_double": 16
       },
-      "side": {
-        "width": 0.0
+      "side_borderSide": null,
+      "shape_outlinedBorder": {
+        "type_enum_outlinedBorderType": "stadiumBorder",
+        "side_borderSide": null,
+        "borderRadius_borderRadius": null
       },
-      "shape": {
-        "type": "circle",
-        "value": null
-      },
-      "elevation": 0.0,
-      "pressElevation": 0.0
+      "labelStyle_textStyleString": "title-medium-onPrimary",
+      "secondaryLabelStyle_textStyleString": null,
+      "elevation_double": 0,
+      "pressElevation_double": null
     }
   },
   "dialogs": {
     "primary": {
-      "elevation": 0.0,
-      "shape": {
-        "type": "rounded",
-        "value": {
-          "borderRadius": {
-            "type": "circular",
-            "value": {
-              "radius": {
-                "radius": 10.0
-              }
-            }
-          }
-        }
-      },
-      "alignment": "center",
-      "actionsPadding": {
-        "type": "all",
-        "value": 0.0
+      "backgroundColor_themeColorString": null,
+      "elevation_double": null,
+      "shadowColor_themeColorString": null,
+      "surfaceTintColor_themeColorString": null,
+      "shape_shapeBorder": null,
+      "alignment_enum_alignmentOptions": null,
+      "iconColor_themeColorString": null,
+      "titleTextStyle_textStyleString": null,
+      "contentTextStyle_textStyleString": null,
+      "actionsPadding_edgeInsets": {
+        "top_double": null,
+        "left_double": null,
+        "bottom_double": null,
+        "right_double": null
       }
     }
   },
   "popupMenus": {
     "primary": {
-      "shape": {
-        "type": "circle",
-        "value": null
-      },
-      "elevation": 0.0,
-      "enableFeedback": true,
+      "color_themeColorString": null,
+      "shape_shapeBorder": null,
+      "elevation_double": null,
+      "shadowColor_themeColorString": null,
+      "surfaceTintColor_themeColorString": null,
+      "textStyle_textStyleString": null,
+      "labelTextStyle_textStyleString": null,
+      "enableFeedback_bool": null,
       "position": "under",
-      "iconSize": 24.0
+      "iconColor_themeColorString": null,
+      "iconSize_double": null
     }
   },
   "sliders": {
     "primary": {
-      "trackHeight": 4.0,
-      "minThumbSeparation": 8.0
+      "trackHeight_double": null,
+      "activeTrackColor_themeColorString": null,
+      "inactiveTrackColor_themeColorString": null,
+      "secondaryActiveTrackColor_themeColorString": null,
+      "disabledActiveTrackColor_themeColorString": null,
+      "disabledInactiveTrackColor_themeColorString": null,
+      "disabledSecondaryActiveTrackColor_themeColorString": null,
+      "activeTickMarkColor_themeColorString": null,
+      "inactiveTickMarkColor_themeColorString": null,
+      "disabledActiveTickMarkColor_themeColorString": null,
+      "disabledInactiveTickMarkColor_themeColorString": null,
+      "thumbColor_themeColorString": null,
+      "overlappingShapeStrokeColor_themeColorString": null,
+      "disabledThumbColor_themeColorString": null,
+      "overlayColor_themeColorString": null,
+      "valueIndicatorColor_themeColorString": null,
+      "showValueIndicator_enum_showValueIndicator": null,
+      "allowedInteraction_enum_sliderInteraction": null,
+      "valueIndicatorTextStyle_textStyleString": null,
+      "minThumbSeparation_double": null
     }
   },
   "scrollbars": {
     "primary": {
-      "thumbVisibility": true,
-      "thickness": 6.0,
-      "trackVisibility": true,
-      "radius": {
-        "type": "circular",
-        "value": {
-          "radius": 8.0
-        }
-      },
-      "crossAxisMargin": 0.0,
-      "mainAxisMargin": 0.0,
-      "minThumbLength": 18.0,
-      "interactive": true
+      "thumbVisibility_bool": null,
+      "thickness_double": null,
+      "trackVisibility_bool": null,
+      "radius_double": null,
+      "thumbColor_themeColorString": null,
+      "trackColor_themeColorString": null,
+      "trackBorderColor_themeColorString": null,
+      "crossAxisMargin_double": null,
+      "mainAxisMargin_double": null,
+      "minThumbLength_double": null,
+      "interactive_bool": null
     }
   },
   "tooltips": {
     "primary": {
-      "height": 32.0,
-      "padding": {
-        "type": "symmetric",
-        "value": {
-          "vertical": 0.0,
-          "horizontal": 8.0
-        }
-      },
-      "margin": {
-        "type": "all",
-        "value": 0.0
-      },
-      "verticalOffset": 0.0,
-      "preferBelow": true,
-      "excludeFromSemantics": false,
-      "decoration": {
-        "all": {
-          "borderRadius": {
-            "type": "circular",
-            "value": {
-              "radius": {
-                "radius": 4.0
-              }
-            }
-          },
-          "shape": "rectangle"
-        }
-      },
-      "enableFeedback": true
+      "height_double": null,
+      "padding_edgeInsets": null,
+      "margin_edgeInsets": null,
+      "verticalOffset_double": null,
+      "preferBelow_bool": null,
+      "excludeFromSemantics_bool": null,
+      "decoration_boxDecoration": null,
+      "textStyle_textStyleString": null,
+      "textAlign_enum_textAlign": null,
+      "waitDuration_duration": null,
+      "showDuration_duration": null,
+      "triggerMode_enum_tooltipTriggerMode": null,
+      "enableFeedback_bool": null
     }
   },
   "navigationRails": {
     "primary": {
-      "elevation": 8.0,
-      "groupAlignment": 0.0,
-      "useIndicator": true
+      "backgroundColor_themeColorString": null,
+      "elevation_double": null,
+      "unselectedLabelTextStyle_textStyleString": null,
+      "selectedLabelTextStyle_textStyleString": null,
+      "groupAlignment_double": null,
+      "labelType_enum_navigationRailLabelType": null,
+      "useIndicator_bool": null,
+      "indicatorColor_themeColorString": null,
+      "indicatorShape_shapeBorder": null,
+      "minWidth_double": null,
+      "minExtendedWidth_double": null
     }
   },
   "checkboxes": {
     "primary": {
-      "splashRadius": 1.0,
-      "shape": {
-        "type": "circle",
-        "value": null
-      },
-      "side": {
-        "color": "[0, 0, 0, 1.0]"
-      }
+      "fillColor_themeColorString": null,
+      "checkColor_themeColorString": null,
+      "overlayColor_themeColorString": null,
+      "splashRadius_double": null,
+      "shape_outlinedBorder": null,
+      "side_borderSide": null
     }
   },
   "radios": {
     "primary": {
-      "splashRadius": 1.0
+      "fillColor_themeColorString": null,
+      "overlayColor_themeColorString": null,
+      "splashRadius_double": null
     }
   },
   "switches": {
     "primary": {
-      "trackOutlineWidth": 1.0,
-      "splashRadius": 1.0
+      "thumbColor_themeColorString": null,
+      "trackColor_themeColorString": null,
+      "trackOutlineColor_themeColorString": null,
+      "trackOutlineWidth_double": null,
+      "overlayColor_themeColorString": null,
+      "splashRadius_double": null
     }
   },
   "drawers": {
     "primary": {
-      "elevation": 0.0,
-      "shape": {
-        "type": "circle",
-        "value": null
+      "backgroundColor_themeColorString": null,
+      "scrimColor_themeColorString": null,
+      "elevation_double": null,
+      "shadowColor_themeColorString": null,
+      "surfaceTintColor_themeColorString": null,
+      "shape_outlinedBorder": {
+        "type_enum_outlinedBorderType": "roundedRectangleBorder",
+        "side_borderSide": null,
+        "borderRadius_borderRadius": null
       },
-      "endShape": {
-        "type": "circle",
-        "value": null
+      "endShape_outlinedBorder": {
+        "type_enum_outlinedBorderType": "roundedRectangleBorder",
+        "side_borderSide": null,
+        "borderRadius_borderRadius": null
       },
-      "width": 0.0
+      "width_double": null
     }
   },
   "listTiles": {
     "primary": {
-      "dense": false,
-      "shape": {
-        "type": "circle",
-        "value": null
+      "dense_bool": null,
+      "shape_shapeBorder": null,
+      "selectedColor_themeColorString": null,
+      "iconColor_themeColorString": null,
+      "textColor_themeColorString": null,
+      "titleTextStyle_textStyleString": null,
+      "subtitleTextStyle_textStyleString": null,
+      "leadingAndTrailingTextStyle_textStyleString": null,
+      "contentPadding_edgeInsets": {
+        "top_double": null,
+        "left_double": null,
+        "bottom_double": null,
+        "right_double": null
       },
-      "contentPadding": {
-        "type": "all",
-        "value": 0.0
-      },
-      "horizontalTitleGap": 0.0,
-      "minVerticalPadding": 0.0,
-      "minLeadingWidth": 0.0,
-      "enableFeedback": true
+      "tileColor_themeColorString": null,
+      "selectedTileColor_themeColorString": null,
+      "horizontalTitleGap_double": null,
+      "minVerticalPadding_double": null,
+      "minLeadingWidth_double": null,
+      "enableFeedback_bool": null,
+      "titleAlignment_enum_listTileTitleAlignment": null
     }
   },
   "menus": {
     "primary": {
-      "elevation": 0.0,
-      "padding": {
-        "type": "all",
-        "value": 0.0
+      "backgroundColor_themeColorString": null,
+      "shadowColor_themeColorString": null,
+      "surfaceTintColor_themeColorString": null,
+      "elevation_double": null,
+      "padding_edgeInsets": {
+        "top_double": null,
+        "left_double": null,
+        "bottom_double": null,
+        "right_double": null
       },
-      "side": {
-        "width": 0.0
+      "minimumSize_size": {
+        "width_double": null,
+        "height_double": null
       },
-      "shape": {
-        "type": "circle",
-        "value": null
+      "fixedSize_size": {
+        "width_double": null,
+        "height_double": null
       },
-      "alignment": "center"
+      "maximumSize_size": {
+        "width_double": null,
+        "height_double": null
+      },
+      "side_borderSide": {
+        "color_themeColorString": null,
+        "width_double": null,
+        "style_enum_borderStyle": null,
+        "strokeAlign_double": null
+      },
+      "shape_outlinedBorder": {
+        "type_enum_outlinedBorderType": "roundedRectangleBorder",
+        "side_borderSide": null,
+        "borderRadius_borderRadius": null
+      },
+      "alignment_enum_alignmentOptions": "center"
     }
   },
   "menuBars": {
     "primary": {
-      "style": {
-        "elevation": 0.0,
-        "padding": {
-          "type": "all",
-          "value": 0.0
-        },
-        "side": {
-          "width": 0.0
-        },
-        "shape": {
-          "type": "circle",
-          "value": null
-        },
-        "alignment": "center"
-      }
+      "style": null
     }
   },
   "navigationBars": {
     "primary": {
-      "height": 0.0,
-      "elevation": 0.0,
-      "indicatorShape": {
-        "type": "circle",
-        "value": null
-      }
+      "height_double": null,
+      "backgroundColor_themeColorString": null,
+      "elevation_double": null,
+      "shadowColor_themeColorString": null,
+      "surfaceTintColor_themeColorString": null,
+      "indicatorColor_themeColorString": null,
+      "indicatorShape_shapeBorder": {
+        "type_enum_shapeBorderType": null,
+        "boxBorder_boxBorder": null,
+        "inputBorder_inputBorder": null,
+        "outlinedBorder_outlinedBorder": {
+          "type_enum_outlinedBorderType": "roundedRectangleBorder",
+          "side_borderSide": null,
+          "borderRadius_borderRadius": null
+        }
+      },
+      "labelTextStyle_textStyleString": null,
+      "labelBehavior_enum_navigationDestinationLabelBehavior": null
     }
   },
   "navigationDrawers": {
     "primary": {
-      "tileHeight": 0.0,
-      "elevation": 0.0,
-      "indicatorShape": {
-        "type": "circle",
-        "value": null
-      }
+      "tileHeight_double": null,
+      "backgroundColor_themeColorString": null,
+      "elevation_double": null,
+      "shadowColor_themeColorString": null,
+      "surfaceTintColor_themeColorString": null,
+      "indicatorColor_themeColorString": null,
+      "indicatorShape_shapeBorder": {
+        "type_enum_shapeBorderType": null,
+        "boxBorder_boxBorder": null,
+        "inputBorder_inputBorder": null,
+        "outlinedBorder_outlinedBorder": {
+          "type_enum_outlinedBorderType": "roundedRectangleBorder",
+          "side_borderSide": null,
+          "borderRadius_borderRadius": null
+        }
+      },
+      "indicatorSize_size": {
+        "width_double": null,
+        "height_double": null
+      },
+      "labelTextStyle_textStyleString": null
     }
   },
   "progressIndicators": {
     "primary": {
-      "linearMinHeight": 6.0
+      "color_themeColorString": null,
+      "linearTrackColor_themeColorString": null,
+      "linearMinHeight_double": null,
+      "circularTrackColor_themeColorString": null,
+      "refreshBackgroundColor_themeColorString": null
+    }
+  },
+  "searchBars": {
+    "primary": {
+      "elevation_double": null,
+      "backgroundColor_themeColorString": null,
+      "shadowColor_themeColorString": null,
+      "surfaceTintColor_themeColorString": null,
+      "overlayColor_themeColorString": null,
+      "side_borderSide": null,
+      "shape_outlinedBorder": {
+        "type_enum_outlinedBorderType": "roundedRectangleBorder",
+        "side_borderSide": null,
+        "borderRadius_borderRadius": null
+      },
+      "padding_edgeInsets": {
+        "top_double": 8,
+        "left_double": null,
+        "bottom_double": 8,
+        "right_double": null
+      },
+      "textStyle_textStyleString": null,
+      "hintStyle_textStyleString": null,
+      "constraints_boxConstraints": {
+        "minWidth_double": null,
+        "maxWidth_double": null,
+        "minHeight_double": null,
+        "maxHeight_double": null
+      },
+      "textCapitalization_enum_textCapitalization": "none"
+    }
+  },
+  "searchViews": {
+    "primary": {
+      "backgroundColor_themeColorString": null,
+      "elevation_double": null,
+      "surfaceTintColor_themeColorString": null,
+      "constraints_boxConstraints": {
+        "minWidth_double": null,
+        "maxWidth_double": null,
+        "minHeight_double": null,
+        "maxHeight_double": null
+      },
+      "side_borderSide": null,
+      "shape_outlinedBorder": {
+        "type_enum_outlinedBorderType": "roundedRectangleBorder",
+        "side_borderSide": null,
+        "borderRadius_borderRadius": null
+      },
+      "headerTextStyle_textStyleString": null,
+      "headerHintStyle_textStyleString": null,
+      "dividerColor_themeColorString": null
+    }
+  },
+  "tabBars": {
+    "primary": {
+      "indicator_boxDecoration": {
+        "color_themeColorString": null,
+        "border_boxBorder": null,
+        "borderRadius_borderRadius": null,
+        "boxShadows_list_boxShadow": [],
+        "backgroundBlendMode_enum_blendMode": null,
+        "shape_enum_boxShape": "rectangle"
+      },
+      "indicatorColor_themeColorString": null,
+      "dividerColor_themeColorString": null,
+      "indicatorSize_enum_tabBarIndicatorSize": null,
+      "dividerHeight_double": null,
+      "labelColor_themeColorString": null,
+      "labelPadding_edgeInsets": {
+        "top_double": null,
+        "left_double": null,
+        "bottom_double": null,
+        "right_double": null
+      },
+      "labelStyle_textStyleString": null,
+      "unselectedLabelColor_themeColorString": null,
+      "unselectedLabelStyle_textStyleString": null,
+      "overlayColor_themeColorString": null,
+      "tabAlignment_enum_tabAlignment": null
     }
   }
 }

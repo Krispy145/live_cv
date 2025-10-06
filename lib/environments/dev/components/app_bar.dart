@@ -168,12 +168,6 @@ class DevAppBar extends StatelessWidget implements PreferredSizeWidget {
                         ),
                       ),
 
-                      // TextButton.icon(
-                      //   onPressed: () => ThemeChanger.saveJsonToDatabase(context),
-                      //   i Icon(Icons.upload,size: store.showDevTools?24:0,),
-                      //   label:  Text("Upload to DO",style: context.textTheme.bodySmall?.copyWith(color:context.colorScheme.onSurfacee),),
-                      // ),
-
                       // / Uncomment the following code to enable the upload button.
                       // / This button will upload the current theme to the repository.
                       // / NB: Useful only when uploading from assets to a backend database.

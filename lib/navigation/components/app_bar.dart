@@ -1,3 +1,4 @@
+import "package:auto_route/auto_route.dart";
 import "package:cv_app/dependencies/injection.dart";
 import "package:cv_package/presentation/landing/store.dart";
 import "package:flutter/material.dart";
@@ -65,42 +66,54 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
                     // Check if the current breakpoint is mobile or tablet
                     if (context.isScreenWidthGreaterThanTablet) {
                       return Row(
-                        children: LandingOption.appbarOptions.map(
-                          (option) {
-                            final index = LandingOption.values.indexOf(option);
-                            return Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: store.isCurrentIndex(index) ? context.colorScheme.secondary : context.colorScheme.primary,
-                                  foregroundColor: store.isCurrentIndex(index) ? context.colorScheme.onSecondary : context.colorScheme.onPrimary,
-                                ),
-                                onPressed: () => store.scrollToIndex(index),
-                                child: Text(option.name.capitalizeFirst()),
-                              ),
-                            );
-                          },
-                        ).toList(),
-                      );
-                    } else {
-                      return PopupMenuButton<String>(
-                        onSelected: (value) {
-                          final index = LandingOption.values.indexWhere((option) => option.name == value);
-                          if (index != -1) {
-                            store.scrollToIndex(index);
-                          }
-                        },
-                        icon: Icon(Icons.menu, color: context.colorScheme.onSurface),
-                        itemBuilder: (context) {
-                          return LandingOption.appbarOptions.map(
+                        children: [
+                          ...LandingOption.appbarOptions.map(
                             (option) {
-                              return PopupMenuItem<String>(
-                                value: option.name,
-                                child: Text(option.name.capitalizeFirst()),
+                              final index = LandingOption.values.indexOf(option);
+                              return Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: store.isCurrentIndex(index) ? context.colorScheme.secondary : context.colorScheme.primary,
+                                    foregroundColor: store.isCurrentIndex(index) ? context.colorScheme.onSecondary : context.colorScheme.onPrimary,
+                                  ),
+                                  onPressed: () => store.scrollToIndex(index),
+                                  child: Text(option.name.capitalizeFirst()),
+                                ),
                               );
                             },
-                          ).toList();
-                        },
+                          ),
+                        ],
+                      );
+                    } else {
+                      return Row(
+                        children: [
+                          PopupMenuButton<String>(
+                            onSelected: (value) {
+                              if (value == "projects") {
+                                context.router.pushNamed("/projects");
+                              } else {
+                                final index = LandingOption.values.indexWhere((option) => option.name == value);
+                                if (index != -1) {
+                                  store.scrollToIndex(index);
+                                }
+                              }
+                            },
+                            icon: Icon(Icons.menu, color: context.colorScheme.onSurface),
+                            itemBuilder: (context) {
+                              return [
+                                ...LandingOption.appbarOptions.map(
+                                  (option) {
+                                    return PopupMenuItem<String>(
+                                      value: option.name,
+                                      child: Text(option.name.capitalizeFirst()),
+                                    );
+                                  },
+                                ),
+                              ];
+                            },
+                          ),
+                        ],
                       );
                     }
                   },

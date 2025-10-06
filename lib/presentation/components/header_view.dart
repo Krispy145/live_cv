@@ -1,12 +1,11 @@
 import "dart:math";
 
+import "package:cv_package/core/theme/theme_tokens.dart";
 import "package:cv_package/data/models/header_model.dart";
 import "package:cv_package/presentation/components/avatar.dart";
 import "package:cv_package/presentation/components/curved_banner.dart";
 import "package:flutter/material.dart";
-import "package:theme/extensions/build_context.dart";
 import "package:utilities/helpers/extensions/build_context.dart";
-import "package:utilities/sizes/spacers.dart";
 
 class HeaderView extends StatelessWidget {
   final HeaderModel headerModel;
@@ -14,8 +13,11 @@ class HeaderView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: context.colorScheme.primary,
+    final tokens = ThemeTokens.of(context);
+
+    return Container(
+      width: double.infinity,
+      color: tokens.color.primary,
       child: ConstrainedBox(
         constraints: BoxConstraints(
           minHeight: context.screenHeight - 148,
@@ -26,77 +28,162 @@ class HeaderView extends StatelessWidget {
   }
 
   Widget _buildHeader(BuildContext context) {
+    final tokens = ThemeTokens.of(context);
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: tokens.spacing.xl),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Sizes.xl.spacer(),
+          SizedBox(height: tokens.spacing.xxl),
+
+          // Avatar with banner
           ProfileWithArcBanner(
             bannerText: "Open to work",
             arcRadius: 80,
             sweepAngle: pi / 2,
-            color: context.colorScheme.primary,
-            textStyle: context.textTheme.bodySmall?.copyWith(
-                  color: context.colorScheme.onPrimary,
-                ) ??
-                TextStyle(
-                  color: context.colorScheme.onPrimary,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w900,
-                  height: 1,
-                ),
+            color: tokens.color.onPrimary,
+            textStyle: tokens.text.chipLabel.copyWith(
+              color: tokens.color.primary,
+              fontWeight: FontWeight.w900,
+              height: 1,
+            ),
             child: CVAvatar.asset(
               width: context.screenWidth * 0.2 < 200 ? 200 : context.screenWidth * 0.2,
               assetPath: headerModel.userDetails.imageUrl ?? "https://via.placeholder.com/150",
             ),
           ),
-          Sizes.xl.spacer(),
-          Divider(
-            color: context.colorScheme.onPrimary,
-            thickness: 4,
-            endIndent: context.screenWidth * 0.2,
-            indent: context.screenWidth * 0.2,
+
+          SizedBox(height: tokens.spacing.xxl),
+
+          // Decorative divider
+          Container(
+            height: 4,
+            width: context.screenWidth * 0.3,
+            decoration: BoxDecoration(
+              color: tokens.color.onPrimary,
+              borderRadius: BorderRadius.circular(2),
+            ),
           ),
-          Sizes.xl.spacer(),
+
+          SizedBox(height: tokens.spacing.xxl),
+
+          // Main title
           Text(
             headerModel.title,
             textAlign: TextAlign.center,
-            style: context.textTheme.headlineMedium?.copyWith(
-              color: context.colorScheme.onPrimary,
+            style: tokens.text.heroTitle.copyWith(
+              color: tokens.color.onPrimary,
             ),
           ),
+
+          // Subtitle
           if (headerModel.subtitle != null) ...[
-            Sizes.xl.spacer(),
+            SizedBox(height: tokens.spacing.lg),
             Text(
               headerModel.subtitle!,
               textAlign: TextAlign.center,
-              style: context.textTheme.headlineSmall?.copyWith(
-                color: context.colorScheme.onPrimary,
+              style: tokens.text.titleLarge?.copyWith(
+                color: tokens.color.onPrimary.withOpacity(0.9),
+                fontWeight: FontWeight.w400,
               ),
             ),
           ],
+
+          // Skills chips
           if (headerModel.skillsPairs.isNotEmpty) ...[
-            Sizes.l.spacer(),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: headerModel.skills
-                    .map(
-                      (skill) => Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Chip(
-                          label: Text(
-                            skill.name,
-                          ),
+            SizedBox(height: tokens.spacing.xl),
+            _buildFadingScrollView(
+              context,
+              children: headerModel.skills
+                  .map(
+                    (skill) => Padding(
+                      padding: EdgeInsets.symmetric(horizontal: tokens.spacing.xs),
+                      child: Chip(
+                        label: Text(skill.name),
+                        labelStyle: tokens.chip.labelStyle.copyWith(
+                          color: tokens.color.primary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        backgroundColor: tokens.color.onPrimary.withOpacity(0.15),
+                        side: BorderSide(
+                          color: tokens.color.primary.withOpacity(0.3),
                         ),
                       ),
-                    )
-                    .toList(),
-              ),
+                    ),
+                  )
+                  .toList(),
             ),
           ],
-          Sizes.xl.spacer(),
+
+          SizedBox(height: tokens.spacing.xxl),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFadingScrollView(BuildContext context, {required List<Widget> children}) {
+    final tokens = ThemeTokens.of(context);
+
+    return SizedBox(
+      height: 40, // Fixed height for the scroll area
+      child: Stack(
+        children: [
+          // Scrollable content with proper clipping
+          Positioned.fill(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: tokens.spacing.xl),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: children,
+                ),
+              ),
+            ),
+          ),
+          // Left fade overlay
+          Positioned(
+            left: 0,
+            top: 0,
+            bottom: 0,
+            child: Container(
+              width: 50,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  stops: const [0.0, 0.3, 0.7, 1.0],
+                  colors: [
+                    tokens.color.primary, // Match the gradient background
+                    tokens.color.primary.withOpacity(0.8),
+                    tokens.color.primary.withOpacity(0.3),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+          ),
+          // Right fade overlay
+          Positioned(
+            right: 0,
+            top: 0,
+            bottom: 0,
+            child: Container(
+              width: 50,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerRight,
+                  end: Alignment.centerLeft,
+                  stops: const [0.0, 0.3, 0.7, 1.0],
+                  colors: [
+                    tokens.color.primary, // Match the gradient background
+                    tokens.color.primary.withOpacity(0.8),
+                    tokens.color.primary.withOpacity(0.3),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

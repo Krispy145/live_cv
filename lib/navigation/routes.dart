@@ -15,6 +15,10 @@ class AppRouter extends RootStackRouter {
               initial: true,
               page: LandingRoute.page,
             ),
+            AutoRoute(
+              path: "projects",
+              page: ProjectsRoute.page,
+            ),
           ],
         ),
       ];

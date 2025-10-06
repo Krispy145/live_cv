@@ -2,6 +2,8 @@ import "package:cv_app/app.dart";
 import "package:cv_app/dependencies/injection.dart";
 import "package:cv_app/environments/dev/components/app_bar.dart";
 import "package:cv_app/environments/dev/env.dart";
+import "package:cv_app/features/github/domain/roadmap_summary.dart";
+import "package:cv_app/utils/loggers.dart";
 import "package:cv_package/config/store.dart";
 import "package:firebase_core/firebase_core.dart";
 import "package:firebase_crashlytics/firebase_crashlytics.dart";
@@ -17,7 +19,12 @@ import "../../firebase/firebase_options_dev.dart";
 void main() async {
   usePathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
-  final loggerFeatures = <Enum, bool>{};
+
+  // Initialize mappers
+  RoadmapSummaryMapper.ensureInitialized();
+  final loggerFeatures = <Enum, bool>{
+    CVAppLoggers.github: true,
+  };
   if (!kIsWeb) {
     await SystemChrome.setPreferredOrientations(
       [

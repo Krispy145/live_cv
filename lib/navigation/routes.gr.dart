@@ -10,10 +10,9 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i4;
+import 'package:cv_app/features/github/presentation/projects_view.dart' as _i3;
 import 'package:cv_app/navigation/wrappers/app.wrapper.dart' as _i1;
 import 'package:cv_app/presentation/landing/single/view.dart' as _i2;
-import 'package:cv_app/presentation/portfolio/single/view.dart' as _i3;
-import 'package:cv_package/data/models/portfolio_model.dart' as _i6;
 import 'package:flutter/material.dart' as _i5;
 
 /// generated route for
@@ -85,51 +84,17 @@ class LandingRouteArgs {
 }
 
 /// generated route for
-/// [_i3.PortfolioView]
-class PortfolioRoute extends _i4.PageRouteInfo<PortfolioRouteArgs> {
-  PortfolioRoute({
-    _i5.Key? key,
-    String? id,
-    _i6.PortfolioModel? portfolioModel,
-    List<_i4.PageRouteInfo>? children,
-  }) : super(
-         PortfolioRoute.name,
-         args: PortfolioRouteArgs(
-           key: key,
-           id: id,
-           portfolioModel: portfolioModel,
-         ),
-         initialChildren: children,
-       );
+/// [_i3.ProjectsView]
+class ProjectsRoute extends _i4.PageRouteInfo<void> {
+  const ProjectsRoute({List<_i4.PageRouteInfo>? children})
+    : super(ProjectsRoute.name, initialChildren: children);
 
-  static const String name = 'PortfolioRoute';
+  static const String name = 'ProjectsRoute';
 
   static _i4.PageInfo page = _i4.PageInfo(
     name,
     builder: (data) {
-      final args = data.argsAs<PortfolioRouteArgs>(
-        orElse: () => const PortfolioRouteArgs(),
-      );
-      return _i3.PortfolioView(
-        key: args.key,
-        id: args.id,
-        portfolioModel: args.portfolioModel,
-      );
+      return const _i3.ProjectsView();
     },
   );
-}
-
-class PortfolioRouteArgs {
-  const PortfolioRouteArgs({this.key, this.id, this.portfolioModel});
-
-  final _i5.Key? key;
-
-  final String? id;
-
-  final _i6.PortfolioModel? portfolioModel;
-
-  @override
-  String toString() {
-    return 'PortfolioRouteArgs{key: $key, id: $id, portfolioModel: $portfolioModel}';
-  }
 }

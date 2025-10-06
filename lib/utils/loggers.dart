@@ -6,5 +6,8 @@ enum CVAppLoggers {
   /// [presentationLayer] is the PresentationLayer feature
   presentationLayer,
 
+  /// [github] is the GitHub feature
+  github,
+
   /// LOGGER FEATURE END
 }

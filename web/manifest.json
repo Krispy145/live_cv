@@ -1,29 +1,31 @@
 {
-  "name": "cv_app",
-  "short_name": "cv_app",
-  "start_url": ".",
+  "name": "David Kisbey-Green CV",
+  "short_name": "DKG CV",
+  "description": "Flutter portfolio showcasing AI and Cybersecurity transition.",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#0175C2",
-  "theme_color": "#0175C2",
-  "description": "",
-  "orientation": "portrait-primary",
-  "prefer_related_applications": false,
+  "background_color": "#0D47A1",
+  "theme_color": "#2D70FF",
   "icons": [
     {
-      "src": "icons/apple-touch-icon.png",
+      "src": "icon_192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "icons/512x512.png",
+      "src": "icon_512.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "icons/192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "image/png"
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon.png",
+      "sizes": "48x48",
+      "type": "image/png"
     }
   ]
 }
