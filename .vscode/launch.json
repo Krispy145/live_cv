@@ -1,0 +1,130 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Cv App (debug mode) (Dev)",
+      "program": "lib/environments/dev/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "development",
+        "--dart-define=GITHUB_USERNAME=Krispy145",
+        "--dart-define=GITHUB_TOKEN="
+      ]
+    },
+    {
+      "name": "Cv App (profile mode) (Dev)",
+      "program": "lib/environments/dev/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile",
+      "args": [
+        "--flavor",
+        "development",
+        "--dart-define=GITHUB_USERNAME=Krispy145",
+        "--dart-define=GITHUB_TOKEN="
+      ]
+    },
+    {
+      "name": "Cv App (release mode) (Dev)",
+      "program": "lib/environments/dev/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "args": [
+        "--flavor",
+        "development",
+        "--dart-define=GITHUB_USERNAME=Krispy145",
+        "--dart-define=GITHUB_TOKEN="
+      ]
+    },
+    {
+      "name": "Cv App (debug mode) (Staging)",
+      "program": "lib/environments/stage/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "staging",
+        "--dart-define=GITHUB_USERNAME=Krispy145",
+        "--dart-define=GITHUB_TOKEN="
+      ]
+    },
+    {
+      "name": "Cv App (profile mode) (Staging)",
+      "program": "lib/environments/stage/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile",
+      "args": [
+        "--flavor",
+        "staging",
+        "--dart-define=GITHUB_USERNAME=Krispy145",
+        "--dart-define=GITHUB_TOKEN="
+      ]
+    },
+    {
+      "name": "Cv App (release mode) (Staging)",
+      "program": "lib/environments/stage/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "args": [
+        "--flavor",
+        "staging",
+        "--dart-define=GITHUB_USERNAME=Krispy145",
+        "--dart-define=GITHUB_TOKEN="
+      ]
+    },
+    {
+      "name": "Cv App (debug mode) (Prod)",
+      "program": "lib/environments/prod/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "production",
+        "--dart-define=GITHUB_USERNAME=Krispy145",
+        "--dart-define=GITHUB_TOKEN="
+      ]
+    },
+    {
+      "name": "Cv App (profile mode) (Prod)",
+      "program": "lib/environments/prod/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile",
+      "args": [
+        "--flavor",
+        "production",
+        "--dart-define=GITHUB_USERNAME=Krispy145",
+        "--dart-define=GITHUB_TOKEN="
+      ]
+    },
+    {
+      "name": "Cv App (release mode) (Prod)",
+      "program": "lib/environments/prod/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "args": [
+        "--flavor",
+        "production",
+        "--dart-define=GITHUB_USERNAME=Krispy145",
+        "--dart-define=GITHUB_TOKEN="
+      ]
+    },
+    {
+      "name": "Cv App (Web)",
+      "program": "lib/environments/dev/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "chrome",
+      "args": [
+        "--dart-define=GITHUB_USERNAME=Krispy145",
+        "--dart-define=GITHUB_TOKEN="
+      ]
+    }
+  ]
+}
