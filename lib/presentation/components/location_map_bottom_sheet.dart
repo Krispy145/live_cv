@@ -270,7 +270,7 @@ class _LocationMapBottomSheetState extends State<LocationMapBottomSheet> {
                               ),
                               child: FaIcon(
                                 FontAwesomeIcons.locationDot,
-                                color: tokens.color.primary,
+                                color: tokens.color.onPrimary,
                                 size: 24,
                               ),
                             ),
