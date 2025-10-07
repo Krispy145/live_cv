@@ -4,7 +4,7 @@
 import "package:cv_app/app.dart";
 import "package:cv_app/dependencies/injection.dart";
 import "package:cv_app/environments/stage/env.dart";
-import "package:cv_app/features/github/domain/roadmap_summary.dart";
+import "package:cv_package/domain/repositories/github/roadmap_summary.dart";
 import "package:cv_package/config/store.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";

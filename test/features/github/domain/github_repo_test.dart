@@ -1,4 +1,4 @@
-import "package:cv_app/features/github/domain/github_repo.dart";
+import "package:cv_package/domain/repositories/github/github_repo.dart";
 import "package:flutter_test/flutter_test.dart";
 
 void main() {

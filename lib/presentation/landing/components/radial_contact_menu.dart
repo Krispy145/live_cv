@@ -166,7 +166,7 @@ class _RadialContactMenuState extends State<RadialContactMenu> with TickerProvid
                 color: tokens.color.primary,
                 boxShadow: [
                   BoxShadow(
-                    color: tokens.color.primary.withOpacity(0.3),
+                    color: tokens.color.primary.withValues(alpha: 0.3),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),
@@ -277,10 +277,10 @@ class _RadialMenuItemState extends State<_RadialMenuItem> with SingleTickerProvi
                 padding: _isHovered ? const EdgeInsets.symmetric(horizontal: 12) : EdgeInsets.zero,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(24),
-                  color: widget.item.color.withOpacity(0.9),
+                  color: widget.item.color.withValues(alpha: 0.9),
                   boxShadow: [
                     BoxShadow(
-                      color: widget.item.color.withOpacity(0.3),
+                      color: widget.item.color.withValues(alpha: 0.3),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),

@@ -1,7 +1,7 @@
 import "package:cv_app/core/assets/assets.gen.dart";
 import "package:cv_app/navigation/routes.dart";
 import "package:cv_app/navigation/wrappers/store.dart";
-import "package:cv_app/utils/loggers.dart";
+import "package:cv_package/utils/loggers.dart";
 import "package:cv_package/config/store.dart";
 import "package:cv_package/dependencies/injection.dart";
 import "package:cv_package/presentation/landing/store.dart";

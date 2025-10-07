@@ -1,16 +1,12 @@
-#? CV App Makefile
-#? Run `make help` to see all available commands
-
-#? Default environment
-ENVIRONMENT ?= development
+#*Environment Variables*
 ENV ?= dev
+VERSION_TYPE ?= build
+CHANNEL ?= alpha
+PLATFORM ?= web
 
-#? Build configuration
-BUILD_NAME ?= $(ENVIRONMENT)
-BUILD_NUMBER ?= 1
-
-#? Channel configuration
-CHANNEL ?= internal
+#*Generated Variables*
+ENVIRONMENT := $(if $(filter dev,$(ENV)),development,$(if $(filter stage,$(ENV)),staging,production))
+APP_NAME ?= $(if $(filter dev,$(ENV)),[DEV] CV App,$(if $(filter stage,$(ENV)),[STAGE] CV App,CV App))
 
 #? Help command
 help:
@@ -58,7 +54,16 @@ deploy-ios:
 #? Run `make deploy-web` to deploy the Web app
 deploy-web: build-web
 	@echo "Deploying Web ${ENVIRONMENT} to Firebase..."
-	@firebase deploy --only hosting:${ENV}
+	@if [ "$(ENV)" = "dev" ]; then \
+		firebase deploy --only hosting --project cv-personal-app-dev; \
+	elif [ "$(ENV)" = "stage" ]; then \
+		firebase deploy --only hosting --project cv-personal-app-stage; \
+	elif [ "$(ENV)" = "prod" ]; then \
+		firebase deploy --only hosting --project cv-personal-app-prod; \
+	else \
+		echo "Unknown environment: $(ENV)"; \
+		exit 1; \
+	fi
 
 #? Run `make clean` to clean build artifacts
 clean:
@@ -120,3 +125,43 @@ run-prod:
 run-web:
 	@echo "Running on web..."
 	@flutter run -d chrome -t lib/environments/dev/main.dart --dart-define=GITHUB_USERNAME=Krispy145 --dart-define=GITHUB_TOKEN=
+
+#? Run `make bump-build` to bump the build version
+bump-build:
+	@echo "Bumping build version..."
+
+#? Run `make bump-patch` to bump the patch version
+bump-patch:
+	@echo "Bumping patch version..."
+
+#? Run `make bump-minor` to bump the minor version
+bump-minor:
+	@echo "Bumping minor version..."
+
+#? Run `make bump-major` to bump the major version
+bump-major:
+	@echo "Bumping major version..."
+
+#? Run `make bump-version` to bump the version based on the version type
+bump-version:
+	@echo "Bumping version for $(ENV) environment of $(VERSION_TYPE) type..."; \
+		$(MAKE) bump-build; \
+		if [ "$(VERSION_TYPE)" = "patch" ]; then \
+			$(MAKE) bump-patch; \
+		elif [ "$(VERSION_TYPE)" = "minor" ]; then \
+			$(MAKE) bump-minor; \
+		elif [ "$(VERSION_TYPE)" = "major" ]; then \
+			$(MAKE) bump-major; \
+		fi
+
+#? Run `make deploy` to deploy the app
+#? deploys based on platform selection
+deploy: 
+	@echo "Deploying ${ENV} environment..." ; \
+	if [ "$(PLATFORM)" = "web" ] || [ "$(PLATFORM)" = "both" ]; then \
+		echo "Deploying web platform..." ; \
+		$(MAKE) build-web; \
+		$(MAKE) deploy-web ; \
+	fi
+
+.PHONY: test clean deploy-android deploy-ios deploy-web gen bump-build bump-patch bump-minor bump-major bump-version deploy

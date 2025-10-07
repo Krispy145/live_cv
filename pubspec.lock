@@ -33,6 +33,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.7.1"
+  animated_stack_widget:
+    dependency: transitive
+    description:
+      name: animated_stack_widget
+      sha256: ce4788dd158768c9d4388354b6fb72600b78e041a37afc4c279c63ecafcb9408
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   animated_text_kit:
     dependency: transitive
     description:
@@ -401,7 +409,7 @@ packages:
     source: hosted
     version: "0.7.11"
   dio:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: dio
       sha256: d90ee57923d1828ac14e492ca49440f65477f4bb1263575900be731a3dac66a9
@@ -733,6 +741,47 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.0.0"
+  flutter_map:
+    dependency: "direct main"
+    description:
+      name: flutter_map
+      sha256: "87cc8349b8fa5dccda5af50018c7374b6645334a0d680931c1fe11bce88fa5bb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.2.1"
+  flutter_map_animations:
+    dependency: transitive
+    description:
+      name: flutter_map_animations
+      sha256: e4b929632b43a7939ce07a7cdb05613abb25e1996c9767c16469d0cbb9e1c4a9
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.0"
+  flutter_map_cancellable_tile_provider:
+    dependency: "direct main"
+    description:
+      name: flutter_map_cancellable_tile_provider
+      sha256: ae18dd59faf74f3eca1d28f83e59b47741bbff962e123bbebe9335c04d432f44
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
+  flutter_map_marker_popup:
+    dependency: transitive
+    description:
+      name: flutter_map_marker_popup
+      sha256: ec563bcbae24a18ac16815fb75ac5ab33ccba609e14db70e252a67de19c6639c
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.2"
+  flutter_map_supercluster:
+    dependency: transitive
+    description:
+      path: "."
+      ref: v5
+      resolved-ref: "6c0faccdb8c4feb9b37eab4e1e82c18c766e076f"
+      url: "https://github.com/rorystephenson/flutter_map_supercluster.git"
+    source: git
+    version: "5.0.0-dev.1"
   flutter_mobx:
     dependency: transitive
     description:
@@ -750,7 +799,7 @@ packages:
     source: hosted
     version: "2.0.30"
   flutter_riverpod:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_riverpod
       sha256: "9532ee6db4a943a1ed8383072a2e3eeda041db5657cdf6d2acecf3c21ecbe7e1"
@@ -941,6 +990,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.3"
+  google_places_flutter:
+    dependency: transitive
+    description:
+      name: google_places_flutter
+      sha256: "37bd64221cf4a5aa97eb3a33dc2d40f6326aa5ae4e2f2a9a7116bdc1a14f5194"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.1"
   gotrue:
     dependency: transitive
     description:
@@ -1126,7 +1183,7 @@ packages:
     source: hosted
     version: "2.7.2"
   intl:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: intl
       sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
@@ -1165,6 +1222,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.1"
+  kdbush:
+    dependency: transitive
+    description:
+      name: kdbush
+      sha256: "7dcc5376b1e579804f48428c309d0c9dd0c4c98a9f68db18e17ca1a04561e652"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
+  latlong2:
+    dependency: "direct main"
+    description:
+      name: latlong2
+      sha256: "98227922caf49e6056f91b6c56945ea1c7b166f28ffcd5fb8e72fc0b453cc8fe"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.1"
   leak_tracker:
     dependency: transitive
     description:
@@ -1197,6 +1270,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.1.1"
+  lists:
+    dependency: transitive
+    description:
+      name: lists
+      sha256: "4ca5c19ae4350de036a7e996cdd1ee39c93ac0a2b840f4915459b7d0a7d4ab27"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   logger:
     dependency: transitive
     description:
@@ -1213,6 +1294,21 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.0"
+  mapbox_search:
+    dependency: transitive
+    description:
+      name: mapbox_search
+      sha256: "1ff2f2ac4471ff59a00d55371bbb82f337e588fcefd4019f66aec372bb4901fc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.3.2"
+  maps:
+    dependency: "direct main"
+    description:
+      path: "../../lets_yak/packages/maps"
+      relative: true
+    source: path
+    version: "0.0.2"
   matcher:
     dependency: transitive
     description:
@@ -1237,6 +1333,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.16.0"
+  mgrs_dart:
+    dependency: transitive
+    description:
+      name: mgrs_dart
+      sha256: fb89ae62f05fa0bb90f70c31fc870bcbcfd516c843fb554452ab3396f78586f7
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   mime:
     dependency: transitive
     description:
@@ -1404,6 +1508,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
+  polylabel:
+    dependency: transitive
+    description:
+      name: polylabel
+      sha256: "41b9099afb2aa6c1730bdd8a0fab1400d287694ec7615dd8516935fa3144214b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   pool:
     dependency: transitive
     description:
@@ -1436,6 +1548,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "9.13.0"
+  proj4dart:
+    dependency: transitive
+    description:
+      name: proj4dart
+      sha256: c8a659ac9b6864aa47c171e78d41bbe6f5e1d7bd790a5814249e6b68bc44324e
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   provider:
     dependency: transitive
     description:
@@ -1460,6 +1580,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.0"
+  rbush:
+    dependency: transitive
+    description:
+      name: rbush
+      sha256: "48b683421b4afb43a642f82c6aa31911e54f3069143d31c7d33cbe329df13403"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
   reactive_dropdown_search:
     dependency: transitive
     description:
@@ -1565,7 +1693,7 @@ packages:
     source: hosted
     version: "0.3.8"
   shared_preferences:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: shared_preferences
       sha256: "6e8bf70b7fef813df4e9a36f658ac46d107db4b4cfe1048b477d4e453a8159f5"
@@ -1784,6 +1912,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.10.1"
+  supercluster:
+    dependency: transitive
+    description:
+      name: supercluster
+      sha256: d46621a308f4ba073fe8da8b3385daf30682482c9a4d8e50406c6d39ed463127
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0"
   synchronized:
     dependency: transitive
     description:
@@ -1878,6 +2014,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
+  unicode:
+    dependency: transitive
+    description:
+      name: unicode
+      sha256: "0f69e46593d65245774d4f17125c6084d2c20b4e473a983f6e21b7d7762218f1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.1"
   universal_html:
     dependency: transitive
     description:
@@ -1903,7 +2047,7 @@ packages:
     source: hosted
     version: "1.1.0"
   url_launcher:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: url_launcher
       sha256: f6a7e5c4835bb4e3026a04793a4199ca2d14c739ec378fdfe23fc8075d0439f8
@@ -2068,6 +2212,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.14.0"
+  wkt_parser:
+    dependency: transitive
+    description:
+      name: wkt_parser
+      sha256: "8a555fc60de3116c00aad67891bcab20f81a958e4219cc106e3c037aa3937f13"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   xdg_directories:
     dependency: transitive
     description:

@@ -84,7 +84,7 @@ class HeaderView extends StatelessWidget {
               headerModel.subtitle!,
               textAlign: TextAlign.center,
               style: tokens.text.titleLarge?.copyWith(
-                color: tokens.color.onPrimary.withOpacity(0.9),
+                color: tokens.color.onPrimary.withValues(alpha: 0.9),
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -105,9 +105,9 @@ class HeaderView extends StatelessWidget {
                           color: tokens.color.primary,
                           fontWeight: FontWeight.w600,
                         ),
-                        backgroundColor: tokens.color.onPrimary.withOpacity(0.15),
+                        backgroundColor: tokens.color.onPrimary.withValues(alpha: 0.15),
                         side: BorderSide(
-                          color: tokens.color.primary.withOpacity(0.3),
+                          color: tokens.color.primary.withValues(alpha: 0.3),
                         ),
                       ),
                     ),
@@ -154,8 +154,8 @@ class HeaderView extends StatelessWidget {
                   stops: const [0.0, 0.3, 0.7, 1.0],
                   colors: [
                     tokens.color.primary, // Match the gradient background
-                    tokens.color.primary.withOpacity(0.8),
-                    tokens.color.primary.withOpacity(0.3),
+                    tokens.color.primary.withValues(alpha: 0.8),
+                    tokens.color.primary.withValues(alpha: 0.3),
                     Colors.transparent,
                   ],
                 ),
@@ -176,8 +176,8 @@ class HeaderView extends StatelessWidget {
                   stops: const [0.0, 0.3, 0.7, 1.0],
                   colors: [
                     tokens.color.primary, // Match the gradient background
-                    tokens.color.primary.withOpacity(0.8),
-                    tokens.color.primary.withOpacity(0.3),
+                    tokens.color.primary.withValues(alpha: 0.8),
+                    tokens.color.primary.withValues(alpha: 0.3),
                     Colors.transparent,
                   ],
                 ),

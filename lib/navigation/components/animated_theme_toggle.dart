@@ -45,9 +45,19 @@ class _AnimatedThemeToggleState extends State<AnimatedThemeToggle> with TickerPr
     );
 
     // Set initial state based on current theme
-    if (Managers.themeStateStore.isDark) {
-      _animationController.value = 1;
-    }
+    // Use WidgetsBinding.instance.addPostFrameCallback to ensure theme is initialized
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        // Show what we would switch TO, not current state
+        if (Managers.themeStateStore.isDark) {
+          // Currently dark, so show sun (would switch to light)
+          _animationController.value = 0;
+        } else {
+          // Currently light, so show moon (would switch to dark)
+          _animationController.value = 1;
+        }
+      }
+    });
   }
 
   @override
@@ -57,12 +67,15 @@ class _AnimatedThemeToggleState extends State<AnimatedThemeToggle> with TickerPr
   }
 
   void _handleToggle() {
+    // Toggle the theme first
+    Managers.themeStateStore.toggleThemeMode();
+
+    // Then animate to show the new "what would switch to" state
     if (_animationController.isCompleted) {
       _animationController.reverse();
     } else {
       _animationController.forward();
     }
-    Managers.themeStateStore.toggleThemeMode();
   }
 
   @override
@@ -71,7 +84,7 @@ class _AnimatedThemeToggleState extends State<AnimatedThemeToggle> with TickerPr
       builder: (context) {
         final iconColor = widget.color ?? Theme.of(context).colorScheme.onSurface;
 
-        return GestureDetector(
+        return InkWell(
           onTap: _handleToggle,
           child: AnimatedBuilder(
             animation: _animationController,

@@ -1,17 +1,18 @@
 import "package:auto_route/auto_route.dart";
 import "package:cv_app/dependencies/injection.dart";
-import "package:cv_app/features/github/presentation/github_repo_card.dart";
-import "package:cv_app/features/github/presentation/roadmap_card.dart";
-import "package:cv_app/features/github/state/github_state.dart";
 import "package:cv_app/presentation/components/header_view.dart";
+import "package:cv_app/presentation/components/location_map_bottom_sheet.dart";
 import "package:cv_app/presentation/landing/components/radial_contact_menu.dart";
 import "package:cv_app/presentation/landing/components/section_builder.dart";
-import "package:cv_app/utils/loggers.dart";
 import "package:cv_package/core/theme/theme_tokens.dart";
 import "package:cv_package/data/models/header_model.dart";
 import "package:cv_package/presentation/components/experience_card.dart";
 import "package:cv_package/presentation/components/skills.dart";
+import "package:cv_package/presentation/github/github_repo_card.dart";
+import "package:cv_package/presentation/github/github_state.dart";
+import "package:cv_package/presentation/github/roadmap_card.dart";
 import "package:cv_package/presentation/landing/store.dart";
+import "package:cv_package/utils/loggers.dart";
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:scrollable_positioned_list/scrollable_positioned_list.dart";
@@ -209,10 +210,7 @@ class _LandingViewState extends State<LandingView> {
               if (githubState.roadmapData != null) {
                 return RoadmapCard(
                   data: githubState.roadmapData!,
-                  onViewMilestones: () {
-                    // Handle view milestones action
-                    debugPrint("View Milestones");
-                  },
+                  username: ref.watch(githubUsernameProvider),
                 );
               } else if (githubState.isLoadingRoadmap) {
                 return Container(
@@ -221,7 +219,7 @@ class _LandingViewState extends State<LandingView> {
                     color: tokens.color.surfaceContainerHighest,
                     borderRadius: BorderRadius.circular(tokens.card.borderRadius),
                     border: Border.all(
-                      color: tokens.color.outline.withOpacity(0.2),
+                      color: tokens.color.outline.withValues(alpha: 0.2),
                     ),
                   ),
                   child: Column(
@@ -265,7 +263,7 @@ class _LandingViewState extends State<LandingView> {
                     color: tokens.color.surfaceContainerHighest,
                     borderRadius: BorderRadius.circular(tokens.card.borderRadius),
                     border: Border.all(
-                      color: tokens.color.outline.withOpacity(0.2),
+                      color: tokens.color.outline.withValues(alpha: 0.2),
                     ),
                   ),
                   child: Column(
@@ -470,13 +468,24 @@ class _LandingViewState extends State<LandingView> {
         }
         break;
       case ContactType.location:
-        // Show location info in a snackbar or dialog
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("Location: ${userDetails.location?.toString() ?? 'Not available'}"),
-            duration: const Duration(seconds: 3),
-          ),
-        );
+        // Show location on map in bottom sheet
+        if (userDetails.location != null) {
+          showModalBottomSheet<void>(
+            context: context,
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            builder: (context) => LocationMapBottomSheet(
+              location: userDetails.location!,
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Location information not available"),
+              duration: Duration(seconds: 3),
+            ),
+          );
+        }
         break;
     }
   }

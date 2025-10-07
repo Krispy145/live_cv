@@ -31,7 +31,7 @@ class SectionBuilder extends StatelessWidget {
         color: tokens.color.surface,
         border: Border(
           top: BorderSide(
-            color: tokens.color.outline.withOpacity(0.1),
+            color: tokens.color.outline.withValues(alpha: 0.1),
           ),
         ),
       ),

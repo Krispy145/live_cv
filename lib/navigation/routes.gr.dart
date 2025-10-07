@@ -10,7 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i4;
-import 'package:cv_app/features/github/presentation/projects_view.dart' as _i3;
+import 'package:cv_package/presentation/github/projects_view.dart' as _i3;
 import 'package:cv_app/navigation/wrappers/app.wrapper.dart' as _i1;
 import 'package:cv_app/presentation/landing/single/view.dart' as _i2;
 import 'package:flutter/material.dart' as _i5;
