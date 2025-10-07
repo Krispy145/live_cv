@@ -3,6 +3,7 @@ import "package:cv_package/data/models/location_model.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:flutter_map/flutter_map.dart";
+import "package:font_awesome_flutter/font_awesome_flutter.dart";
 import "package:latlong2/latlong.dart";
 import "package:maps/data/models/marker_model.dart";
 
@@ -191,18 +192,10 @@ class _LocationMapBottomSheetState extends State<LocationMapBottomSheet> {
             padding: EdgeInsets.all(tokens.spacing.lg),
             child: Row(
               children: [
-                Container(
-                  width: 24,
-                  height: 24,
-                  decoration: BoxDecoration(
-                    color: tokens.color.primary,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.location_on,
-                    color: tokens.color.onPrimary,
-                    size: 16,
-                  ),
+                FaIcon(
+                  FontAwesomeIcons.locationDot,
+                  color: tokens.color.primary,
+                  size: 24,
                 ),
                 SizedBox(width: tokens.spacing.sm),
                 Expanded(
@@ -215,18 +208,10 @@ class _LocationMapBottomSheetState extends State<LocationMapBottomSheet> {
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: Container(
-                    width: 24,
-                    height: 24,
-                    decoration: BoxDecoration(
-                      color: tokens.color.surfaceContainerHighest,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.close,
-                      color: tokens.color.onSurface,
-                      size: 16,
-                    ),
+                  icon: FaIcon(
+                    FontAwesomeIcons.xmark,
+                    color: tokens.color.onSurface.withValues(alpha: 0.7),
+                    size: 20,
                   ),
                 ),
               ],
@@ -283,9 +268,9 @@ class _LocationMapBottomSheetState extends State<LocationMapBottomSheet> {
                                   ),
                                 ],
                               ),
-                              child: Icon(
-                                Icons.location_on,
-                                color: tokens.color.onPrimary,
+                              child: FaIcon(
+                                FontAwesomeIcons.locationDot,
+                                color: tokens.color.primary,
                                 size: 24,
                               ),
                             ),
@@ -315,18 +300,10 @@ class _LocationMapBottomSheetState extends State<LocationMapBottomSheet> {
                 children: [
                   Row(
                     children: [
-                      Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          color: tokens.color.primary,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.home,
-                          color: tokens.color.onPrimary,
-                          size: 12,
-                        ),
+                      FaIcon(
+                        FontAwesomeIcons.house,
+                        color: tokens.color.primary,
+                        size: 20,
                       ),
                       SizedBox(width: tokens.spacing.sm),
                       Text(
@@ -338,18 +315,10 @@ class _LocationMapBottomSheetState extends State<LocationMapBottomSheet> {
                       const Spacer(),
                       IconButton(
                         onPressed: _copyAddress,
-                        icon: Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            color: tokens.color.primary,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            Icons.copy,
-                            color: tokens.color.onPrimary,
-                            size: 12,
-                          ),
+                        icon: FaIcon(
+                          FontAwesomeIcons.copy,
+                          color: tokens.color.primary,
+                          size: 20,
                         ),
                         tooltip: "Copy address",
                       ),
