@@ -191,10 +191,18 @@ class _LocationMapBottomSheetState extends State<LocationMapBottomSheet> {
             padding: EdgeInsets.all(tokens.spacing.lg),
             child: Row(
               children: [
-                Icon(
-                  Icons.location_on,
-                  color: tokens.color.primary,
-                  size: 24,
+                Container(
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    color: tokens.color.primary,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.location_on,
+                    color: tokens.color.onPrimary,
+                    size: 16,
+                  ),
                 ),
                 SizedBox(width: tokens.spacing.sm),
                 Expanded(
@@ -207,9 +215,18 @@ class _LocationMapBottomSheetState extends State<LocationMapBottomSheet> {
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: Icon(
-                    Icons.close,
-                    color: tokens.color.onSurface.withValues(alpha: 0.7),
+                  icon: Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: tokens.color.surfaceContainerHighest,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.close,
+                      color: tokens.color.onSurface,
+                      size: 16,
+                    ),
                   ),
                 ),
               ],
@@ -298,10 +315,18 @@ class _LocationMapBottomSheetState extends State<LocationMapBottomSheet> {
                 children: [
                   Row(
                     children: [
-                      Icon(
-                        Icons.home,
-                        size: 20,
-                        color: tokens.color.primary,
+                      Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          color: tokens.color.primary,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.home,
+                          color: tokens.color.onPrimary,
+                          size: 12,
+                        ),
                       ),
                       SizedBox(width: tokens.spacing.sm),
                       Text(
@@ -313,10 +338,18 @@ class _LocationMapBottomSheetState extends State<LocationMapBottomSheet> {
                       const Spacer(),
                       IconButton(
                         onPressed: _copyAddress,
-                        icon: Icon(
-                          Icons.copy,
-                          size: 20,
-                          color: tokens.color.primary,
+                        icon: Container(
+                          width: 20,
+                          height: 20,
+                          decoration: BoxDecoration(
+                            color: tokens.color.primary,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.copy,
+                            color: tokens.color.onPrimary,
+                            size: 12,
+                          ),
                         ),
                         tooltip: "Copy address",
                       ),
