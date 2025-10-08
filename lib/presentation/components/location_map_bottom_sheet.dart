@@ -254,12 +254,12 @@ class _LocationMapBottomSheetState extends State<LocationMapBottomSheet> {
                         markers: [
                           Marker(
                             point: _markerModel!.position,
-                            width: 40,
-                            height: 40,
+                            width: 80,
+                            height: 80,
                             child: FaIcon(
                               FontAwesomeIcons.locationDot,
                               color: tokens.color.onPrimary,
-                              size: 24,
+                              size: 48,
                             ),
                           ),
                         ],

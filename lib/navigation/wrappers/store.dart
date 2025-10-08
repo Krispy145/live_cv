@@ -26,7 +26,7 @@ abstract class _AppStore with LoadStateStore, Store {
   Future<void> initialize() async {
     await getUserDetails();
     // Generate PDF in background for faster access
-    unawaited(_generatePdfInBackground());
+    await _generatePdfInBackground();
   }
 
   final UserDetailsRepository _userDetailsRepository = UserDetailsRepository();
