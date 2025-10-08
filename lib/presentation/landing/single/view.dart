@@ -138,7 +138,7 @@ class _LandingViewState extends State<LandingView> {
     switch (option) {
       case LandingOption.header:
         return HeaderView(
-          headerModel: headerModel,
+          headerModel: headerModel.copyWith(userDetails: appWrapperStore.userDetails),
         );
       case LandingOption.experience:
         return SectionBuilder(

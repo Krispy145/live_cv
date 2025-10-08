@@ -115,7 +115,6 @@ class HeaderView extends StatelessWidget {
                   .toList(),
             ),
           ],
-
           SizedBox(height: tokens.spacing.xxl),
         ],
       ),

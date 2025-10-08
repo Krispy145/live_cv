@@ -25,6 +25,7 @@ void main() async {
   final loggerFeatures = <Enum, bool>{
     CVAppLoggers.github: true,
     CVAppLoggers.cvApp: true,
+    CVPackageLoggers.cvPackage: true,
   };
   if (!kIsWeb) {
     await SystemChrome.setPreferredOrientations(

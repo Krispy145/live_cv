@@ -256,23 +256,10 @@ class _LocationMapBottomSheetState extends State<LocationMapBottomSheet> {
                             point: _markerModel!.position,
                             width: 40,
                             height: 40,
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                color: tokens.color.primary,
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: tokens.color.primary.withValues(alpha: 0.3),
-                                    blurRadius: 8,
-                                    spreadRadius: 2,
-                                  ),
-                                ],
-                              ),
-                              child: FaIcon(
-                                FontAwesomeIcons.locationDot,
-                                color: tokens.color.onPrimary,
-                                size: 24,
-                              ),
+                            child: FaIcon(
+                              FontAwesomeIcons.locationDot,
+                              color: tokens.color.onPrimary,
+                              size: 24,
                             ),
                           ),
                         ],
