@@ -1,16 +1,16 @@
 import "package:auto_route/auto_route.dart";
-import "package:cv_app/dependencies/injection.dart";
-import "package:cv_app/presentation/components/header_view.dart";
-import "package:cv_app/presentation/components/location_map_bottom_sheet.dart";
-import "package:cv_app/presentation/landing/components/radial_contact_menu.dart";
-import "package:cv_app/presentation/landing/components/section_builder.dart";
 import "package:cv_app/core/theme/theme_tokens.dart";
 import "package:cv_app/data/models/header_model.dart";
+import "package:cv_app/dependencies/injection.dart";
 import "package:cv_app/presentation/components/experience_card.dart";
+import "package:cv_app/presentation/components/header_view.dart";
+import "package:cv_app/presentation/components/location_map_bottom_sheet.dart";
 import "package:cv_app/presentation/components/skills.dart";
 import "package:cv_app/presentation/github/github_repo_card.dart";
 import "package:cv_app/presentation/github/github_state.dart";
 import "package:cv_app/presentation/github/roadmap_card.dart";
+import "package:cv_app/presentation/landing/components/radial_contact_menu.dart";
+import "package:cv_app/presentation/landing/components/section_builder.dart";
 import "package:cv_app/presentation/landing/store.dart";
 import "package:cv_app/utils/loggers.dart";
 import "package:flutter/material.dart";
@@ -202,7 +202,6 @@ class _LandingViewState extends State<LandingView> {
       case LandingOption.roadmap:
         return SectionBuilder(
           title: "AI + Cybersecurity Roadmap",
-          subtitle: "My learning journey and current focus areas",
           body: Consumer(
             builder: (context, ref, child) {
               final githubState = ref.watch<GitHubState>(githubNotifierProvider);

@@ -17,39 +17,75 @@ class SkillsBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     final tokens = ThemeTokens.of(context);
     return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 800),
+      constraints: const BoxConstraints(maxWidth: 960),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: skills
-            .map(
-              (group) => Padding(
-                padding: EdgeInsets.only(bottom: tokens.spacing.xl),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      group.first,
-                      style: tokens.text.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+        children: [
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: tokens.spacing.lg,
+            runSpacing: tokens.spacing.sm,
+            children: SkillProficiency.values
+                .map(
+                  (level) => Text(
+                    "${level.label} ${level.emoji}",
+                    style: tokens.text.bodyMedium?.copyWith(
+                      color: tokens.color.onSurfaceWithOpacity(0.75),
                     ),
-                    SizedBox(height: tokens.spacing.sm),
-                    Wrap(
-                      spacing: tokens.spacing.sm,
-                      runSpacing: tokens.spacing.sm,
-                      children: group.second
-                          .map(
-                            (skill) => Chip(
-                              label: Text(skill.name),
-                              labelStyle: tokens.chip.labelStyle.copyWith(color: tokens.color.onPrimary),
-                              backgroundColor: tokens.color.primary,
-                            ),
-                          )
-                          .toList(),
+                  ),
+                )
+                .toList(),
+          ),
+          SizedBox(height: tokens.spacing.xxl),
+          ...skills.map(
+            (group) => Padding(
+              padding: EdgeInsets.only(bottom: tokens.spacing.xl),
+              child: Column(
+                children: [
+                  Text(
+                    group.first,
+                    style: tokens.text.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: tokens.color.onSurfaceWithOpacity(0.8),
                     ),
-                  ],
-                ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: tokens.spacing.md),
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: tokens.spacing.sm,
+                    runSpacing: tokens.spacing.sm,
+                    children: group.second.map((skill) => _SkillChip(skill: skill, tokens: tokens)).toList(),
+                  ),
+                ],
               ),
-            )
-            .toList(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SkillChip extends StatelessWidget {
+  const _SkillChip({required this.skill, required this.tokens});
+
+  final SkillModel skill;
+  final ThemeTokens tokens;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      decoration: BoxDecoration(
+        color: tokens.color.primary.withValues(alpha: 0.22),
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Text(
+        "${skill.name} ${skill.proficiency.emoji}",
+        style: tokens.text.bodyMedium?.copyWith(
+          color: tokens.color.onSurface,
+          fontWeight: FontWeight.w500,
+        ),
       ),
     );
   }

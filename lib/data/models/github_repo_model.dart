@@ -1,4 +1,6 @@
-/// A GitHub repository card model.
+import "package:flutter/material.dart";
+
+/// A GitHub repository card model, optionally enriched from the roadmap manifest.
 class GitHubRepoModel {
   /// [GitHubRepoModel] constructor.
   const GitHubRepoModel({
@@ -7,6 +9,7 @@ class GitHubRepoModel {
     required this.fullName,
     required this.htmlUrl,
     this.description,
+    this.shortDescription,
     this.language,
     this.stargazersCount = 0,
     this.forksCount = 0,
@@ -15,6 +18,11 @@ class GitHubRepoModel {
     this.homepage,
     this.fork = false,
     this.archived = false,
+    this.status,
+    this.coverUrl,
+    this.thumbnailUrl,
+    this.displayTitle,
+    this.targetDate,
   });
 
   final int id;
@@ -22,6 +30,7 @@ class GitHubRepoModel {
   final String fullName;
   final String htmlUrl;
   final String? description;
+  final String? shortDescription;
   final String? language;
   final int stargazersCount;
   final int forksCount;
@@ -30,8 +39,27 @@ class GitHubRepoModel {
   final String? homepage;
   final bool fork;
   final bool archived;
+  final String? status;
+  final String? coverUrl;
+  final String? thumbnailUrl;
+  final String? displayTitle;
+  final String? targetDate;
 
   bool get isRoadmap => name == "ai-cyber-security-roadmap";
+
+  bool get isActive => (status ?? "").toLowerCase() == "active";
+
+  String get title => displayTitle ?? _titleFromSlug(name);
+
+  String get cardDescription => shortDescription ?? description ?? "";
+
+  String get statusLabel {
+    final value = status ?? "";
+    if (value.isEmpty) {
+      return "Active";
+    }
+    return value.split("_").map((part) => part.isEmpty ? part : "${part[0].toUpperCase()}${part.substring(1)}").join(" ");
+  }
 
   factory GitHubRepoModel.fromMap(Map<String, dynamic> map) {
     return GitHubRepoModel(
@@ -40,6 +68,7 @@ class GitHubRepoModel {
       fullName: map["full_name"] as String? ?? "",
       htmlUrl: map["html_url"] as String? ?? "",
       description: map["description"] as String?,
+      shortDescription: map["short_description"] as String?,
       language: map["language"] as String?,
       stargazersCount: map["stargazers_count"] as int? ?? 0,
       forksCount: map["forks_count"] as int? ?? 0,
@@ -48,6 +77,55 @@ class GitHubRepoModel {
       homepage: map["homepage"] as String?,
       fork: map["fork"] as bool? ?? false,
       archived: map["archived"] as bool? ?? false,
+      status: map["status"] as String?,
+      coverUrl: map["cover_url"] as String?,
+      thumbnailUrl: map["thumbnail_url"] as String?,
+      displayTitle: map["display_title"] as String?,
+      targetDate: map["target"] as String?,
+    );
+  }
+
+  GitHubRepoModel copyWith({
+    int? id,
+    String? name,
+    String? fullName,
+    String? htmlUrl,
+    String? description,
+    String? shortDescription,
+    String? language,
+    int? stargazersCount,
+    int? forksCount,
+    List<String>? topics,
+    DateTime? updatedAt,
+    String? homepage,
+    bool? fork,
+    bool? archived,
+    String? status,
+    String? coverUrl,
+    String? thumbnailUrl,
+    String? displayTitle,
+    String? targetDate,
+  }) {
+    return GitHubRepoModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      fullName: fullName ?? this.fullName,
+      htmlUrl: htmlUrl ?? this.htmlUrl,
+      description: description ?? this.description,
+      shortDescription: shortDescription ?? this.shortDescription,
+      language: language ?? this.language,
+      stargazersCount: stargazersCount ?? this.stargazersCount,
+      forksCount: forksCount ?? this.forksCount,
+      topics: topics ?? this.topics,
+      updatedAt: updatedAt ?? this.updatedAt,
+      homepage: homepage ?? this.homepage,
+      fork: fork ?? this.fork,
+      archived: archived ?? this.archived,
+      status: status ?? this.status,
+      coverUrl: coverUrl ?? this.coverUrl,
+      thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
+      displayTitle: displayTitle ?? this.displayTitle,
+      targetDate: targetDate ?? this.targetDate,
     );
   }
 
@@ -58,6 +136,7 @@ class GitHubRepoModel {
       "full_name": fullName,
       "html_url": htmlUrl,
       "description": description,
+      "short_description": shortDescription,
       "language": language,
       "stargazers_count": stargazersCount,
       "forks_count": forksCount,
@@ -66,6 +145,38 @@ class GitHubRepoModel {
       "homepage": homepage,
       "fork": fork,
       "archived": archived,
+      "status": status,
+      "cover_url": coverUrl,
+      "thumbnail_url": thumbnailUrl,
+      "display_title": displayTitle,
+      "target": targetDate,
     };
   }
+}
+
+String _titleFromSlug(String slug) {
+  return slug.split(RegExp(r"[-_]")).where((part) => part.isNotEmpty).map((part) => "${part[0].toUpperCase()}${part.substring(1)}").join(" ");
+}
+
+/// GitHub-style language colors used on project cards.
+Color languageColor(String? language) {
+  switch (language) {
+    case "Python":
+      return const Color(0xFF3572A5);
+    case "TypeScript":
+      return const Color(0xFF3178C6);
+    case "JavaScript":
+      return const Color(0xFFF1E05A);
+    case "Dart":
+      return const Color(0xFF00B4AB);
+    case "Jupyter Notebook":
+      return const Color(0xFFDA5B0B);
+    default:
+      return const Color(0xFF8B949E);
+  }
+}
+
+/// Title-cases a GitHub topic slug.
+String titleCaseTopic(String topic) {
+  return topic.split(RegExp(r"[-_]")).where((part) => part.isNotEmpty).map((part) => "${part[0].toUpperCase()}${part.substring(1)}").join(" ");
 }

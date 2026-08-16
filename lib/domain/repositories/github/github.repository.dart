@@ -1,6 +1,7 @@
 import "dart:convert";
 
 import "package:cv_app/data/models/github_repo_model.dart";
+import "package:cv_app/domain/repositories/github/readme_document.dart";
 import "package:cv_app/domain/repositories/github/roadmap_summary.dart";
 import "package:cv_app/utils/loggers.dart";
 import "package:dio/dio.dart";
@@ -35,6 +36,13 @@ class GitHubRepository {
       headers["Authorization"] = "Bearer $token";
     }
     return headers;
+  }
+
+  String rawRoadmapAsset(String relativePath) {
+    if (relativePath.startsWith("http")) {
+      return relativePath;
+    }
+    return "https://raw.githubusercontent.com/$username/$roadmapRepoName/main/$relativePath";
   }
 
   /// Loads repositories, using cache when it is still fresh.
@@ -90,7 +98,12 @@ class GitHubRepository {
         return cached == null ? null : RoadmapSummary.fromMap(jsonDecode(cached) as Map<String, dynamic>);
       }
       await prefs.setString(_roadmapCacheKey, jsonEncode(data));
-      return RoadmapSummary.fromMap(data);
+      var summary = RoadmapSummary.fromMap(data);
+      final readme = await getReadme(roadmapRepoName);
+      if (readme != null) {
+        summary = summary.copyWith(readme: readme);
+      }
+      return summary;
     } catch (error) {
       AppLogger.print("Failed to load roadmap manifest: $error", [CVAppLoggers.github], type: LoggerType.warning);
       if (cached != null) {
@@ -98,6 +111,61 @@ class GitHubRepository {
       }
       return null;
     }
+  }
+
+  /// Fetches and parses a repository README.
+  Future<ReadmeDocument?> getReadme(String repoName) async {
+    try {
+      final response = await _dio.get<String>(
+        "https://raw.githubusercontent.com/$username/$repoName/main/README.md",
+        options: Options(headers: _headers, responseType: ResponseType.plain),
+      );
+      final markdown = response.data;
+      if (markdown == null || markdown.trim().isEmpty) {
+        return null;
+      }
+      return ReadmeDocument.parse(markdown);
+    } catch (error) {
+      AppLogger.print("Failed to load README for $repoName: $error", [CVAppLoggers.github], type: LoggerType.warning);
+      return null;
+    }
+  }
+
+  /// Combines GitHub API repos with roadmap manifest metadata (covers, status, blurbs).
+  List<GitHubRepoModel> mergeWithRoadmap(List<GitHubRepoModel> githubRepos, RoadmapSummary? roadmap) {
+    if (roadmap == null || roadmap.repositories.isEmpty) {
+      return githubRepos;
+    }
+    final byName = {for (final repo in githubRepos) repo.name: repo};
+    return roadmap.repositories.map((tracked) {
+      final existing = byName[tracked.name];
+      final cover = tracked.coverPath == null ? null : rawRoadmapAsset(tracked.coverPath!);
+      final thumb = tracked.thumbnailPath == null ? null : rawRoadmapAsset(tracked.thumbnailPath!);
+      if (existing == null) {
+        return GitHubRepoModel(
+          id: tracked.name.hashCode,
+          name: tracked.name,
+          fullName: "$username/${tracked.name}",
+          htmlUrl: tracked.url ?? "https://github.com/$username/${tracked.name}",
+          description: tracked.description,
+          shortDescription: tracked.shortDescription,
+          topics: tracked.topics,
+          status: tracked.status,
+          coverUrl: cover,
+          thumbnailUrl: thumb,
+          targetDate: tracked.target,
+        );
+      }
+      return existing.copyWith(
+        description: tracked.description ?? existing.description,
+        shortDescription: tracked.shortDescription ?? existing.shortDescription,
+        topics: tracked.topics.isNotEmpty ? tracked.topics : existing.topics,
+        status: tracked.status ?? existing.status,
+        coverUrl: cover ?? existing.coverUrl,
+        thumbnailUrl: thumb ?? existing.thumbnailUrl,
+        targetDate: tracked.target ?? existing.targetDate,
+      );
+    }).toList();
   }
 
   List<GitHubRepoModel> _decodeRepos(String cached) {

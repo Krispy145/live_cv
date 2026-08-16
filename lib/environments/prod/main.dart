@@ -2,10 +2,10 @@
 // import "package:firebase_crashlytics/firebase_crashlytics.dart";
 
 import "package:cv_app/app.dart";
-import "package:cv_app/dependencies/injection.dart";
-import "package:cv_app/environments/prod/env.dart";
 import "package:cv_app/config/store.dart";
+import "package:cv_app/dependencies/injection.dart";
 import "package:cv_app/domain/repositories/github/roadmap_summary.dart";
+import "package:cv_app/environments/prod/env.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";

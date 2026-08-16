@@ -2,7 +2,7 @@ import "package:cv_app/core/theme/theme_tokens.dart";
 import "package:cv_app/data/models/timeline_model.dart";
 import "package:flutter/material.dart";
 
-/// Professional experience timeline card.
+/// Professional experience card matching the deployed CV layout.
 class ExperienceCard extends StatelessWidget {
   /// [ExperienceCard] constructor.
   const ExperienceCard({
@@ -18,15 +18,15 @@ class ExperienceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _TimelineCard(
+    return _ProfileCard(
       timelineModel: timelineModel,
       isLast: isLast,
-      leadingLabel: timelineModel.organization,
+      icon: Icons.work_outline,
     );
   }
 }
 
-/// Education / certification timeline card.
+/// Education / certification card matching the deployed CV layout.
 class EducationCard extends StatelessWidget {
   /// [EducationCard] constructor.
   const EducationCard({
@@ -42,93 +42,86 @@ class EducationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _TimelineCard(
+    return _ProfileCard(
       timelineModel: timelineModel,
       isLast: isLast,
-      leadingLabel: timelineModel.organization,
+      icon: Icons.school_outlined,
     );
   }
 }
 
-class _TimelineCard extends StatelessWidget {
-  const _TimelineCard({
+class _ProfileCard extends StatelessWidget {
+  const _ProfileCard({
     required this.timelineModel,
     required this.isLast,
-    required this.leadingLabel,
+    required this.icon,
   });
 
   final TimelineModel timelineModel;
   final bool isLast;
-  final String leadingLabel;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
     final tokens = ThemeTokens.of(context);
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Column(
+    return Padding(
+      padding: EdgeInsets.only(bottom: isLast ? 0 : tokens.spacing.lg),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: tokens.color.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(tokens.card.borderRadius),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(tokens.spacing.lg),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: 16,
-                height: 16,
-                decoration: BoxDecoration(
-                  color: tokens.color.primary,
-                  shape: BoxShape.circle,
-                ),
-              ),
-              if (!isLast)
-                Expanded(
-                  child: Container(
-                    width: 2,
-                    color: tokens.color.primary.withValues(alpha: 0.3),
-                  ),
-                ),
-            ],
-          ),
-          SizedBox(width: tokens.spacing.lg),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(bottom: isLast ? 0 : tokens.spacing.xl),
-              child: Column(
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(timelineModel.title, style: tokens.text.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
-                  SizedBox(height: tokens.spacing.xs),
-                  Text(leadingLabel, style: tokens.text.bodyMedium?.copyWith(color: tokens.color.primary)),
-                  SizedBox(height: tokens.spacing.xs),
-                  Text(
-                    [
-                      timelineModel.dateRange,
-                      if (timelineModel.location != null) timelineModel.location,
-                    ].join("  ·  "),
-                    style: tokens.text.bodySmall?.copyWith(color: tokens.color.onSurfaceWithOpacity(0.7)),
-                  ),
-                  if (timelineModel.description != null) ...[
-                    SizedBox(height: tokens.spacing.sm),
-                    Text(timelineModel.description!, style: tokens.text.bodyMedium),
-                  ],
-                  if (timelineModel.highlights.isNotEmpty) ...[
-                    SizedBox(height: tokens.spacing.sm),
-                    ...timelineModel.highlights.map(
-                      (highlight) => Padding(
-                        padding: EdgeInsets.only(bottom: tokens.spacing.xs),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("•  ", style: tokens.text.bodyMedium),
-                            Expanded(child: Text(highlight, style: tokens.text.bodyMedium)),
-                          ],
-                        ),
-                      ),
+                  Container(
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      color: tokens.color.surface,
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                  ],
+                    child: Icon(icon, color: tokens.color.onSurfaceWithOpacity(0.7), size: 22),
+                  ),
+                  SizedBox(width: tokens.spacing.md),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          timelineModel.title,
+                          style: tokens.text.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+                        ),
+                        if (timelineModel.dateRange.isNotEmpty) ...[
+                          SizedBox(height: tokens.spacing.xs),
+                          Text(
+                            timelineModel.dateRange,
+                            style: tokens.text.bodySmall?.copyWith(color: tokens.color.onSurfaceWithOpacity(0.65)),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ),
+              if (timelineModel.description != null) ...[
+                SizedBox(height: tokens.spacing.md),
+                Text(
+                  timelineModel.description!,
+                  style: tokens.text.bodyMedium?.copyWith(
+                    color: tokens.color.onSurfaceWithOpacity(0.8),
+                    height: 1.45,
+                  ),
+                ),
+              ],
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

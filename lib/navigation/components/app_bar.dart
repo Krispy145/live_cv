@@ -1,8 +1,8 @@
+import "package:cv_app/core/theme/theme_tokens.dart";
+import "package:cv_app/data/models/header_model.dart";
 import "package:cv_app/dependencies/injection.dart";
 import "package:cv_app/navigation/components/animated_theme_toggle.dart";
 import "package:cv_app/navigation/wrappers/store.dart";
-import "package:cv_app/core/theme/theme_tokens.dart";
-import "package:cv_app/data/models/header_model.dart";
 import "package:cv_app/presentation/landing/store.dart";
 import "package:cv_app/presentation/resume/resume_preview_dialog.dart";
 import "package:flutter/material.dart";

@@ -22,8 +22,18 @@ class GitHubState {
   final String? error;
   final RoadmapSummary? roadmapData;
 
-  /// Repositories excluding the dedicated roadmap repo.
-  List<GitHubRepoModel> get regularRepos => allRepos.where((repo) => !repo.isRoadmap).toList();
+  /// Repositories excluding the dedicated roadmap repo, active first.
+  List<GitHubRepoModel> get regularRepos {
+    final repos = allRepos.where((repo) => !repo.isRoadmap).toList();
+    repos.sort((a, b) {
+      final byStatus = (a.isActive ? 0 : 1).compareTo(b.isActive ? 0 : 1);
+      if (byStatus != 0) {
+        return byStatus;
+      }
+      return (b.updatedAt ?? DateTime(1970)).compareTo(a.updatedAt ?? DateTime(1970));
+    });
+    return repos;
+  }
 
   GitHubState copyWith({
     List<GitHubRepoModel>? allRepos,
@@ -64,8 +74,9 @@ class GitHubNotifier extends Notifier<GitHubState> {
       final repos = await _repository.getRepositories(forceRefresh: forceRefresh);
       state = state.copyWith(allRepos: repos, isLoading: false);
       final roadmap = await _repository.getRoadmapSummary(forceRefresh: forceRefresh);
-      state = state.copyWith(roadmapData: roadmap, isLoadingRoadmap: false);
-      AppLogger.print("Loaded ${repos.length} GitHub repositories", [CVAppLoggers.github], type: LoggerType.confirmation);
+      final merged = _repository.mergeWithRoadmap(repos, roadmap);
+      state = state.copyWith(allRepos: merged, roadmapData: roadmap, isLoadingRoadmap: false);
+      AppLogger.print("Loaded ${merged.length} GitHub repositories", [CVAppLoggers.github], type: LoggerType.confirmation);
     } catch (error) {
       AppLogger.print("GitHub load failed: $error", [CVAppLoggers.github], type: LoggerType.error);
       state = state.copyWith(

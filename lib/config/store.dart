@@ -6,15 +6,13 @@ class ConfigStore extends FlavorConfig {
   /// [ConfigStore] constructor.
   ConfigStore(
     String environmentName, {
-    required Map<Enum, bool> loggerFeatures,
-    bool overrideFeatures = false,
+    required super.loggerFeatures,
+    super.overrideFeatures = false,
     bool showDevTools = false,
     required this.domain,
   })  : _showDevTools = Observable(showDevTools),
         super(
           environmentName: environmentName,
-          loggerFeatures: loggerFeatures,
-          overrideFeatures: overrideFeatures,
         );
 
   /// Public web domain for this flavor.

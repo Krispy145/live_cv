@@ -23,7 +23,9 @@ class UserDetailsDummySource extends DummyDataSource<UserDetailsModel, String> {
 /// Repository for personal CV details.
 class UserDetailsRepository {
   /// [UserDetailsRepository] constructor.
-  UserDetailsRepository({DummyDataSource<UserDetailsModel, String>? source}) : _source = source ?? UserDetailsDummySource();
+  UserDetailsRepository({
+    DummyDataSource<UserDetailsModel, String>? source,
+  }) : _source = source ?? UserDetailsDummySource();
 
   final DummyDataSource<UserDetailsModel, String> _source;
 

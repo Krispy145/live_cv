@@ -41,27 +41,74 @@ class HeaderModel {
     );
   }
 
+  static List<SkillModel> _skills(String category, SkillProficiency proficiency, List<String> names) {
+    return names.map((name) => SkillModel(name: name, category: category, proficiency: proficiency)).toList();
+  }
+
   /// Default personal header.
   static final personal = HeaderModel(
     title: "David Kisbey-Green",
     subtitle: "Flutter Developer  ·  AI + Cybersecurity",
     userDetails: UserDetailsModel.personal,
     skillsPairs: [
-      Pair("Mobile & Web", [
-        const SkillModel(name: "Flutter", category: "Mobile & Web"),
-        const SkillModel(name: "Dart", category: "Mobile & Web"),
-        const SkillModel(name: "React Native", category: "Mobile & Web"),
-        const SkillModel(name: "React", category: "Mobile & Web"),
+      Pair("Flutter", [
+        ..._skills("Flutter", SkillProficiency.specialized, [
+          "Dart",
+          "Dio",
+          "Firebase",
+          "Firebase Hosting",
+          "Firestore",
+          "Flutter",
+          "GetIt",
+          "MobX",
+        ]),
+        ..._skills("Flutter", SkillProficiency.proficient, ["AutoRoute", "Hive"]),
+        ..._skills("Flutter", SkillProficiency.developing, ["BLoC", "Riverpod"]),
       ]),
-      Pair("Backend & Cloud", [
-        const SkillModel(name: "Firebase", category: "Backend & Cloud"),
-        const SkillModel(name: "APIs", category: "Backend & Cloud"),
-        const SkillModel(name: "CI/CD", category: "Backend & Cloud"),
+      Pair("React", [
+        ..._skills("React", SkillProficiency.proficient, ["JavaScript", "TypeScript"]),
+        ..._skills("React", SkillProficiency.developing, ["React"]),
+        ..._skills("React", SkillProficiency.exploring, ["Axios", "Vite"]),
       ]),
-      Pair("Learning Focus", [
-        const SkillModel(name: "Python", category: "Learning Focus"),
-        const SkillModel(name: "Machine Learning", category: "Learning Focus"),
-        const SkillModel(name: "Cybersecurity", category: "Learning Focus"),
+      Pair("React Native", [
+        ..._skills("React Native", SkillProficiency.developing, ["React Native"]),
+        ..._skills("React Native", SkillProficiency.exploring, [
+          "Expo",
+          "Expo Secure Store",
+          "React Navigation",
+          "Zustand",
+        ]),
+      ]),
+      Pair("Backend & APIs", [
+        ..._skills("Backend & APIs", SkillProficiency.specialized, ["GitHub Actions"]),
+        ..._skills("Backend & APIs", SkillProficiency.developing, ["Python", "REST APIs"]),
+        ..._skills("Backend & APIs", SkillProficiency.exploring, [
+          "Docker",
+          "Docker Compose",
+          "FastAPI",
+          "WebSockets",
+        ]),
+      ]),
+      Pair("AI & Data", [
+        ..._skills("AI & Data", SkillProficiency.developing, [
+          "Jupyter",
+          "LangChain",
+          "OpenAI API",
+          "Pandas/NumPy (ML)",
+          "scikit-learn",
+        ]),
+        ..._skills("AI & Data", SkillProficiency.exploring, ["Vector DB (Weaviate/Pinecone)"]),
+      ]),
+      Pair("Security & DevOps", [
+        ..._skills("Security & DevOps", SkillProficiency.proficient, ["CI/CD"]),
+        ..._skills("Security & DevOps", SkillProficiency.exploring, [
+          "CompTIA Security+ (Prep)",
+          "JWT",
+          "Linux",
+          "OAuth2 / OIDC",
+          "OWASP Top 10",
+          "Threat Modeling (STRIDE)",
+        ]),
       ]),
     ],
   );

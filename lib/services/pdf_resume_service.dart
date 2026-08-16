@@ -41,19 +41,19 @@ class PdfResumeService {
                 child: pw.Column(
                   crossAxisAlignment: pw.CrossAxisAlignment.start,
                   children: [
-                    pw.Text(header.title, style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold, color: primary)),
+                    pw.Text(_pdfSafe(header.title), style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold, color: primary)),
                     if (header.subtitle != null)
-                      pw.Text(header.subtitle!, style: const pw.TextStyle(fontSize: 12, color: PdfColors.grey700)),
+                      pw.Text(_pdfSafe(header.subtitle!), style: const pw.TextStyle(fontSize: 12, color: PdfColors.grey700)),
                     pw.SizedBox(height: 8),
                     pw.Wrap(
                       spacing: 12,
                       runSpacing: 4,
                       children: [
-                        if (details.email != null) pw.Text(details.email!, style: const pw.TextStyle(fontSize: 10)),
-                        if (details.phone != null) pw.Text(details.phone!, style: const pw.TextStyle(fontSize: 10)),
+                        if (details.email != null) pw.Text(_pdfSafe(details.email!), style: const pw.TextStyle(fontSize: 10)),
+                        if (details.phone != null) pw.Text(_pdfSafe(details.phone!), style: const pw.TextStyle(fontSize: 10)),
                         if (details.location != null)
                           pw.Text(
-                            details.location.toString().replaceAll("\n", ", "),
+                            _pdfSafe(details.location.toString().replaceAll("\n", ", ")),
                             style: const pw.TextStyle(fontSize: 10),
                           ),
                       ],
@@ -66,7 +66,7 @@ class PdfResumeService {
           if (details.summary != null) ...[
             pw.SizedBox(height: 16),
             _sectionTitle("Profile", primary),
-            pw.Text(details.summary!, style: const pw.TextStyle(fontSize: 11, lineSpacing: 2)),
+            pw.Text(_pdfSafe(details.summary!), style: const pw.TextStyle(fontSize: 11, lineSpacing: 2)),
           ],
           pw.SizedBox(height: 16),
           _sectionTitle("Experience", primary),
@@ -88,7 +88,7 @@ class PdfResumeService {
                         border: pw.Border.all(color: primary),
                         borderRadius: pw.BorderRadius.circular(8),
                       ),
-                      child: pw.Text(skill.name, style: pw.TextStyle(fontSize: 9, color: primary)),
+                      child: pw.Text(_pdfSafe(skill.name), style: pw.TextStyle(fontSize: 9, color: primary)),
                     ),
                   )
                   .toList(),
@@ -114,14 +114,29 @@ class PdfResumeService {
       child: pw.Column(
         crossAxisAlignment: pw.CrossAxisAlignment.start,
         children: [
-          pw.Text(title, style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold)),
-          pw.Text("$organization  ·  $dates", style: const pw.TextStyle(fontSize: 10, color: PdfColors.grey700)),
+          pw.Text(_pdfSafe(title), style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold)),
+          pw.Text(_pdfSafe("$organization  ·  $dates"), style: const pw.TextStyle(fontSize: 10, color: PdfColors.grey700)),
           ...highlights.map(
-            (highlight) => pw.Bullet(text: highlight, style: const pw.TextStyle(fontSize: 10)),
+            (highlight) => pw.Bullet(text: _pdfSafe(highlight), style: const pw.TextStyle(fontSize: 10)),
           ),
         ],
       ),
     );
+  }
+
+  /// Helvetica cannot draw Unicode punctuation used in the CV copy.
+  static String _pdfSafe(String value) {
+    return value
+        .replaceAll("\u2014", "-")
+        .replaceAll("\u2013", "-")
+        .replaceAll("\u2011", "-")
+        .replaceAll("\u2212", "-")
+        .replaceAll("\u00B7", "-")
+        .replaceAll("\u2022", "-")
+        .replaceAll("\u2018", "'")
+        .replaceAll("\u2019", "'")
+        .replaceAll("\u201C", '"')
+        .replaceAll("\u201D", '"');
   }
 
   static PdfColor? _pdfColor(Color? color) {

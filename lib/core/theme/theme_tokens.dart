@@ -112,6 +112,9 @@ class ThemeTextTokens {
   /// Title medium.
   TextStyle? get titleMedium => _textTheme.titleMedium;
 
+  /// Title small.
+  TextStyle? get titleSmall => _textTheme.titleSmall;
+
   /// Headline small.
   TextStyle? get headlineSmall => _textTheme.headlineSmall;
 
