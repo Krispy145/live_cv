@@ -45,6 +45,54 @@ mixin _$AppStore on _AppStore, Store {
     });
   }
 
+  late final _$cachedPdfBytesAtom =
+      Atom(name: '_AppStore.cachedPdfBytes', context: context);
+
+  @override
+  Uint8List? get cachedPdfBytes {
+    _$cachedPdfBytesAtom.reportRead();
+    return super.cachedPdfBytes;
+  }
+
+  @override
+  set cachedPdfBytes(Uint8List? value) {
+    _$cachedPdfBytesAtom.reportWrite(value, super.cachedPdfBytes, () {
+      super.cachedPdfBytes = value;
+    });
+  }
+
+  late final _$isPdfGeneratingAtom =
+      Atom(name: '_AppStore.isPdfGenerating', context: context);
+
+  @override
+  bool get isPdfGenerating {
+    _$isPdfGeneratingAtom.reportRead();
+    return super.isPdfGenerating;
+  }
+
+  @override
+  set isPdfGenerating(bool value) {
+    _$isPdfGeneratingAtom.reportWrite(value, super.isPdfGenerating, () {
+      super.isPdfGenerating = value;
+    });
+  }
+
+  late final _$pdfErrorAtom =
+      Atom(name: '_AppStore.pdfError', context: context);
+
+  @override
+  String? get pdfError {
+    _$pdfErrorAtom.reportRead();
+    return super.pdfError;
+  }
+
+  @override
+  set pdfError(String? value) {
+    _$pdfErrorAtom.reportWrite(value, super.pdfError, () {
+      super.pdfError = value;
+    });
+  }
+
   late final _$updateUserDetailsAsyncAction =
       AsyncAction('_AppStore.updateUserDetails', context: context);
 
@@ -53,11 +101,22 @@ mixin _$AppStore on _AppStore, Store {
     return _$updateUserDetailsAsyncAction.run(() => super.updateUserDetails());
   }
 
+  late final _$refreshPdfCacheAsyncAction =
+      AsyncAction('_AppStore.refreshPdfCache', context: context);
+
+  @override
+  Future<void> refreshPdfCache() {
+    return _$refreshPdfCacheAsyncAction.run(() => super.refreshPdfCache());
+  }
+
   @override
   String toString() {
     return '''
 userDetails: ${userDetails},
-headerModel: ${headerModel}
+headerModel: ${headerModel},
+cachedPdfBytes: ${cachedPdfBytes},
+isPdfGenerating: ${isPdfGenerating},
+pdfError: ${pdfError}
     ''';
   }
 }

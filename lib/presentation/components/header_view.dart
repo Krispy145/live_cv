@@ -1,9 +1,9 @@
 import "dart:math";
 
-import "package:cv_package/core/theme/theme_tokens.dart";
-import "package:cv_package/data/models/header_model.dart";
-import "package:cv_package/presentation/components/avatar.dart";
-import "package:cv_package/presentation/components/curved_banner.dart";
+import "package:cv_app/core/theme/theme_tokens.dart";
+import "package:cv_app/data/models/header_model.dart";
+import "package:cv_app/presentation/components/avatar.dart";
+import "package:cv_app/presentation/components/curved_banner.dart";
 import "package:flutter/material.dart";
 import "package:utilities/helpers/extensions/build_context.dart";
 

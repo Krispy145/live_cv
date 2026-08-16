@@ -1,6 +1,6 @@
 import "dart:math" as math;
 
-import "package:cv_package/core/theme/theme_tokens.dart";
+import "package:cv_app/core/theme/theme_tokens.dart";
 import "package:flutter/material.dart";
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
 

@@ -1,4 +1,4 @@
-import "package:cv_package/core/theme/theme_tokens.dart";
+import "package:cv_app/core/theme/theme_tokens.dart";
 import "package:flutter/material.dart";
 import "package:utilities/helpers/extensions/build_context.dart";
 

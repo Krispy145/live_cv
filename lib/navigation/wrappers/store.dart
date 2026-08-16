@@ -1,11 +1,11 @@
 import "dart:async";
 
 import "package:cv_app/core/assets/assets.gen.dart";
-import "package:cv_package/data/models/header_model.dart";
-import "package:cv_package/data/models/timeline_model.dart";
-import "package:cv_package/data/models/user_details_model.dart";
-import "package:cv_package/domain/repositories/details.repository.dart";
-import "package:cv_package/services/pdf_resume_service.dart";
+import "package:cv_app/data/models/header_model.dart";
+import "package:cv_app/data/models/timeline_model.dart";
+import "package:cv_app/data/models/user_details_model.dart";
+import "package:cv_app/domain/repositories/details.repository.dart";
+import "package:cv_app/services/pdf_resume_service.dart";
 import "package:flutter/services.dart";
 import "package:mobx/mobx.dart";
 import "package:navigation/structures/default/store.dart";

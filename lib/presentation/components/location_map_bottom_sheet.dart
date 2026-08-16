@@ -1,5 +1,5 @@
-import "package:cv_package/core/theme/theme_tokens.dart";
-import "package:cv_package/data/models/location_model.dart";
+import "package:cv_app/core/theme/theme_tokens.dart";
+import "package:cv_app/data/models/location_model.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:flutter_map/flutter_map.dart";
