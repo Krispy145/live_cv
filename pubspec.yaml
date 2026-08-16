@@ -39,15 +39,13 @@ dependencies:
   flutter:
     sdk: flutter
   navigation:
-    path: ../../lets_yak/packages/navigation
+    path: ../packages/navigation
   utilities:
-    path: ../../lets_yak/packages/utilities
+    path: ../packages/utilities
   theme:
-    path: ../../lets_yak/packages/theme
-  cv_package:
-    path: ../cv_package
+    path: ../packages/theme
   maps:
-    path: ../../lets_yak/packages/maps
+    path: ../packages/maps
   flutter_gen: ^5.3.2
   get_it: ^7.6.4
   firebase_core: ^3.11.0

@@ -1,2 +1,11 @@
 #TODO: Change path to package once published on github
+analyzer:
+  exclude:
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
 include: ../../lets_yak/packages/analysis_options.yaml

@@ -18,10 +18,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
 
   /// [MainAppBar] constructor.
-  const MainAppBar({
-    super.key,
-    required this.title,
-  });
+  const MainAppBar({super.key, required this.title});
 
   @override
   Size get preferredSize => const Size.fromHeight(96);
@@ -50,16 +47,11 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    AnimatedThemeToggle(
-                      color: context.colorScheme.onSurface,
-                    ),
+                    AnimatedThemeToggle(color: context.colorScheme.onSurface),
                     Sizes.l.spacer(axis: Axis.horizontal),
                     InkWell(
                       onTap: () => store.scrollToIndex(0),
-                      child: Text(
-                        title,
-                        style: _headlineTextStyle,
-                      ),
+                      child: Text(title, style: _headlineTextStyle),
                     ),
                   ],
                 ),
@@ -70,22 +62,20 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
                     if (context.isScreenWidthGreaterThanTablet) {
                       return Row(
                         children: [
-                          ...LandingOption.appbarOptions.map(
-                            (option) {
-                              final index = LandingOption.values.indexOf(option);
-                              return Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: store.isCurrentIndex(index) ? context.colorScheme.secondary : context.colorScheme.primary,
-                                    foregroundColor: store.isCurrentIndex(index) ? context.colorScheme.onSecondary : context.colorScheme.onPrimary,
-                                  ),
-                                  onPressed: () => store.scrollToIndex(index),
-                                  child: Text(option.name.capitalizeFirst()),
+                          ...LandingOption.appbarOptions.map((option) {
+                            final index = LandingOption.values.indexOf(option);
+                            return Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: store.isCurrentIndex(index) ? context.colorScheme.secondary : context.colorScheme.primary,
+                                  foregroundColor: store.isCurrentIndex(index) ? context.colorScheme.onSecondary : context.colorScheme.onPrimary,
                                 ),
-                              );
-                            },
-                          ),
+                                onPressed: () => store.scrollToIndex(index),
+                                child: Text(option.name.capitalizeFirst()),
+                              ),
+                            );
+                          }),
                           Sizes.xs.spacer(axis: Axis.horizontal),
                           _buildDownloadButton(context, tokens),
                         ],
@@ -107,18 +97,10 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
                             icon: Icon(Icons.menu, color: context.colorScheme.onSurface),
                             itemBuilder: (context) {
                               return [
-                                ...LandingOption.appbarOptions.map(
-                                  (option) {
-                                    return PopupMenuItem<String>(
-                                      value: option.name,
-                                      child: Text(option.name.capitalizeFirst()),
-                                    );
-                                  },
-                                ),
-                                const PopupMenuItem<String>(
-                                  value: "download",
-                                  child: Text("Download Resume"),
-                                ),
+                                ...LandingOption.appbarOptions.map((option) {
+                                  return PopupMenuItem<String>(value: option.name, child: Text(option.name.capitalizeFirst()));
+                                }),
+                                const PopupMenuItem<String>(value: "download", child: Text("Download Resume")),
                               ];
                             },
                           ),
@@ -140,10 +122,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
       decoration: BoxDecoration(
         color: tokens.color.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(tokens.card.borderRadius),
-        border: Border.all(
-          color: tokens.color.primary.withValues(alpha: 0.3),
-          width: 1.5,
-        ),
+        border: Border.all(color: tokens.color.primary.withValues(alpha: 0.3), width: 1.5),
       ),
       child: Material(
         color: Colors.transparent,
@@ -151,24 +130,13 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
           onTap: () => ResumePreviewDialog.show(context, header: headerModel, cachedPdfBytes: appStore.cachedPdfBytes),
           borderRadius: BorderRadius.circular(tokens.card.borderRadius),
           child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: tokens.spacing.lg,
-              vertical: tokens.spacing.sm,
-            ),
+            padding: EdgeInsets.symmetric(horizontal: tokens.spacing.lg, vertical: tokens.spacing.sm),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                FaIcon(
-                  FontAwesomeIcons.download,
-                  color: tokens.color.primary,
-                  size: 16,
-                ),
+                FaIcon(FontAwesomeIcons.download, color: tokens.color.primary, size: 16),
                 SizedBox(width: tokens.spacing.sm),
-                FaIcon(
-                  FontAwesomeIcons.filePdf,
-                  color: tokens.color.primary,
-                  size: 16,
-                ),
+                FaIcon(FontAwesomeIcons.filePdf, color: tokens.color.primary, size: 16),
               ],
             ),
           ),
