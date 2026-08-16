@@ -45,12 +45,12 @@ class TimelineModel {
   /// Whether this entry is current.
   bool get isCurrent => endDate == null;
 
-  /// Formatted date range, e.g. `Jun 2021 – Mar 2024`.
+  /// Formatted date range, e.g. `Jun 2021 - Mar 2024`.
   String get dateRange {
     final formatter = DateFormat("MMM yyyy");
     final start = formatter.format(startDate);
     final end = endDate == null ? "Present" : formatter.format(endDate!);
-    return "$start – $end";
+    return "$start - $end";
   }
 
   TimelineModel copyWith({

@@ -105,7 +105,7 @@ class _MetaChip extends StatelessWidget {
     required this.tokens,
   });
 
-  final IconData icon;
+  final FaIconData icon;
   final String label;
   final ThemeTokens tokens;
 

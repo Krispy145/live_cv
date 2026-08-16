@@ -156,29 +156,34 @@ class _RadialContactMenuState extends State<RadialContactMenu> with TickerProvid
           }),
 
           // Main floating action button
-          GestureDetector(
-            onTap: _toggleMenu,
-            child: Container(
+          AnimatedPhysicalModel(
+            duration: const Duration(milliseconds: 280),
+            curve: Curves.easeOutCubic,
+            shape: BoxShape.circle,
+            elevation: _isExpanded ? 12 : 6,
+            color: tokens.color.primary,
+            shadowColor: Colors.black,
+            child: SizedBox(
               width: 56,
               height: 56,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: tokens.color.primary,
-                boxShadow: [
-                  BoxShadow(
-                    color: tokens.color.primary.withValues(alpha: 0.3),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
+              child: Material(
+                type: MaterialType.transparency,
+                shape: const CircleBorder(),
+                clipBehavior: Clip.antiAlias,
+                child: InkWell(
+                  onTap: _toggleMenu,
+                  customBorder: const CircleBorder(),
+                  child: Center(
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 250),
+                      child: _CenteredFaIcon(
+                        key: ValueKey(_isExpanded),
+                        icon: _isExpanded ? FontAwesomeIcons.xmark : FontAwesomeIcons.envelope,
+                        color: tokens.color.onPrimary,
+                        size: 24,
+                      ),
+                    ),
                   ),
-                ],
-              ),
-              child: AnimatedRotation(
-                turns: _isExpanded ? 0.125 : 0.0,
-                duration: const Duration(milliseconds: 400),
-                child: Icon(
-                  _isExpanded ? FontAwesomeIcons.xmark : FontAwesomeIcons.envelope,
-                  color: tokens.color.onPrimary,
-                  size: 24,
                 ),
               ),
             ),
@@ -189,9 +194,35 @@ class _RadialContactMenuState extends State<RadialContactMenu> with TickerProvid
   }
 }
 
+/// Font Awesome 11's [FaIcon] is a raw glyph (no square / [Center]), so it
+/// sits at the top-left of a sized circle unless it is boxed and centered.
+class _CenteredFaIcon extends StatelessWidget {
+  const _CenteredFaIcon({
+    super.key,
+    required this.icon,
+    required this.color,
+    required this.size,
+  });
+
+  final FaIconData icon;
+  final Color color;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: size,
+      height: size,
+      child: Center(
+        child: FaIcon(icon, color: color, size: size),
+      ),
+    );
+  }
+}
+
 class ContactItem {
   final ContactType type;
-  final IconData icon;
+  final FaIconData icon;
   final String label;
   final Color color;
 
@@ -274,6 +305,7 @@ class _RadialMenuItemState extends State<_RadialMenuItem> with SingleTickerProvi
                 curve: Curves.easeInOut,
                 width: _isHovered ? 120 : 48,
                 height: 48,
+                alignment: Alignment.center,
                 padding: _isHovered ? const EdgeInsets.symmetric(horizontal: 12) : EdgeInsets.zero,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(24),
@@ -301,10 +333,10 @@ class _RadialMenuItemState extends State<_RadialMenuItem> with SingleTickerProvi
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: 8),
                     ],
-                    Icon(
-                      widget.item.icon,
+                    _CenteredFaIcon(
+                      icon: widget.item.icon,
                       color: Colors.white,
                       size: 20,
                     ),

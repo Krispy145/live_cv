@@ -36,7 +36,7 @@ class LandingStore {
   bool isCurrentIndex(int index) => currentIndex == index;
 
   Future<void> scrollToIndex(int index) async {
-    _currentIndex.value = index;
+    runInAction(() => _currentIndex.value = index);
     if (!itemScrollController.isAttached) {
       return;
     }
@@ -59,7 +59,7 @@ class LandingStore {
     }
     final nextIndex = visible.first.index;
     if (nextIndex != currentIndex) {
-      _currentIndex.value = nextIndex;
+      runInAction(() => _currentIndex.value = nextIndex);
     }
   }
 }

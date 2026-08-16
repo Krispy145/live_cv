@@ -1,9 +1,6 @@
-import "dart:math";
-
 import "package:cv_app/core/theme/theme_tokens.dart";
 import "package:cv_app/data/models/header_model.dart";
 import "package:cv_app/presentation/components/avatar.dart";
-import "package:cv_app/presentation/components/curved_banner.dart";
 import "package:flutter/material.dart";
 import "package:utilities/helpers/extensions/build_context.dart";
 
@@ -37,21 +34,9 @@ class HeaderView extends StatelessWidget {
         children: [
           SizedBox(height: tokens.spacing.xxl),
 
-          // Avatar with banner
-          ProfileWithArcBanner(
-            bannerText: "Open to work",
-            arcRadius: 80,
-            sweepAngle: pi / 2,
-            color: tokens.color.onPrimary,
-            textStyle: tokens.text.chipLabel.copyWith(
-              color: tokens.color.primary,
-              fontWeight: FontWeight.w900,
-              height: 1,
-            ),
-            child: CVAvatar.asset(
-              width: context.screenWidth * 0.2 < 200 ? 200 : context.screenWidth * 0.2,
-              assetPath: headerModel.userDetails.imageUrl ?? "https://via.placeholder.com/150",
-            ),
+          CVAvatar.asset(
+            width: context.screenWidth * 0.2 < 200 ? 200 : context.screenWidth * 0.2,
+            assetPath: headerModel.userDetails.imageUrl ?? "https://via.placeholder.com/150",
           ),
 
           SizedBox(height: tokens.spacing.xxl),

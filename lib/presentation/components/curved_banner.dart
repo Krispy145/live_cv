@@ -29,18 +29,6 @@ class ProfileWithArcBanner extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         child,
-        IgnorePointer(
-          child: CustomPaint(
-            size: Size(arcRadius * 2.4, arcRadius * 2.4),
-            painter: _ArcBannerPainter(
-              text: bannerText,
-              radius: arcRadius,
-              sweepAngle: sweepAngle,
-              color: color,
-              textStyle: textStyle,
-            ),
-          ),
-        ),
       ],
     );
   }

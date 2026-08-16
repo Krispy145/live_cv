@@ -8,4 +8,4 @@ analyzer:
     - windows/**
     - macos/**
     - linux/**
-include: ../../lets_yak/packages/analysis_options.yaml
+include: ../packages/analysis_options.yaml

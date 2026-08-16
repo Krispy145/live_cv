@@ -82,6 +82,7 @@ class _AnimatedThemeToggleState extends State<AnimatedThemeToggle> with TickerPr
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) {
+        final isDark = Managers.themeStateStore.isDark;
         final iconColor = widget.color ?? Theme.of(context).colorScheme.onSurface;
 
         return InkWell(
@@ -92,7 +93,7 @@ class _AnimatedThemeToggleState extends State<AnimatedThemeToggle> with TickerPr
               return Transform.scale(
                 scale: _scaleAnimation.value,
                 child: Icon(
-                  _animationController.value < 0.5 ? Icons.wb_sunny : Icons.nightlight_round,
+                  isDark ? Icons.wb_sunny : Icons.nightlight_round,
                   size: widget.size,
                   color: iconColor,
                 ),
