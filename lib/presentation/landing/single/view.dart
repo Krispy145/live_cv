@@ -1,11 +1,13 @@
 import "package:auto_route/auto_route.dart";
 import "package:cv_app/core/theme/theme_tokens.dart";
 import "package:cv_app/data/models/header_model.dart";
+import "package:cv_app/data/models/timeline_model.dart";
 import "package:cv_app/dependencies/injection.dart";
 import "package:cv_app/presentation/components/experience_card.dart";
 import "package:cv_app/presentation/components/header_view.dart";
 import "package:cv_app/presentation/components/location_map_bottom_sheet.dart";
 import "package:cv_app/presentation/components/skills.dart";
+import "package:cv_app/presentation/components/timeline_editor_dialog.dart";
 import "package:cv_app/presentation/github/github_repo_card.dart";
 import "package:cv_app/presentation/github/github_state.dart";
 import "package:cv_app/presentation/github/roadmap_card.dart";
@@ -14,9 +16,11 @@ import "package:cv_app/presentation/landing/components/section_builder.dart";
 import "package:cv_app/presentation/landing/store.dart";
 import "package:cv_app/utils/loggers.dart";
 import "package:flutter/material.dart";
+import "package:flutter_mobx/flutter_mobx.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:scrollable_positioned_list/scrollable_positioned_list.dart";
 import "package:url_launcher/url_launcher.dart";
+import "package:utilities/data/sources/source.dart";
 import "package:utilities/logger/logger.dart";
 import "package:utilities/widgets/load_state/builder.dart";
 
@@ -102,6 +106,61 @@ class _LandingViewState extends State<LandingView> {
     });
   }
 
+  Future<void> _editTimeline({required bool isEducation, TimelineModel? initial}) async {
+    final entry = await TimelineEditorDialog.show(
+      context,
+      isEducation: isEducation,
+      initial: initial,
+    );
+    if (entry == null || !mounted) {
+      return;
+    }
+    final response = isEducation ? await appWrapperStore.upsertEducation(entry) : await appWrapperStore.upsertExperience(entry);
+    if (!mounted) {
+      return;
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          response == RequestResponse.success
+              ? (isEducation ? "Education saved." : "Experience saved.")
+              : "Could not save to Firestore.",
+        ),
+      ),
+    );
+  }
+
+  Future<void> _deleteTimeline({
+    required String id,
+    required bool isEducation,
+    required String title,
+  }) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      useRootNavigator: false,
+      builder: (context) => AlertDialog(
+        title: Text(isEducation ? "Delete education?" : "Delete experience?"),
+        content: Text("Remove \"$title\" from this CV?"),
+        actions: [
+          TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text("Cancel")),
+          FilledButton(onPressed: () => Navigator.of(context).pop(true), child: const Text("Delete")),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) {
+      return;
+    }
+    final response = await appWrapperStore.removeTimeline(id: id, isEducation: isEducation);
+    if (!mounted) {
+      return;
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(response == RequestResponse.success ? "Removed." : "Could not update Firestore."),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,55 +200,81 @@ class _LandingViewState extends State<LandingView> {
           headerModel: headerModel.copyWith(userDetails: appWrapperStore.userDetails),
         );
       case LandingOption.experience:
-        return SectionBuilder(
-          title: "Professional Experience",
-          subtitle: "My career journey and achievements",
-          body: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: 800,
-              ),
-              child: Column(
-                children: appWrapperStore.userDetails!.experience
-                    .asMap()
-                    .entries
-                    .map<Widget>(
-                      (entry) => ExperienceCard(
-                        timelineModel: entry.value,
-                        index: entry.key,
-                        isLast: entry.key == appWrapperStore.userDetails!.experience.length - 1,
-                      ),
+        return Observer(
+          builder: (context) {
+            final canEdit = Managers.config.showDevTools;
+            final items = appWrapperStore.userDetails?.experience ?? const [];
+            return SectionBuilder(
+              title: "Professional Experience",
+              subtitle: "My career journey and achievements",
+              headerAction: canEdit
+                  ? FilledButton.icon(
+                      onPressed: () => _editTimeline(isEducation: false),
+                      icon: const Icon(Icons.add),
+                      label: const Text("Add experience"),
                     )
-                    .toList(),
+                  : null,
+              body: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 800),
+                  child: Column(
+                    children: items
+                        .asMap()
+                        .entries
+                        .map<Widget>(
+                          (entry) => ExperienceCard(
+                            timelineModel: entry.value,
+                            index: entry.key,
+                            isLast: entry.key == items.length - 1,
+                            onEdit: canEdit ? () => _editTimeline(isEducation: false, initial: entry.value) : null,
+                            onDelete: canEdit ? () => _deleteTimeline(id: entry.value.id, isEducation: false, title: entry.value.title) : null,
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
               ),
-            ),
-          ),
+            );
+          },
         );
 
       case LandingOption.education:
-        return SectionBuilder(
-          title: "Education & Certifications",
-          subtitle: "Academic background and professional qualifications",
-          body: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: 800,
-              ),
-              child: Column(
-                children: appWrapperStore.userDetails!.education
-                    .asMap()
-                    .entries
-                    .map<Widget>(
-                      (entry) => EducationCard(
-                        timelineModel: entry.value,
-                        index: entry.key,
-                        isLast: entry.key == appWrapperStore.userDetails!.education.length - 1,
-                      ),
+        return Observer(
+          builder: (context) {
+            final canEdit = Managers.config.showDevTools;
+            final items = appWrapperStore.userDetails?.education ?? const [];
+            return SectionBuilder(
+              title: "Education & Certifications",
+              subtitle: "Academic background and professional qualifications",
+              headerAction: canEdit
+                  ? FilledButton.icon(
+                      onPressed: () => _editTimeline(isEducation: true),
+                      icon: const Icon(Icons.add),
+                      label: const Text("Add education"),
                     )
-                    .toList(),
+                  : null,
+              body: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 800),
+                  child: Column(
+                    children: items
+                        .asMap()
+                        .entries
+                        .map<Widget>(
+                          (entry) => EducationCard(
+                            timelineModel: entry.value,
+                            index: entry.key,
+                            isLast: entry.key == items.length - 1,
+                            onEdit: canEdit ? () => _editTimeline(isEducation: true, initial: entry.value) : null,
+                            onDelete: canEdit ? () => _deleteTimeline(id: entry.value.id, isEducation: true, title: entry.value.title) : null,
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
               ),
-            ),
-          ),
+            );
+          },
         );
       case LandingOption.skills:
         return SectionBuilder(

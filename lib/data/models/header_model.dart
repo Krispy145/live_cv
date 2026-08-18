@@ -41,75 +41,20 @@ class HeaderModel {
     );
   }
 
-  static List<SkillModel> _skills(String category, SkillProficiency proficiency, List<String> names) {
-    return names.map((name) => SkillModel(name: name, category: category, proficiency: proficiency)).toList();
-  }
-
   /// Default personal header.
   static final personal = HeaderModel(
     title: "David Kisbey-Green",
-    subtitle: "Flutter Developer  ·  AI + Cybersecurity",
+    subtitle: "Flutter · React / React Native Developer | Transitioning into AI & Cybersecurity",
     userDetails: UserDetailsModel.personal,
-    skillsPairs: [
-      Pair("Flutter", [
-        ..._skills("Flutter", SkillProficiency.specialized, [
-          "Dart",
-          "Dio",
-          "Firebase",
-          "Firebase Hosting",
-          "Firestore",
-          "Flutter",
-          "GetIt",
-          "MobX",
-        ]),
-        ..._skills("Flutter", SkillProficiency.proficient, ["AutoRoute", "Hive"]),
-        ..._skills("Flutter", SkillProficiency.developing, ["BLoC", "Riverpod"]),
-      ]),
-      Pair("React", [
-        ..._skills("React", SkillProficiency.proficient, ["JavaScript", "TypeScript"]),
-        ..._skills("React", SkillProficiency.developing, ["React"]),
-        ..._skills("React", SkillProficiency.exploring, ["Axios", "Vite"]),
-      ]),
-      Pair("React Native", [
-        ..._skills("React Native", SkillProficiency.developing, ["React Native"]),
-        ..._skills("React Native", SkillProficiency.exploring, [
-          "Expo",
-          "Expo Secure Store",
-          "React Navigation",
-          "Zustand",
-        ]),
-      ]),
-      Pair("Backend & APIs", [
-        ..._skills("Backend & APIs", SkillProficiency.specialized, ["GitHub Actions"]),
-        ..._skills("Backend & APIs", SkillProficiency.developing, ["Python", "REST APIs"]),
-        ..._skills("Backend & APIs", SkillProficiency.exploring, [
-          "Docker",
-          "Docker Compose",
-          "FastAPI",
-          "WebSockets",
-        ]),
-      ]),
-      Pair("AI & Data", [
-        ..._skills("AI & Data", SkillProficiency.developing, [
-          "Jupyter",
-          "LangChain",
-          "OpenAI API",
-          "Pandas/NumPy (ML)",
-          "scikit-learn",
-        ]),
-        ..._skills("AI & Data", SkillProficiency.exploring, ["Vector DB (Weaviate/Pinecone)"]),
-      ]),
-      Pair("Security & DevOps", [
-        ..._skills("Security & DevOps", SkillProficiency.proficient, ["CI/CD"]),
-        ..._skills("Security & DevOps", SkillProficiency.exploring, [
-          "CompTIA Security+ (Prep)",
-          "JWT",
-          "Linux",
-          "OAuth2 / OIDC",
-          "OWASP Top 10",
-          "Threat Modeling (STRIDE)",
-        ]),
-      ]),
-    ],
+    skillsPairs: UserDetailsModel.personal.skillsPairs,
   );
+
+  /// Header built from a Firestore (or dummy) [UserDetailsModel].
+  factory HeaderModel.fromUserDetails(UserDetailsModel details) {
+    return personal.copyWith(
+      title: details.fullName,
+      userDetails: details,
+      skillsPairs: details.skillsPairs,
+    );
+  }
 }

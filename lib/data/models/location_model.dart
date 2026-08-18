@@ -1,5 +1,14 @@
+import "package:dart_mappable/dart_mappable.dart";
+
+part "location_model.mapper.dart";
+
 /// Physical address used on the CV and map bottom sheet.
-class LocationModel {
+@MappableClass(
+  caseStyle: CaseStyle.snakeCase,
+  ignoreNull: true,
+  generateMethods: GenerateMethods.decode | GenerateMethods.encode | GenerateMethods.copy | GenerateMethods.equals,
+)
+class LocationModel with LocationModelMappable {
   /// [LocationModel] constructor.
   const LocationModel({
     this.line1,
@@ -35,46 +44,8 @@ class LocationModel {
     country: "United Kingdom",
   );
 
-  /// Copy with optional overrides.
-  LocationModel copyWith({
-    String? line1,
-    String? line2,
-    String? city,
-    String? region,
-    String? postalCode,
-    String? country,
-  }) {
-    return LocationModel(
-      line1: line1 ?? this.line1,
-      line2: line2 ?? this.line2,
-      city: city ?? this.city,
-      region: region ?? this.region,
-      postalCode: postalCode ?? this.postalCode,
-      country: country ?? this.country,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      "line1": line1,
-      "line2": line2,
-      "city": city,
-      "region": region,
-      "postalCode": postalCode,
-      "country": country,
-    };
-  }
-
-  factory LocationModel.fromMap(Map<String, dynamic> map) {
-    return LocationModel(
-      line1: map["line1"] as String?,
-      line2: map["line2"] as String?,
-      city: map["city"] as String?,
-      region: map["region"] as String?,
-      postalCode: map["postalCode"] as String?,
-      country: map["country"] as String?,
-    );
-  }
+  static const fromMap = LocationModelMapper.fromMap;
+  static const fromJson = LocationModelMapper.fromJson;
 
   @override
   String toString() {

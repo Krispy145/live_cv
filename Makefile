@@ -3,6 +3,8 @@ ENV ?= dev
 VERSION_TYPE ?= build
 CHANNEL ?= alpha
 PLATFORM ?= web
+GITHUB_USERNAME ?= Krispy145
+GITHUB_TOKEN ?=
 
 #*Generated Variables*
 ENVIRONMENT := $(if $(filter dev,$(ENV)),development,$(if $(filter stage,$(ENV)),staging,production))
@@ -40,7 +42,7 @@ build-ios:
 #? Run `make build-web` to build the Web app
 build-web:
 	@echo "Building Web ${ENVIRONMENT} Release..."
-	@flutter build web -t lib/environments/${ENV}/main.dart --dart-define=GITHUB_USERNAME=Krispy145 --dart-define=GITHUB_TOKEN=
+	@flutter build web -t lib/environments/${ENV}/main.dart --dart-define=GITHUB_USERNAME=${GITHUB_USERNAME} --dart-define=GITHUB_TOKEN=${GITHUB_TOKEN}
 
 
 #? Run `make deploy-android` to deploy the Android app

@@ -1,14 +1,23 @@
-name: Run Unit Tests
+name: Deploy Web
 
 on:
-  pull_request:
+  push:
     branches:
       - main
   workflow_dispatch:
 
+concurrency:
+  group: deploy-web
+  cancel-in-progress: true
+
+permissions:
+  checks: write
+  contents: read
+  pull-requests: write
+
 jobs:
-  test:
-    name: Flutter tests
+  web:
+    name: Build and deploy web
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -43,5 +52,17 @@ jobs:
       - name: Generate envied files
         run: dart run build_runner build
 
-      - name: Run tests
-        run: make test
+      - name: Build web
+        env:
+          GITHUB_USERNAME: Krispy145
+          GITHUB_TOKEN: ${{ secrets.GH_READ_TOKEN }}
+        run: make build-web ENV=dev
+
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          entryPoint: live_cv
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CV_PERSONAL_APP_DEV }}
+          channelId: live
+          projectId: cv-personal-app-dev

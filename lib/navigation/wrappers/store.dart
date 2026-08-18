@@ -10,6 +10,7 @@ import "package:flutter/services.dart";
 import "package:mobx/mobx.dart";
 import "package:navigation/structures/default/store.dart";
 import "package:theme/app/app.dart";
+import "package:utilities/data/sources/source.dart";
 import "package:utilities/widgets/load_state/store.dart";
 
 part "store.g.dart";
@@ -35,26 +36,100 @@ abstract class _AppStore with LoadStateStore, Store {
   UserDetailsModel? userDetails;
   Future<void> getUserDetails() async {
     setLoading();
-    final userDetails = await _userDetailsRepository.getAllUserDetailsModels();
-    this.userDetails = userDetails.second.first?.copyWith(
-      imageUrl: Assets.images.avatar.path,
-      // Add experience and education data from the static data
-      experience: TimelineModel.experienceData,
-      education: TimelineModel.educationData,
-    );
+    final result = await _userDetailsRepository.getUserDetails();
+    final details = result.second;
+    if (details == null) {
+      setError("Unable to load user details");
+      return;
+    }
+    userDetails = details.copyWith(imageUrl: details.imageUrl ?? Assets.images.avatar.path);
+    headerModel = HeaderModel.fromUserDetails(userDetails!);
     setLoaded();
   }
 
   @action
   Future<void> updateUserDetails() async {
-    if (userDetails != null) {
-      await _userDetailsRepository.updateUserDetailsModel(userDetails!);
-      await getUserDetails();
+    final current = userDetails;
+    if (current == null) {
+      return;
     }
+    final dummy = UserDetailsModel.personal;
+    userDetails = current.copyWith(
+      summary: dummy.summary,
+      location: dummy.location,
+      experience: dummy.experience,
+      education: dummy.education,
+      skillGroups: dummy.skillGroups,
+    );
+    headerModel = HeaderModel.fromUserDetails(userDetails!);
+    await _userDetailsRepository.updateUserDetailsModel(userDetails!);
+    await getUserDetails();
+    await refreshPdfCache();
+  }
+
+  /// Creates or replaces an experience entry and writes it to Firestore.
+  @action
+  Future<RequestResponse> upsertExperience(TimelineModel entry) {
+    return _upsertTimeline(entry, isEducation: false);
+  }
+
+  /// Creates or replaces an education entry and writes it to Firestore.
+  @action
+  Future<RequestResponse> upsertEducation(TimelineModel entry) {
+    return _upsertTimeline(entry, isEducation: true);
+  }
+
+  /// Removes a timeline entry and writes the document to Firestore.
+  @action
+  Future<RequestResponse> removeTimeline({
+    required String id,
+    required bool isEducation,
+  }) async {
+    final details = userDetails;
+    if (details == null) {
+      return RequestResponse.failure;
+    }
+    if (isEducation) {
+      userDetails = details.copyWith(education: details.education.where((item) => item.id != id).toList());
+    } else {
+      userDetails = details.copyWith(experience: details.experience.where((item) => item.id != id).toList());
+    }
+    headerModel = HeaderModel.fromUserDetails(userDetails!);
+    return _persistUserDetails();
+  }
+
+  Future<RequestResponse> _upsertTimeline(TimelineModel entry, {required bool isEducation}) async {
+    final details = userDetails;
+    if (details == null) {
+      return RequestResponse.failure;
+    }
+    final current = isEducation ? details.education : details.experience;
+    final index = current.indexWhere((item) => item.id == entry.id);
+    final next = [...current];
+    if (index >= 0) {
+      next[index] = entry;
+    } else {
+      next.insert(0, entry);
+    }
+    userDetails = isEducation ? details.copyWith(education: next) : details.copyWith(experience: next);
+    headerModel = HeaderModel.fromUserDetails(userDetails!);
+    return _persistUserDetails();
+  }
+
+  Future<RequestResponse> _persistUserDetails() async {
+    final details = userDetails;
+    if (details == null) {
+      return RequestResponse.failure;
+    }
+    final response = await _userDetailsRepository.updateUserDetailsModel(details);
+    if (response == RequestResponse.success) {
+      await refreshPdfCache();
+    }
+    return response;
   }
 
   @observable
-  late HeaderModel headerModel = HeaderModel.personal.copyWith(userDetails: userDetails);
+  late HeaderModel headerModel = HeaderModel.personal;
 
   @observable
   Uint8List? cachedPdfBytes;
@@ -75,7 +150,7 @@ abstract class _AppStore with LoadStateStore, Store {
     pdfError = null;
 
     try {
-      final header = HeaderModel.personal.copyWith(userDetails: userDetails);
+      final header = HeaderModel.fromUserDetails(userDetails!);
       final imageBytes = await _loadImageBytes();
       final colorModel = AppTheme.baseThemeModel!.colors["primary"]!.light;
       cachedPdfBytes = await PdfResumeService.generateResume(

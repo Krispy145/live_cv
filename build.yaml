@@ -4,3 +4,6 @@ targets:
       envied_generator:envied:
         generate_for:
           - lib/environments/**/env.dart
+      dart_mappable_builder:
+        generate_for:
+          - lib/data/models/**.dart

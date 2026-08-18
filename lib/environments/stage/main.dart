@@ -4,7 +4,7 @@
 import "package:cv_app/app.dart";
 import "package:cv_app/config/store.dart";
 import "package:cv_app/dependencies/injection.dart";
-import "package:cv_app/domain/repositories/github/roadmap_summary.dart";
+import "package:cv_app/data/models/user_details_model.dart";
 import "package:cv_app/environments/stage/env.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
@@ -17,7 +17,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize mappers
-  RoadmapSummaryMapper.ensureInitialized();
+  UserDetailsModelMapper.ensureInitialized();
   final loggerFeatures = <Enum, bool>{
     ThemeLoggers.theme: true,
   };

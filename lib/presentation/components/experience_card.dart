@@ -10,11 +10,15 @@ class ExperienceCard extends StatelessWidget {
     required this.timelineModel,
     required this.index,
     required this.isLast,
+    this.onEdit,
+    this.onDelete,
   });
 
   final TimelineModel timelineModel;
   final int index;
   final bool isLast;
+  final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +26,8 @@ class ExperienceCard extends StatelessWidget {
       timelineModel: timelineModel,
       isLast: isLast,
       icon: Icons.work_outline,
+      onEdit: onEdit,
+      onDelete: onDelete,
     );
   }
 }
@@ -34,11 +40,15 @@ class EducationCard extends StatelessWidget {
     required this.timelineModel,
     required this.index,
     required this.isLast,
+    this.onEdit,
+    this.onDelete,
   });
 
   final TimelineModel timelineModel;
   final int index;
   final bool isLast;
+  final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +56,8 @@ class EducationCard extends StatelessWidget {
       timelineModel: timelineModel,
       isLast: isLast,
       icon: Icons.school_outlined,
+      onEdit: onEdit,
+      onDelete: onDelete,
     );
   }
 }
@@ -55,11 +67,15 @@ class _ProfileCard extends StatelessWidget {
     required this.timelineModel,
     required this.isLast,
     required this.icon,
+    this.onEdit,
+    this.onDelete,
   });
 
   final TimelineModel timelineModel;
   final bool isLast;
   final IconData icon;
+  final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -97,16 +113,44 @@ class _ProfileCard extends StatelessWidget {
                           timelineModel.title,
                           style: tokens.text.titleMedium?.copyWith(fontWeight: FontWeight.w700),
                         ),
+                        if (timelineModel.organization.isNotEmpty) ...[
+                          SizedBox(height: tokens.spacing.xs),
+                          Text(
+                            timelineModel.organization,
+                            style: tokens.text.bodyMedium?.copyWith(color: tokens.color.primary),
+                          ),
+                        ],
                         if (timelineModel.dateRange.isNotEmpty) ...[
                           SizedBox(height: tokens.spacing.xs),
                           Text(
                             timelineModel.dateRange,
-                            style: tokens.text.bodySmall?.copyWith(color: tokens.color.onSurfaceWithOpacity(0.65)),
+                            style: tokens.text.bodySmall?.copyWith(
+                              color: tokens.color.onSurfaceWithOpacity(0.65),
+                              fontStyle: FontStyle.italic,
+                            ),
                           ),
                         ],
                       ],
                     ),
                   ),
+                  if (onEdit != null || onDelete != null)
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (onEdit != null)
+                          IconButton(
+                            tooltip: "Edit",
+                            onPressed: onEdit,
+                            icon: const Icon(Icons.edit_outlined),
+                          ),
+                        if (onDelete != null)
+                          IconButton(
+                            tooltip: "Delete",
+                            onPressed: onDelete,
+                            icon: const Icon(Icons.delete_outline),
+                          ),
+                      ],
+                    ),
                 ],
               ),
               if (timelineModel.description != null) ...[

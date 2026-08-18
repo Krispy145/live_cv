@@ -8,6 +8,7 @@ class SectionBuilder extends StatelessWidget {
   final String? subtitle;
   final double? height;
   final bool isLastSection;
+  final Widget? headerAction;
 
   const SectionBuilder({
     super.key,
@@ -16,6 +17,7 @@ class SectionBuilder extends StatelessWidget {
     this.subtitle,
     this.height,
     this.isLastSection = false,
+    this.headerAction,
   });
 
   @override
@@ -65,6 +67,10 @@ class SectionBuilder extends StatelessWidget {
                         ),
                         textAlign: TextAlign.center,
                       ),
+                    ],
+                    if (headerAction != null) ...[
+                      SizedBox(height: tokens.spacing.md),
+                      headerAction!,
                     ],
                   ],
                 ),

@@ -1,7 +1,11 @@
+import "package:dart_mappable/dart_mappable.dart";
 import "package:intl/intl.dart";
 
+part "timeline_model.mapper.dart";
+
 /// A role or qualification shown on the experience / education timelines.
-class TimelineModel {
+@MappableClass(caseStyle: CaseStyle.snakeCase, ignoreNull: true)
+class TimelineModel with TimelineModelMappable {
   /// [TimelineModel] constructor.
   const TimelineModel({
     required this.id,
@@ -63,67 +67,14 @@ class TimelineModel {
     return "$start – $end";
   }
 
-  TimelineModel copyWith({
-    String? id,
-    String? title,
-    String? organization,
-    DateTime? startDate,
-    DateTime? endDate,
-    String? dateLabel,
-    String? location,
-    String? description,
-    List<String>? highlights,
-    List<String>? skills,
-  }) {
-    return TimelineModel(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      organization: organization ?? this.organization,
-      startDate: startDate ?? this.startDate,
-      endDate: endDate ?? this.endDate,
-      dateLabel: dateLabel ?? this.dateLabel,
-      location: location ?? this.location,
-      description: description ?? this.description,
-      highlights: highlights ?? this.highlights,
-      skills: skills ?? this.skills,
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      "id": id,
-      "title": title,
-      "organization": organization,
-      "startDate": startDate?.toIso8601String(),
-      "endDate": endDate?.toIso8601String(),
-      "dateLabel": dateLabel,
-      "location": location,
-      "description": description,
-      "highlights": highlights,
-      "skills": skills,
-    };
-  }
-
-  factory TimelineModel.fromMap(Map<String, dynamic> map) {
-    return TimelineModel(
-      id: map["id"] as String? ?? "",
-      title: map["title"] as String? ?? "",
-      organization: map["organization"] as String? ?? "",
-      startDate: DateTime.tryParse(map["startDate"] as String? ?? ""),
-      endDate: DateTime.tryParse(map["endDate"] as String? ?? ""),
-      dateLabel: map["dateLabel"] as String?,
-      location: map["location"] as String?,
-      description: map["description"] as String?,
-      highlights: (map["highlights"] as List?)?.cast<String>() ?? const [],
-      skills: (map["skills"] as List?)?.cast<String>() ?? const [],
-    );
-  }
+  static const fromMap = TimelineModelMapper.fromMap;
+  static const fromJson = TimelineModelMapper.fromJson;
 
   /// Default professional experience used when no remote data is available.
   static final List<TimelineModel> experienceData = [
     TimelineModel(
       id: "letsyak",
-      title: "LetsYak",
+      title: "Co-Founder & Project Lead",
       organization: "LetsYak",
       startDate: DateTime(2020),
       description:
@@ -131,8 +82,8 @@ class TimelineModel {
     ),
     TimelineModel(
       id: "digital-oasis",
-      title: "Digital Oasis (Dubai)",
-      organization: "Digital Oasis",
+      title: "Co-Founder",
+      organization: "Digital Oasis (Dubai)",
       startDate: DateTime(2023, 12),
       endDate: DateTime(2025, 2),
       location: "Dubai",
@@ -141,7 +92,7 @@ class TimelineModel {
     ),
     TimelineModel(
       id: "take-back-your-mind",
-      title: "Take Back Your Mind UK",
+      title: "Flutter Developer (Volunteer)",
       organization: "Take Back Your Mind UK",
       startDate: DateTime(2023, 7),
       endDate: DateTime(2023, 12),
@@ -151,21 +102,59 @@ class TimelineModel {
     ),
     TimelineModel(
       id: "yellow",
-      title: "Yellow Software Ltd",
+      title: "Flutter Developer",
       organization: "Yellow Software Ltd",
       startDate: DateTime(2022, 7),
       endDate: DateTime(2024, 3),
       location: "London, United Kingdom",
-      description: "Designed, developed, and shipped Flutter features for consumer-facing discovery and ordering products. Collaborated across design and backend teams on production releases.",
+      description:
+          "Built and shipped Flutter features across multiple products (including Spotlas). Focused on reliable API clients, robust state management, and mobile performance on Android and iOS. Collaborated with product and backend teams to integrate REST endpoints and improve release stability.",
+    ),
+    TimelineModel(
+      id: "spotlas",
+      title: "Flutter Developer",
+      organization: "Spotlas",
+      startDate: DateTime(2021, 7),
+      endDate: DateTime(2022, 7),
+      description:
+          "Worked in a cross-functional team to design, develop, and release a social discovery app. Delivered reusable UI components, resilient network flows, and analytics instrumentation with an emphasis on performance and state management.",
+    ),
+    TimelineModel(
+      id: "freelance",
+      title: "Software Engineer",
+      organization: "Freelance Software Engineer",
+      startDate: DateTime(2019, 11),
+      endDate: DateTime(2021, 6),
+      description:
+          "Delivered end-to-end mobile and web MVPs for startups: scoped MVPs, implemented Flutter/Python stacks, integrated REST endpoints, and handed over maintainable codebases with documentation.",
+    ),
+    TimelineModel(
+      id: "tab-charters",
+      title: "E120 First Officer & Flight Dispatcher",
+      organization: "TAB Charters (Pty) Ltd",
+      startDate: DateTime(2017, 8),
+      endDate: DateTime(2020, 4),
+      description:
+          "Managed flight operations and dispatch for Embraer 120. Built an internal Flight Following tool for tracking and reporting to improve accuracy and operational visibility. Collaborated with pilots, engineering, and logistics to support safe, efficient operations.",
+    ),
+    TimelineModel(
+      id: "jsf",
+      title: "Grade III Flight Instructor",
+      organization: "Johannesburg School of Flying",
+      startDate: DateTime(2016, 10),
+      endDate: DateTime(2017, 3),
+      location: "Johannesburg",
+      description:
+          "Trained students toward PPL. Authored shared ground-school materials and created automated weight-and-balance sheets to improve safety and prep time.",
     ),
   ];
 
   /// Default education / certification entries.
   static final List<TimelineModel> educationData = [
     TimelineModel(
-      id: "ml-specialization",
-      title: "Machine Learning Specialization — Coursera (Andrew Ng)",
-      organization: "Coursera / DeepLearning.AI",
+      id: "ml-foundations",
+      title: "Foundations of Machine Learning",
+      organization: "Machine Learning Specialization - Coursera (Andrew Ng)",
       startDate: DateTime(2025, 9),
       endDate: DateTime(2025, 10),
       dateLabel: "09/2025 – 10/2025 (In Progress)",
@@ -174,25 +163,61 @@ class TimelineModel {
     ),
     const TimelineModel(
       id: "meta-frontend",
-      title: "Meta Front-End Developer (React) — Coursera",
-      organization: "Coursera / Meta",
+      title: "Front-End Development with React",
+      organization: "Meta Front-End Developer (React) - Coursera",
       dateLabel: "Planned · 11/2025",
       description: "Covers React fundamentals, hooks, and component design. Emphasis on modern front-end architecture, testing, and developer experience (DX).",
     ),
     const TimelineModel(
       id: "meta-react-native",
-      title: "Meta React Native Specialization — Coursera",
-      organization: "Coursera / Meta",
+      title: "Cross-Platform Mobile Development",
+      organization: "Meta React Native Specialization - Coursera",
       dateLabel: "Planned · 12/2025",
       description: "Hands-on training in cross-platform mobile development using React Native and Expo. Focus on authentication, secure storage, and performance optimization.",
     ),
     const TimelineModel(
       id: "security-plus",
-      title: "CompTIA Security+ (SY0-701)",
-      organization: "CompTIA",
+      title: "Cybersecurity Fundamentals - Exam Preparation",
+      organization: "CompTIA Security+ (SY0-701)",
       dateLabel: "Planned · Early 2026",
       description:
           "Comprehensive study of cybersecurity principles: network defense, IAM, risk mitigation, and incident response. Preparation includes CompTIA-aligned modules covering security architecture and operational resilience.",
+    ),
+    TimelineModel(
+      id: "hyperiondev",
+      title: "Software Engineering Bootcamp",
+      organization: "HyperionDev, Cape Town",
+      startDate: DateTime(2020, 8),
+      endDate: DateTime(2021, 2),
+      location: "Cape Town",
+      description: "Practical Java and Python foundations: data structures, database integration, and core software architecture.",
+    ),
+    TimelineModel(
+      id: "easa-cpl",
+      title: "EASA CPL Conversion",
+      organization: "AEROS Flight Training, Coventry",
+      startDate: DateTime(2019, 5),
+      endDate: DateTime(2019, 7),
+      location: "Coventry",
+      description: "Completed EASA CPL conversion. Current EASA CPL VFR license; future ATPL progression planned.",
+    ),
+    TimelineModel(
+      id: "atpl-credits",
+      title: "ATPL Credits with Instrument Rating",
+      organization: "43 Air School, Port Alfred",
+      startDate: DateTime(2015),
+      endDate: DateTime(2016, 2),
+      location: "Port Alfred",
+      description: "Instrument Rating, Multi-engine, Night Rating (ATP credits). Emphasis on procedures, decision-making, and safety.",
+    ),
+    TimelineModel(
+      id: "cbc-boksburg",
+      title: "High School Diploma",
+      organization: "Christian Brothers College, Boksburg",
+      startDate: DateTime(2000),
+      endDate: DateTime(2013, 11),
+      location: "Boksburg",
+      description: "Head Boy · Head of House · Leadership and Endeavour Awards.",
     ),
   ];
 }

@@ -1,8 +1,17 @@
 import "package:cv_app/data/models/location_model.dart";
+import "package:cv_app/data/models/skill_model.dart";
 import "package:cv_app/data/models/timeline_model.dart";
+import "package:dart_mappable/dart_mappable.dart";
+import "package:utilities/helpers/tuples.dart";
+
+part "user_details_model.mapper.dart";
 
 /// Personal details shown across the CV, PDF, and contact actions.
-class UserDetailsModel {
+@MappableClass(caseStyle: CaseStyle.snakeCase, ignoreNull: true)
+class UserDetailsModel with UserDetailsModelMappable {
+  /// Existing `user_details` document in the development Firebase project.
+  static const firestoreId = "gQEeYr4Oz3412nn4Jhvt";
+
   /// [UserDetailsModel] constructor.
   const UserDetailsModel({
     required this.id,
@@ -17,15 +26,18 @@ class UserDetailsModel {
     this.summary,
     this.experience = const [],
     this.education = const [],
+    this.skillGroups = const [],
   });
 
   /// Unique id.
   final String id;
 
-  /// First name.
+  /// First name, stored in Firestore as `name`.
+  @MappableField(key: "name")
   final String firstName;
 
-  /// Last name.
+  /// Last name, stored in Firestore as `surname`.
+  @MappableField(key: "surname")
   final String lastName;
 
   /// Email address.
@@ -55,85 +67,69 @@ class UserDetailsModel {
   /// Education and certifications.
   final List<TimelineModel> education;
 
+  /// Grouped skills persisted on the user-details document.
+  @MappableField(key: "skills")
+  final List<SkillGroupModel> skillGroups;
+
   /// Combined display name.
   String get fullName => "$firstName $lastName".trim();
 
-  UserDetailsModel copyWith({
-    String? id,
-    String? firstName,
-    String? lastName,
-    String? email,
-    String? phone,
-    String? githubUrl,
-    String? linkedinUrl,
-    LocationModel? location,
-    String? imageUrl,
-    String? summary,
-    List<TimelineModel>? experience,
-    List<TimelineModel>? education,
-  }) {
-    return UserDetailsModel(
-      id: id ?? this.id,
-      firstName: firstName ?? this.firstName,
-      lastName: lastName ?? this.lastName,
-      email: email ?? this.email,
-      phone: phone ?? this.phone,
-      githubUrl: githubUrl ?? this.githubUrl,
-      linkedinUrl: linkedinUrl ?? this.linkedinUrl,
-      location: location ?? this.location,
-      imageUrl: imageUrl ?? this.imageUrl,
-      summary: summary ?? this.summary,
-      experience: experience ?? this.experience,
-      education: education ?? this.education,
-    );
+  /// Skills in the `(category, skills)` shape used by header and PDF.
+  List<Pair<String, List<SkillModel>>> get skillsPairs =>
+      skillGroups.map((group) => Pair(group.category, group.skills)).toList();
+
+  static const fromMap = UserDetailsModelMapper.fromMap;
+  static const fromJson = UserDetailsModelMapper.fromJson;
+
+  /// Parses a Firestore document, ignoring leftover `portfolio` and string placeholders.
+  factory UserDetailsModel.fromFirestore(Map<String, dynamic> map) {
+    final normalized = Map<String, dynamic>.from(map);
+    normalized["experience"] = _asMapList(map["experience"]);
+    normalized["education"] = _asMapList(map["education"]);
+    normalized["skills"] = _asMapList(map["skills"]);
+    if (map["location"] is Map) {
+      normalized["location"] = Map<String, dynamic>.from(map["location"] as Map<dynamic, dynamic>);
+    } else {
+      normalized.remove("location");
+    }
+    normalized.remove("portfolio");
+    return UserDetailsModelMapper.fromMap(normalized);
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      "id": id,
-      "firstName": firstName,
-      "lastName": lastName,
-      "email": email,
-      "phone": phone,
-      "githubUrl": githubUrl,
-      "linkedinUrl": linkedinUrl,
-      "location": location?.toMap(),
-      "imageUrl": imageUrl,
-      "summary": summary,
-      "experience": experience.map((item) => item.toMap()).toList(),
-      "education": education.map((item) => item.toMap()).toList(),
-    };
-  }
-
-  factory UserDetailsModel.fromMap(Map<String, dynamic> map) {
-    return UserDetailsModel(
-      id: map["id"] as String? ?? "",
-      firstName: map["firstName"] as String? ?? "",
-      lastName: map["lastName"] as String? ?? "",
-      email: map["email"] as String?,
-      phone: map["phone"] as String?,
-      githubUrl: map["githubUrl"] as String?,
-      linkedinUrl: map["linkedinUrl"] as String?,
-      location: map["location"] is Map<String, dynamic> ? LocationModel.fromMap(map["location"] as Map<String, dynamic>) : null,
-      imageUrl: map["imageUrl"] as String?,
-      summary: map["summary"] as String?,
-      experience: (map["experience"] as List?)?.whereType<Map<String, dynamic>>().map(TimelineModel.fromMap).toList() ?? const [],
-      education: (map["education"] as List?)?.whereType<Map<String, dynamic>>().map(TimelineModel.fromMap).toList() ?? const [],
+  /// Fills empty structured fields from dummy data while keeping contact fields.
+  UserDetailsModel hydrateFromDummy([UserDetailsModel? dummy]) {
+    final fallback = dummy ?? UserDetailsModel.personal;
+    return copyWith(
+      location: location ?? fallback.location,
+      summary: summary ?? fallback.summary,
+      experience: experience.isEmpty ? fallback.experience : experience,
+      education: education.isEmpty ? fallback.education : education,
+      skillGroups: skillGroups.isEmpty ? fallback.skillGroups : skillGroups,
+      imageUrl: imageUrl ?? fallback.imageUrl,
     );
   }
 
   /// Default personal details used when no remote record exists.
   static final personal = UserDetailsModel(
-    id: "personal",
+    id: firestoreId,
     firstName: "David",
     lastName: "Kisbey-Green",
-    email: "david@kisbeygreen.dev",
+    email: "davidkisbeygreen145@gmail.com",
+    phone: "+44 7376 181 886",
     githubUrl: "https://github.com/Krispy145",
     linkedinUrl: "https://www.linkedin.com/in/david-kisbey-green-24123a126",
     location: LocationModel.bishopAuckland,
     imageUrl: "assets/images/avatar.png",
-    summary: "Flutter developer building cross-platform products, shared package ecosystems, and a public AI + cybersecurity learning roadmap.",
+    summary: "Shipping secure, production-grade apps and APIs - with a focus on ML, auth, and DX.",
     experience: TimelineModel.experienceData,
     education: TimelineModel.educationData,
+    skillGroups: SkillGroupModel.defaults,
   );
+
+  static List<Map<String, dynamic>> _asMapList(dynamic value) {
+    if (value is! List) {
+      return const [];
+    }
+    return value.whereType<Map<dynamic, dynamic>>().map(Map<String, dynamic>.from).toList();
+  }
 }

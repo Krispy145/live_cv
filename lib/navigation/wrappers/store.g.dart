@@ -101,12 +101,47 @@ mixin _$AppStore on _AppStore, Store {
     return _$updateUserDetailsAsyncAction.run(() => super.updateUserDetails());
   }
 
+  late final _$removeTimelineAsyncAction =
+      AsyncAction('_AppStore.removeTimeline', context: context);
+
+  @override
+  Future<RequestResponse> removeTimeline(
+      {required String id, required bool isEducation}) {
+    return _$removeTimelineAsyncAction
+        .run(() => super.removeTimeline(id: id, isEducation: isEducation));
+  }
+
   late final _$refreshPdfCacheAsyncAction =
       AsyncAction('_AppStore.refreshPdfCache', context: context);
 
   @override
   Future<void> refreshPdfCache() {
     return _$refreshPdfCacheAsyncAction.run(() => super.refreshPdfCache());
+  }
+
+  late final _$_AppStoreActionController =
+      ActionController(name: '_AppStore', context: context);
+
+  @override
+  Future<RequestResponse> upsertExperience(TimelineModel entry) {
+    final _$actionInfo = _$_AppStoreActionController.startAction(
+        name: '_AppStore.upsertExperience');
+    try {
+      return super.upsertExperience(entry);
+    } finally {
+      _$_AppStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  Future<RequestResponse> upsertEducation(TimelineModel entry) {
+    final _$actionInfo = _$_AppStoreActionController.startAction(
+        name: '_AppStore.upsertEducation');
+    try {
+      return super.upsertEducation(entry);
+    } finally {
+      _$_AppStoreActionController.endAction(_$actionInfo);
+    }
   }
 
   @override

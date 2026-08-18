@@ -39,6 +39,7 @@ class ResumePreviewDialog extends StatelessWidget {
 
     return AlertDialog(
       title: const Text("Download resume"),
+      actionsPadding: EdgeInsets.all(tokens.spacing.md),
       content: SizedBox(
         width: 420,
         child: Column(

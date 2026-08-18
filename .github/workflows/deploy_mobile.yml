@@ -1,0 +1,150 @@
+name: Deploy Mobile
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: Platform to build and deploy
+        required: true
+        type: choice
+        default: android
+        options:
+          - android
+          - ios
+          - both
+      environment:
+        description: App environment (dev / stage / prod)
+        required: true
+        type: choice
+        default: dev
+        options:
+          - dev
+          - stage
+          - prod
+
+jobs:
+  android:
+    name: Build and deploy Android
+    if: ${{ inputs.platform == 'android' || inputs.platform == 'both' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: live_cv
+    steps:
+      - name: Checkout CV app
+        uses: actions/checkout@v4
+        with:
+          path: live_cv
+
+      - name: Checkout shared packages
+        uses: actions/checkout@v4
+        with:
+          repository: Krispy145/packages
+          path: packages
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Write envied .env files
+        run: |
+          cp lib/environments/dev/.env.example lib/environments/dev/.env
+          cp lib/environments/stage/.env.example lib/environments/stage/.env
+          cp lib/environments/prod/.env.example lib/environments/prod/.env
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+          bundler-cache: true
+          working-directory: live_cv/android
+
+      - name: Write Play Store secret
+        env:
+          PLAY_STORE_SECRET: ${{ secrets.PLAY_STORE_SECRET }}
+        run: |
+          if [ -z "$PLAY_STORE_SECRET" ]; then
+            echo "Missing PLAY_STORE_SECRET. Add the base64-encoded Play Store JSON key as a repository secret."
+            exit 1
+          fi
+          echo "$PLAY_STORE_SECRET" | base64 --decode > android/play_store_secret.json
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate envied files
+        run: dart run build_runner build
+
+      - name: Build Android
+        env:
+          GITHUB_USERNAME: Krispy145
+          GITHUB_TOKEN: ${{ secrets.GH_READ_TOKEN }}
+        run: make build-android ENV=${{ inputs.environment }}
+
+      - name: Deploy Android
+        run: make deploy-android ENV=${{ inputs.environment }}
+
+  ios:
+    name: Build and deploy iOS
+    if: ${{ inputs.platform == 'ios' || inputs.platform == 'both' }}
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: live_cv
+    steps:
+      - name: Checkout CV app
+        uses: actions/checkout@v4
+        with:
+          path: live_cv
+
+      - name: Checkout shared packages
+        uses: actions/checkout@v4
+        with:
+          repository: Krispy145/packages
+          path: packages
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Write envied .env files
+        run: |
+          cp lib/environments/dev/.env.example lib/environments/dev/.env
+          cp lib/environments/stage/.env.example lib/environments/stage/.env
+          cp lib/environments/prod/.env.example lib/environments/prod/.env
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+          bundler-cache: true
+          working-directory: live_cv/ios
+
+      - name: Write App Store Connect secret
+        env:
+          APP_STORE_CONNECT: ${{ secrets.APP_STORE_CONNECT }}
+        run: |
+          if [ -z "$APP_STORE_CONNECT" ]; then
+            echo "Missing APP_STORE_CONNECT. Add the base64-encoded App Store Connect JSON as a repository secret."
+            exit 1
+          fi
+          echo "$APP_STORE_CONNECT" | base64 --decode > ios/app_store_connect.json
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate envied files
+        run: dart run build_runner build
+
+      - name: Build iOS
+        env:
+          GITHUB_USERNAME: Krispy145
+          GITHUB_TOKEN: ${{ secrets.GH_READ_TOKEN }}
+        run: make build-ios ENV=${{ inputs.environment }}
+
+      - name: Deploy iOS
+        run: make deploy-ios ENV=${{ inputs.environment }}

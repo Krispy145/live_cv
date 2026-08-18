@@ -2,10 +2,10 @@ import "package:cv_app/core/theme/theme_tokens.dart";
 import "package:cv_app/data/models/github_repo_model.dart";
 import "package:cv_app/domain/repositories/github/github.repository.dart";
 import "package:cv_app/domain/repositories/github/readme_document.dart";
-import "package:cv_app/presentation/github/github_state.dart";
 import "package:cv_app/presentation/github/readme_view.dart";
 import "package:flutter/material.dart";
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
+import "package:url_launcher/url_launcher.dart";
 
 /// Opens the repository details dialog used on the original live CV.
 Future<void> showRepoDetailsDialog(
@@ -142,6 +142,20 @@ class _RepoDetailsDialogState extends State<RepoDetailsDialog> {
                       ),
                     ],
                     SizedBox(height: tokens.spacing.xl),
+                    Center(
+                      child: OutlinedButton.icon(
+                        onPressed: () => launchUrl(Uri.parse(repo.htmlUrl), mode: LaunchMode.externalApplication),
+                        icon: const FaIcon(FontAwesomeIcons.github, size: 16),
+                        label: const Text("View on GitHub"),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: tokens.color.onSurface,
+                          side: BorderSide(color: tokens.color.onSurface.withValues(alpha: 0.35)),
+                          shape: const StadiumBorder(),
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: tokens.spacing.md),
                     Text("README", style: tokens.text.titleMedium?.copyWith(fontWeight: FontWeight.w800, letterSpacing: 0.6)),
                     SizedBox(height: tokens.spacing.md),
                     FutureBuilder<ReadmeDocument?>(
@@ -205,10 +219,7 @@ class _CoverBanner extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            if (url != null)
-              Image.network(url, fit: BoxFit.cover, errorBuilder: (context, error, stackTrace) => _gradient())
-            else
-              _gradient(),
+            if (url != null) Image.network(url, fit: BoxFit.cover, errorBuilder: (context, error, stackTrace) => _gradient()) else _gradient(),
             DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
