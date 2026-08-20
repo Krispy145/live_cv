@@ -22,15 +22,11 @@ class GitHubState {
   final String? error;
   final RoadmapSummary? roadmapData;
 
-  /// Repositories excluding the dedicated roadmap repo, active first.
+  /// Public portfolio repositories, most recently updated first.
   List<GitHubRepoModel> get regularRepos {
-    final repos = allRepos.where((repo) => !repo.isRoadmap).toList();
+    final repos = List<GitHubRepoModel>.from(allRepos);
     repos.sort((a, b) {
-      final byStatus = (a.isActive ? 0 : 1).compareTo(b.isActive ? 0 : 1);
-      if (byStatus != 0) {
-        return byStatus;
-      }
-      return (b.updatedAt ?? DateTime(1970)).compareTo(a.updatedAt ?? DateTime(1970));
+      return (b.lastActivity ?? DateTime(1970)).compareTo(a.lastActivity ?? DateTime(1970));
     });
     return repos;
   }

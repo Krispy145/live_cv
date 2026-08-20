@@ -75,59 +75,61 @@ class _ReadmeSectionView extends StatelessWidget {
             ],
           ),
           SizedBox(height: tokens.spacing.sm),
-          ...section.blocks.map((block) => switch (block) {
-                ReadmeParagraph(:final text) => Padding(
-                    padding: EdgeInsets.only(bottom: tokens.spacing.sm),
-                    child: Text(text, style: tokens.text.bodyMedium),
-                  ),
-                ReadmeBulletList(:final items) => Column(
-                    children: items
-                        .map(
-                          (item) => Padding(
-                            padding: EdgeInsets.only(bottom: tokens.spacing.xs),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("•  ", style: tokens.text.bodyMedium),
-                                Expanded(
-                                  child: item.label == null
-                                      ? Text(item.text, style: tokens.text.bodyMedium)
-                                      : Text.rich(
-                                          TextSpan(
-                                            children: [
+          ...section.blocks.map(
+            (block) => switch (block) {
+              ReadmeParagraph(:final text) => Padding(
+                  padding: EdgeInsets.only(bottom: tokens.spacing.sm),
+                  child: Text(text, style: tokens.text.bodyMedium),
+                ),
+              ReadmeBulletList(:final items) => Column(
+                  children: items
+                      .map(
+                        (item) => Padding(
+                          padding: EdgeInsets.only(bottom: tokens.spacing.xs),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("•  ", style: tokens.text.bodyMedium),
+                              Expanded(
+                                child: item.label == null
+                                    ? Text(item.text, style: tokens.text.bodyMedium)
+                                    : Text.rich(
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: item.label,
+                                              style: tokens.text.bodyMedium?.copyWith(fontWeight: FontWeight.w700),
+                                            ),
+                                            if (item.value != null)
                                               TextSpan(
-                                                text: item.label,
-                                                style: tokens.text.bodyMedium?.copyWith(fontWeight: FontWeight.w700),
+                                                text: item.arrow ? " → ${item.value}" : ": ${item.value}",
+                                                style: tokens.text.bodyMedium,
                                               ),
-                                              if (item.value != null)
-                                                TextSpan(
-                                                  text: item.arrow ? " → ${item.value}" : ": ${item.value}",
-                                                  style: tokens.text.bodyMedium,
-                                                ),
-                                            ],
-                                          ),
+                                          ],
                                         ),
-                                ),
-                              ],
-                            ),
+                                      ),
+                              ),
+                            ],
                           ),
-                        )
-                        .toList(),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ReadmeCode(:final code) => Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.only(top: tokens.spacing.sm, bottom: tokens.spacing.sm),
+                  padding: EdgeInsets.all(tokens.spacing.md),
+                  decoration: BoxDecoration(
+                    color: tokens.color.surface,
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                ReadmeCode(:final code) => Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.only(top: tokens.spacing.sm, bottom: tokens.spacing.sm),
-                    padding: EdgeInsets.all(tokens.spacing.md),
-                    decoration: BoxDecoration(
-                      color: tokens.color.surface,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      code,
-                      style: tokens.text.bodySmall?.copyWith(fontFamily: "monospace", height: 1.4),
-                    ),
+                  child: Text(
+                    code,
+                    style: tokens.text.bodySmall?.copyWith(fontFamily: "monospace", height: 1.4),
                   ),
-              }),
+                ),
+            },
+          ),
         ],
       ),
     );

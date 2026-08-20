@@ -15,9 +15,12 @@ class GitHubRepoModel {
     this.forksCount = 0,
     this.topics = const [],
     this.updatedAt,
+    this.pushedAt,
+    this.defaultBranch,
     this.homepage,
     this.fork = false,
     this.archived = false,
+    this.private = false,
     this.status,
     this.coverUrl,
     this.thumbnailUrl,
@@ -36,18 +39,30 @@ class GitHubRepoModel {
   final int forksCount;
   final List<String> topics;
   final DateTime? updatedAt;
+  final DateTime? pushedAt;
+  final String? defaultBranch;
   final String? homepage;
   final bool fork;
   final bool archived;
+  final bool private;
   final String? status;
   final String? coverUrl;
   final String? thumbnailUrl;
   final String? displayTitle;
   final String? targetDate;
 
+  /// GitHub topic used to keep a public repo off the CV portfolio.
+  static const hiddenFromCvTopic = "not-for-cv";
+
   bool get isRoadmap => name == "ai-cyber-security-roadmap";
 
+  bool get isHiddenFromCv => topics.any((topic) => topic.toLowerCase() == hiddenFromCvTopic);
+
+  bool get isPortfolioRepo => !private && !isHiddenFromCv;
+
   bool get isActive => (status ?? "").toLowerCase() == "active";
+
+  DateTime? get lastActivity => pushedAt ?? updatedAt;
 
   String get title => displayTitle ?? _titleFromSlug(name);
 
@@ -74,9 +89,12 @@ class GitHubRepoModel {
       forksCount: map["forks_count"] as int? ?? 0,
       topics: (map["topics"] as List?)?.cast<String>() ?? const [],
       updatedAt: DateTime.tryParse(map["updated_at"] as String? ?? ""),
+      pushedAt: DateTime.tryParse(map["pushed_at"] as String? ?? ""),
+      defaultBranch: map["default_branch"] as String?,
       homepage: map["homepage"] as String?,
       fork: map["fork"] as bool? ?? false,
       archived: map["archived"] as bool? ?? false,
+      private: map["private"] as bool? ?? false,
       status: map["status"] as String?,
       coverUrl: map["cover_url"] as String?,
       thumbnailUrl: map["thumbnail_url"] as String?,
@@ -97,9 +115,12 @@ class GitHubRepoModel {
     int? forksCount,
     List<String>? topics,
     DateTime? updatedAt,
+    DateTime? pushedAt,
+    String? defaultBranch,
     String? homepage,
     bool? fork,
     bool? archived,
+    bool? private,
     String? status,
     String? coverUrl,
     String? thumbnailUrl,
@@ -118,9 +139,12 @@ class GitHubRepoModel {
       forksCount: forksCount ?? this.forksCount,
       topics: topics ?? this.topics,
       updatedAt: updatedAt ?? this.updatedAt,
+      pushedAt: pushedAt ?? this.pushedAt,
+      defaultBranch: defaultBranch ?? this.defaultBranch,
       homepage: homepage ?? this.homepage,
       fork: fork ?? this.fork,
       archived: archived ?? this.archived,
+      private: private ?? this.private,
       status: status ?? this.status,
       coverUrl: coverUrl ?? this.coverUrl,
       thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
@@ -142,9 +166,12 @@ class GitHubRepoModel {
       "forks_count": forksCount,
       "topics": topics,
       "updated_at": updatedAt?.toIso8601String(),
+      "pushed_at": pushedAt?.toIso8601String(),
+      "default_branch": defaultBranch,
       "homepage": homepage,
       "fork": fork,
       "archived": archived,
+      "private": private,
       "status": status,
       "cover_url": coverUrl,
       "thumbnail_url": thumbnailUrl,
@@ -155,7 +182,7 @@ class GitHubRepoModel {
 }
 
 String _titleFromSlug(String slug) {
-  return slug.split(RegExp(r"[-_]")).where((part) => part.isNotEmpty).map((part) => "${part[0].toUpperCase()}${part.substring(1)}").join(" ");
+  return slug.split(RegExp("[-_]")).where((part) => part.isNotEmpty).map((part) => "${part[0].toUpperCase()}${part.substring(1)}").join(" ");
 }
 
 /// GitHub-style language colors used on project cards.
@@ -178,5 +205,5 @@ Color languageColor(String? language) {
 
 /// Title-cases a GitHub topic slug.
 String titleCaseTopic(String topic) {
-  return topic.split(RegExp(r"[-_]")).where((part) => part.isNotEmpty).map((part) => "${part[0].toUpperCase()}${part.substring(1)}").join(" ");
+  return topic.split(RegExp("[-_]")).where((part) => part.isNotEmpty).map((part) => "${part[0].toUpperCase()}${part.substring(1)}").join(" ");
 }

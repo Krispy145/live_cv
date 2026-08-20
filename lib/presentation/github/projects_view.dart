@@ -41,7 +41,8 @@ class _ProjectsViewState extends ConsumerState<ProjectsView> {
     final githubState = ref.watch(githubNotifierProvider);
     final username = ref.watch(githubUsernameProvider);
     final repos = _filtered(githubState.regularRepos);
-    final topics = githubState.regularRepos.expand((repo) => repo.topics).toSet().toList()..sort();
+    final topics = githubState.regularRepos.expand((repo) => repo.topics).where((topic) => topic.toLowerCase() != GitHubRepoModel.hiddenFromCvTopic).toSet().toList()
+      ..sort();
 
     return Scaffold(
       appBar: AppBar(
@@ -135,7 +136,7 @@ class _ProjectsViewState extends ConsumerState<ProjectsView> {
     }
     switch (_sort) {
       case _ProjectSort.updated:
-        result.sort((a, b) => (b.updatedAt ?? DateTime(0)).compareTo(a.updatedAt ?? DateTime(0)));
+        result.sort((a, b) => (b.lastActivity ?? DateTime(0)).compareTo(a.lastActivity ?? DateTime(0)));
       case _ProjectSort.stars:
         result.sort((a, b) => b.stargazersCount.compareTo(a.stargazersCount));
       case _ProjectSort.name:

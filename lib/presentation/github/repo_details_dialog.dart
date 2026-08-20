@@ -45,7 +45,10 @@ class _RepoDetailsDialogState extends State<RepoDetailsDialog> {
   @override
   void initState() {
     super.initState();
-    _readmeFuture = GitHubRepository(username: username).getReadme(repo.name);
+    _readmeFuture = GitHubRepository(username: username).getReadme(
+      repo.name,
+      defaultBranch: repo.defaultBranch,
+    );
   }
 
   @override

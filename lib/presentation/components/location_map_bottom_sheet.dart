@@ -164,7 +164,7 @@ class _LocationMapBottomSheetState extends State<LocationMapBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final tokens = ThemeTokens.of(context);
-    final height = MediaQuery.of(context).size.height * 0.7;
+    final height = MediaQuery.of(context).size.height * 0.85;
 
     debugPrint("Building map with marker: ${_markerModel?.position}");
 
@@ -258,7 +258,7 @@ class _LocationMapBottomSheetState extends State<LocationMapBottomSheet> {
                             height: 80,
                             child: FaIcon(
                               FontAwesomeIcons.locationDot,
-                              color: tokens.color.onPrimary,
+                              color: tokens.color.primary,
                               size: 48,
                             ),
                           ),

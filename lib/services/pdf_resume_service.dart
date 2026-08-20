@@ -20,7 +20,7 @@ class PdfResumeService {
     Uint8List? imageBytes,
   }) async {
     final document = pw.Document();
-    final primary = _pdfColor(colorModel?.primary) ?? PdfColor.fromInt(0xFF003898);
+    final primary = _pdfColor(colorModel?.primary) ?? const PdfColor.fromInt(0xFF003898);
     final onPrimary = _pdfColor(colorModel?.onPrimary) ?? PdfColors.white;
     final details = header.userDetails;
 

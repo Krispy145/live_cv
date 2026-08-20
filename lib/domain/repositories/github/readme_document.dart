@@ -13,7 +13,7 @@ class ReadmeDocument {
 
   factory ReadmeDocument.parse(String markdown) {
     final lines = markdown.replaceAll("\r\n", "\n").split("\n");
-    String title = "";
+    var title = "";
     final introLines = <String>[];
     final sections = <ReadmeSection>[];
     String? currentHeading;
@@ -24,7 +24,7 @@ class ReadmeDocument {
       if (currentHeading == null) {
         return;
       }
-      sections.add(ReadmeSection.parse(heading: currentHeading!, emoji: currentEmoji, rawLines: List<String>.from(body)));
+      sections.add(ReadmeSection.parse(heading: currentHeading, emoji: currentEmoji, rawLines: List<String>.from(body)));
       body.clear();
     }
 

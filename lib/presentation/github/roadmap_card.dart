@@ -1,5 +1,4 @@
 import "package:cv_app/core/theme/theme_tokens.dart";
-import "package:cv_app/data/models/github_repo_model.dart";
 import "package:cv_app/domain/repositories/github/roadmap_summary.dart";
 import "package:cv_app/presentation/github/readme_view.dart";
 import "package:flutter/material.dart";

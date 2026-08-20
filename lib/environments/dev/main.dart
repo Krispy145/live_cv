@@ -1,7 +1,7 @@
 import "package:cv_app/app.dart";
 import "package:cv_app/config/store.dart";
-import "package:cv_app/dependencies/injection.dart";
 import "package:cv_app/data/models/user_details_model.dart";
+import "package:cv_app/dependencies/injection.dart";
 import "package:cv_app/environments/dev/components/app_bar.dart";
 import "package:cv_app/environments/dev/env.dart";
 import "package:cv_app/utils/loggers.dart";

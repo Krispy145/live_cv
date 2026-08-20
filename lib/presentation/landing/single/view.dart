@@ -122,9 +122,7 @@ class _LandingViewState extends State<LandingView> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          response == RequestResponse.success
-              ? (isEducation ? "Education saved." : "Experience saved.")
-              : "Could not save to Firestore.",
+          response == RequestResponse.success ? (isEducation ? "Education saved." : "Experience saved.") : "Could not save to Firestore.",
         ),
       ),
     );
@@ -140,7 +138,7 @@ class _LandingViewState extends State<LandingView> {
       useRootNavigator: false,
       builder: (context) => AlertDialog(
         title: Text(isEducation ? "Delete education?" : "Delete experience?"),
-        content: Text("Remove \"$title\" from this CV?"),
+        content: Text('Remove "$title" from this CV?'),
         actions: [
           TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text("Cancel")),
           FilledButton(onPressed: () => Navigator.of(context).pop(true), child: const Text("Delete")),
