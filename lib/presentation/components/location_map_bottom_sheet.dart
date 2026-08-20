@@ -1,19 +1,27 @@
 import "package:cv_app/core/theme/theme_tokens.dart";
 import "package:cv_app/data/models/location_model.dart";
+import "package:cv_app/dependencies/injection.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:flutter_map/flutter_map.dart";
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
 import "package:latlong2/latlong.dart";
 import "package:maps/data/models/marker_model.dart";
+import "package:utilities/data/sources/source.dart";
 
 /// Bottom sheet showing location on a map with address details
 class LocationMapBottomSheet extends StatefulWidget {
   final LocationModel location;
+  final String? email;
+  final String? phone;
+  final bool canEdit;
 
   const LocationMapBottomSheet({
     super.key,
     required this.location,
+    this.email,
+    this.phone,
+    this.canEdit = false,
   });
 
   @override
@@ -22,142 +30,88 @@ class LocationMapBottomSheet extends StatefulWidget {
 
 class _LocationMapBottomSheetState extends State<LocationMapBottomSheet> {
   late final MapController _mapController;
+  late final TextEditingController _email;
+  late final TextEditingController _phone;
+  late final TextEditingController _line1;
+  late final TextEditingController _line2;
+  late final TextEditingController _city;
+  late final TextEditingController _region;
+  late final TextEditingController _postalCode;
+  late final TextEditingController _country;
+  late final TextEditingController _latitude;
+  late final TextEditingController _longitude;
   LatLng? _coordinates;
   MarkerModel? _markerModel;
+  bool _saving = false;
+  bool _mapReady = false;
+
+  static const _fallbackCoordinates = LatLng(54.6561, -1.6770);
+
+  LocationModel get _location => LocationModel(
+        line1: _blankToNull(_line1.text),
+        line2: _blankToNull(_line2.text),
+        city: _blankToNull(_city.text),
+        region: _blankToNull(_region.text),
+        postalCode: _blankToNull(_postalCode.text),
+        country: _blankToNull(_country.text),
+        latitude: _parseCoordinate(_latitude.text),
+        longitude: _parseCoordinate(_longitude.text),
+      );
 
   @override
   void initState() {
     super.initState();
     _mapController = MapController();
+    final location = widget.location;
+    _email = TextEditingController(text: widget.email ?? "");
+    _phone = TextEditingController(text: widget.phone ?? "");
+    _line1 = TextEditingController(text: location.line1 ?? "");
+    _line2 = TextEditingController(text: location.line2 ?? "");
+    _city = TextEditingController(text: location.city ?? "");
+    _region = TextEditingController(text: location.region ?? "");
+    _postalCode = TextEditingController(text: location.postalCode ?? "");
+    _country = TextEditingController(text: location.country ?? "");
+    _latitude = TextEditingController(text: location.latitude?.toString() ?? "");
+    _longitude = TextEditingController(text: location.longitude?.toString() ?? "");
 
-    // Initialize with fallback location immediately
-    _coordinates = const LatLng(54.6561, -1.6770);
+    _setCoordinates(
+      location.hasCoordinates ? LatLng(location.latitude!, location.longitude!) : _fallbackCoordinates,
+      updateFields: false,
+      rebuild: false,
+    );
+  }
+
+  @override
+  void dispose() {
+    _email.dispose();
+    _phone.dispose();
+    _line1.dispose();
+    _line2.dispose();
+    _city.dispose();
+    _region.dispose();
+    _postalCode.dispose();
+    _country.dispose();
+    _latitude.dispose();
+    _longitude.dispose();
+    super.dispose();
+  }
+
+  void _setCoordinates(LatLng point, {bool updateFields = true, bool rebuild = true}) {
+    _coordinates = point;
     _markerModel = MarkerModel(
       id: "location_marker",
       score: 1,
-      position: _coordinates!,
+      position: point,
     );
-
-    debugPrint("Initialized marker at: ${_markerModel!.position}");
-
-    // Then geocode and update
-    _geocodeLocation();
-  }
-
-  /// Geocode the location to get coordinates
-  Future<void> _geocodeLocation() async {
-    try {
-      // Geocode the address to get coordinates
-      final geocodedCoordinates = await _geocodeAddress(widget.location.toString());
-
-      // If geocoding succeeded, update coordinates and marker
-      if (geocodedCoordinates != null) {
-        _coordinates = geocodedCoordinates;
-        _markerModel = MarkerModel(
-          id: "location_marker",
-          score: 1,
-          position: _coordinates!,
-        );
-
-        // Trigger rebuild to show updated marker
-        if (mounted) {
-          setState(() {});
-        }
-      }
-
-      // Move map to location after a short delay to ensure map is ready
-      Future.delayed(const Duration(milliseconds: 500), () {
-        if (mounted && _coordinates != null) {
-          _mapController.move(_coordinates!, 13);
-        }
-      });
-    } catch (e) {
-      // Geocoding failed, keep fallback location (already set in initState)
-      debugPrint("Geocoding failed: $e");
+    if (updateFields) {
+      _latitude.text = point.latitude.toStringAsFixed(6);
+      _longitude.text = point.longitude.toStringAsFixed(6);
     }
-  }
-
-  /// Geocode an address string to LatLng coordinates
-  Future<LatLng?> _geocodeAddress(String address) async {
-    try {
-      // For now, we'll use a simple mapping for common locations
-      // In a real implementation, you'd use a geocoding service like:
-      // - Google Places API
-      // - OpenStreetMap Nominatim API
-      // - Mapbox Geocoding API
-
-      final addressLower = address.toLowerCase();
-
-      // Check for Bishop Auckland, County Durham
-      if (addressLower.contains("bishop auckland") || addressLower.contains("county durham") || addressLower.contains("durham")) {
-        return const LatLng(54.6561, -1.6770);
-      }
-
-      // Check for London
-      if (addressLower.contains("london")) {
-        return const LatLng(51.5074, -0.1278);
-      }
-
-      // Check for Manchester
-      if (addressLower.contains("manchester")) {
-        return const LatLng(53.4808, -2.2426);
-      }
-
-      // Check for Birmingham
-      if (addressLower.contains("birmingham")) {
-        return const LatLng(52.4862, -1.8904);
-      }
-
-      // Check for Leeds
-      if (addressLower.contains("leeds")) {
-        return const LatLng(53.8008, -1.5491);
-      }
-
-      // Check for Newcastle
-      if (addressLower.contains("newcastle")) {
-        return const LatLng(54.9783, -1.6178);
-      }
-
-      // Check for Liverpool
-      if (addressLower.contains("liverpool")) {
-        return const LatLng(53.4084, -2.9916);
-      }
-
-      // Check for Sheffield
-      if (addressLower.contains("sheffield")) {
-        return const LatLng(53.3811, -1.4701);
-      }
-
-      // Check for Bristol
-      if (addressLower.contains("bristol")) {
-        return const LatLng(51.4545, -2.5879);
-      }
-
-      // Check for Edinburgh
-      if (addressLower.contains("edinburgh")) {
-        return const LatLng(55.9533, -3.1883);
-      }
-
-      // Check for Glasgow
-      if (addressLower.contains("glasgow")) {
-        return const LatLng(55.8642, -4.2518);
-      }
-
-      // Check for Cardiff
-      if (addressLower.contains("cardiff")) {
-        return const LatLng(51.4816, -3.1791);
-      }
-
-      // Check for Belfast
-      if (addressLower.contains("belfast")) {
-        return const LatLng(54.5973, -5.9301);
-      }
-
-      // If no match found, return null to use fallback
-      return null;
-    } catch (e) {
-      // If geocoding fails, return null to use fallback
-      return null;
+    if (rebuild && mounted) {
+      setState(() {});
+    }
+    if (_mapReady) {
+      _mapController.move(point, _mapController.camera.zoom);
     }
   }
 
@@ -220,7 +174,7 @@ class _LocationMapBottomSheetState extends State<LocationMapBottomSheet> {
 
           // Map
           Expanded(
-            flex: 2,
+            flex: widget.canEdit ? 1 : 2,
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: tokens.spacing.lg),
               decoration: BoxDecoration(
@@ -234,12 +188,21 @@ class _LocationMapBottomSheetState extends State<LocationMapBottomSheet> {
                 child: FlutterMap(
                   mapController: _mapController,
                   options: MapOptions(
-                    initialCenter: _coordinates ?? const LatLng(54.6561, -1.6770),
+                    initialCenter: _coordinates ?? _fallbackCoordinates,
                     minZoom: 5,
                     maxZoom: 18,
                     interactionOptions: const InteractionOptions(
                       flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
                     ),
+                    onMapReady: () {
+                      _mapReady = true;
+                      if (_coordinates != null) {
+                        _mapController.move(_coordinates!, 13);
+                      }
+                    },
+                    onTap: widget.canEdit
+                        ? (tapPosition, point) => _setCoordinates(point)
+                        : null,
                   ),
                   children: [
                     // Tile layer
@@ -272,6 +235,7 @@ class _LocationMapBottomSheetState extends State<LocationMapBottomSheet> {
 
           // Address details
           Expanded(
+            flex: widget.canEdit ? 2 : 1,
             child: Container(
               margin: EdgeInsets.all(tokens.spacing.lg),
               padding: EdgeInsets.all(tokens.spacing.lg),
@@ -282,46 +246,7 @@ class _LocationMapBottomSheetState extends State<LocationMapBottomSheet> {
                   color: tokens.color.outline.withValues(alpha: 0.1),
                 ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      FaIcon(
-                        FontAwesomeIcons.house,
-                        color: tokens.color.primary,
-                        size: 20,
-                      ),
-                      SizedBox(width: tokens.spacing.sm),
-                      Text(
-                        "Address",
-                        style: tokens.text.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const Spacer(),
-                      IconButton(
-                        onPressed: _copyAddress,
-                        icon: FaIcon(
-                          FontAwesomeIcons.copy,
-                          color: tokens.color.primary,
-                          size: 20,
-                        ),
-                        tooltip: "Copy address",
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: tokens.spacing.sm),
-                  Expanded(
-                    child: Text(
-                      widget.location.toString(),
-                      style: tokens.text.bodyMedium?.copyWith(
-                        color: tokens.color.onSurface.withValues(alpha: 0.8),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              child: widget.canEdit ? _editForm(tokens) : _addressView(tokens),
             ),
           ),
         ],
@@ -329,14 +254,216 @@ class _LocationMapBottomSheetState extends State<LocationMapBottomSheet> {
     );
   }
 
+  Widget _addressView(ThemeTokens tokens) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            FaIcon(
+              FontAwesomeIcons.house,
+              color: tokens.color.primary,
+              size: 20,
+            ),
+            SizedBox(width: tokens.spacing.sm),
+            Text(
+              "Address",
+              style: tokens.text.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const Spacer(),
+            IconButton(
+              onPressed: _copyAddress,
+              icon: FaIcon(
+                FontAwesomeIcons.copy,
+                color: tokens.color.primary,
+                size: 20,
+              ),
+              tooltip: "Copy address",
+            ),
+          ],
+        ),
+        SizedBox(height: tokens.spacing.sm),
+        Expanded(
+          child: Text(
+            _location.toString(),
+            style: tokens.text.bodyMedium?.copyWith(
+              color: tokens.color.onSurface.withValues(alpha: 0.8),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _editForm(ThemeTokens tokens) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            FaIcon(
+              FontAwesomeIcons.penToSquare,
+              color: tokens.color.primary,
+              size: 20,
+            ),
+            SizedBox(width: tokens.spacing.sm),
+            Expanded(
+              child: Text(
+                "Edit contact details",
+                style: tokens.text.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            FilledButton.icon(
+              onPressed: _saving ? null : _saveContactDetails,
+              icon: _saving
+                  ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                  : const Icon(Icons.save, size: 18),
+              label: Text(_saving ? "Saving" : "Save"),
+            ),
+          ],
+        ),
+        SizedBox(height: tokens.spacing.md),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                TextField(
+                  controller: _email,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(labelText: "Email"),
+                ),
+                SizedBox(height: tokens.spacing.sm),
+                TextField(
+                  controller: _phone,
+                  keyboardType: TextInputType.phone,
+                  decoration: const InputDecoration(labelText: "Phone"),
+                ),
+                SizedBox(height: tokens.spacing.sm),
+                TextField(
+                  controller: _line1,
+                  textCapitalization: TextCapitalization.words,
+                  decoration: const InputDecoration(labelText: "Address line 1"),
+                ),
+                SizedBox(height: tokens.spacing.sm),
+                TextField(
+                  controller: _line2,
+                  textCapitalization: TextCapitalization.words,
+                  decoration: const InputDecoration(labelText: "Address line 2"),
+                ),
+                SizedBox(height: tokens.spacing.sm),
+                TextField(
+                  controller: _city,
+                  textCapitalization: TextCapitalization.words,
+                  decoration: const InputDecoration(labelText: "City"),
+                ),
+                SizedBox(height: tokens.spacing.sm),
+                TextField(
+                  controller: _region,
+                  textCapitalization: TextCapitalization.words,
+                  decoration: const InputDecoration(labelText: "County / region"),
+                ),
+                SizedBox(height: tokens.spacing.sm),
+                TextField(
+                  controller: _postalCode,
+                  textCapitalization: TextCapitalization.characters,
+                  decoration: const InputDecoration(labelText: "Postal code"),
+                ),
+                SizedBox(height: tokens.spacing.sm),
+                TextField(
+                  controller: _country,
+                  textCapitalization: TextCapitalization.words,
+                  decoration: const InputDecoration(labelText: "Country"),
+                ),
+                SizedBox(height: tokens.spacing.sm),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _latitude,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: true),
+                        decoration: const InputDecoration(labelText: "Latitude"),
+                        onSubmitted: (_) => _applyCoordinatesFromFields(),
+                      ),
+                    ),
+                    SizedBox(width: tokens.spacing.sm),
+                    Expanded(
+                      child: TextField(
+                        controller: _longitude,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: true),
+                        decoration: const InputDecoration(labelText: "Longitude"),
+                        onSubmitted: (_) => _applyCoordinatesFromFields(),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: tokens.spacing.sm),
+                Text(
+                  "Tap the map to drop a pin, or enter latitude and longitude.",
+                  style: tokens.text.bodySmall?.copyWith(
+                    color: tokens.color.onSurface.withValues(alpha: 0.65),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _saveContactDetails() async {
+    setState(() => _saving = true);
+    final response = await Managers.appWrapperStore.updateContactDetails(
+      email: _blankToNull(_email.text),
+      phone: _blankToNull(_phone.text),
+      location: _location,
+    );
+    if (!mounted) {
+      return;
+    }
+    setState(() => _saving = false);
+    final succeeded = response == RequestResponse.success;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(succeeded ? "Contact details saved" : "Failed to save contact details"),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+    if (succeeded) {
+      _applyCoordinatesFromFields();
+    }
+  }
+
+  void _applyCoordinatesFromFields() {
+    final latitude = _parseCoordinate(_latitude.text);
+    final longitude = _parseCoordinate(_longitude.text);
+    if (latitude == null || longitude == null) {
+      return;
+    }
+    _setCoordinates(LatLng(latitude, longitude), updateFields: false);
+  }
+
   /// Copy address to clipboard
   void _copyAddress() {
-    Clipboard.setData(ClipboardData(text: widget.location.toString()));
+    Clipboard.setData(ClipboardData(text: _location.toString()));
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text("Address copied to clipboard"),
         duration: Duration(seconds: 2),
       ),
     );
+  }
+
+  String? _blankToNull(String value) {
+    final trimmed = value.trim();
+    return trimmed.isEmpty ? null : trimmed;
+  }
+
+  double? _parseCoordinate(String value) {
+    return double.tryParse(value.trim());
   }
 }

@@ -2,6 +2,7 @@ import "dart:async";
 
 import "package:cv_app/core/assets/assets.gen.dart";
 import "package:cv_app/data/models/header_model.dart";
+import "package:cv_app/data/models/location_model.dart";
 import "package:cv_app/data/models/timeline_model.dart";
 import "package:cv_app/data/models/user_details_model.dart";
 import "package:cv_app/domain/repositories/details.repository.dart";
@@ -112,6 +113,26 @@ abstract class _AppStore with LoadStateStore, Store {
       next.insert(0, entry);
     }
     userDetails = isEducation ? details.copyWith(education: next) : details.copyWith(experience: next);
+    headerModel = HeaderModel.fromUserDetails(userDetails!);
+    return _persistUserDetails();
+  }
+
+  /// Updates email, phone, and location, then writes the document to Firestore.
+  @action
+  Future<RequestResponse> updateContactDetails({
+    required String? email,
+    required String? phone,
+    required LocationModel location,
+  }) async {
+    final details = userDetails;
+    if (details == null) {
+      return RequestResponse.failure;
+    }
+    userDetails = details.copyWith(
+      email: email,
+      phone: phone,
+      location: location,
+    );
     headerModel = HeaderModel.fromUserDetails(userDetails!);
     return _persistUserDetails();
   }

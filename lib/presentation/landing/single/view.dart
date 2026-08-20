@@ -1,6 +1,7 @@
 import "package:auto_route/auto_route.dart";
 import "package:cv_app/core/theme/theme_tokens.dart";
 import "package:cv_app/data/models/header_model.dart";
+import "package:cv_app/data/models/location_model.dart";
 import "package:cv_app/data/models/timeline_model.dart";
 import "package:cv_app/dependencies/injection.dart";
 import "package:cv_app/presentation/components/experience_card.dart";
@@ -550,24 +551,28 @@ class _LandingViewState extends State<LandingView> {
         }
         break;
       case ContactType.location:
-        // Show location on map in bottom sheet
-        if (userDetails.location != null) {
-          showModalBottomSheet<void>(
-            context: context,
-            isScrollControlled: true,
-            backgroundColor: Colors.transparent,
-            builder: (context) => LocationMapBottomSheet(
-              location: userDetails.location!,
-            ),
-          );
-        } else {
+        final details = appWrapperStore.userDetails ?? userDetails;
+        final canEdit = Managers.config.showDevTools;
+        if (details.location == null && !canEdit) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text("Location information not available"),
               duration: Duration(seconds: 3),
             ),
           );
+          break;
         }
+        showModalBottomSheet<void>(
+          context: context,
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          builder: (context) => LocationMapBottomSheet(
+            location: details.location ?? const LocationModel(),
+            email: details.email,
+            phone: details.phone,
+            canEdit: canEdit,
+          ),
+        );
         break;
     }
   }

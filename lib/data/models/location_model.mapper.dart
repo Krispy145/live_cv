@@ -59,6 +59,18 @@ class LocationModelMapper extends ClassMapperBase<LocationModel> {
     _$country,
     opt: true,
   );
+  static double? _$latitude(LocationModel v) => v.latitude;
+  static const Field<LocationModel, double> _f$latitude = Field(
+    'latitude',
+    _$latitude,
+    opt: true,
+  );
+  static double? _$longitude(LocationModel v) => v.longitude;
+  static const Field<LocationModel, double> _f$longitude = Field(
+    'longitude',
+    _$longitude,
+    opt: true,
+  );
 
   @override
   final MappableFields<LocationModel> fields = const {
@@ -68,6 +80,8 @@ class LocationModelMapper extends ClassMapperBase<LocationModel> {
     #region: _f$region,
     #postalCode: _f$postalCode,
     #country: _f$country,
+    #latitude: _f$latitude,
+    #longitude: _f$longitude,
   };
   @override
   final bool ignoreNull = true;
@@ -80,6 +94,8 @@ class LocationModelMapper extends ClassMapperBase<LocationModel> {
       region: data.dec(_f$region),
       postalCode: data.dec(_f$postalCode),
       country: data.dec(_f$country),
+      latitude: data.dec(_f$latitude),
+      longitude: data.dec(_f$longitude),
     );
   }
 
@@ -145,6 +161,8 @@ abstract class LocationModelCopyWith<$R, $In extends LocationModel, $Out>
     String? region,
     String? postalCode,
     String? country,
+    double? latitude,
+    double? longitude,
   });
   LocationModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
@@ -165,6 +183,8 @@ class _LocationModelCopyWithImpl<$R, $Out>
     Object? region = $none,
     Object? postalCode = $none,
     Object? country = $none,
+    Object? latitude = $none,
+    Object? longitude = $none,
   }) => $apply(
     FieldCopyWithData({
       if (line1 != $none) #line1: line1,
@@ -173,6 +193,8 @@ class _LocationModelCopyWithImpl<$R, $Out>
       if (region != $none) #region: region,
       if (postalCode != $none) #postalCode: postalCode,
       if (country != $none) #country: country,
+      if (latitude != $none) #latitude: latitude,
+      if (longitude != $none) #longitude: longitude,
     }),
   );
   @override
@@ -183,6 +205,8 @@ class _LocationModelCopyWithImpl<$R, $Out>
     region: data.get(#region, or: $value.region),
     postalCode: data.get(#postalCode, or: $value.postalCode),
     country: data.get(#country, or: $value.country),
+    latitude: data.get(#latitude, or: $value.latitude),
+    longitude: data.get(#longitude, or: $value.longitude),
   );
 
   @override

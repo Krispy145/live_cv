@@ -145,6 +145,25 @@ mixin _$AppStore on _AppStore, Store {
   }
 
   @override
+  Future<RequestResponse> updateContactDetails({
+    required String? email,
+    required String? phone,
+    required LocationModel location,
+  }) {
+    final _$actionInfo = _$_AppStoreActionController.startAction(
+        name: '_AppStore.updateContactDetails');
+    try {
+      return super.updateContactDetails(
+        email: email,
+        phone: phone,
+        location: location,
+      );
+    } finally {
+      _$_AppStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 userDetails: ${userDetails},

@@ -88,7 +88,10 @@ class UserDetailsModel with UserDetailsModelMappable {
     normalized["education"] = _asMapList(map["education"]);
     normalized["skills"] = _asMapList(map["skills"]);
     if (map["location"] is Map) {
-      normalized["location"] = Map<String, dynamic>.from(map["location"] as Map<dynamic, dynamic>);
+      final location = Map<String, dynamic>.from(map["location"] as Map<dynamic, dynamic>);
+      location["latitude"] = _asDouble(location["latitude"]);
+      location["longitude"] = _asDouble(location["longitude"]);
+      normalized["location"] = location;
     } else {
       normalized.remove("location");
     }
@@ -131,5 +134,18 @@ class UserDetailsModel with UserDetailsModelMappable {
       return const [];
     }
     return value.whereType<Map<dynamic, dynamic>>().map(Map<String, dynamic>.from).toList();
+  }
+
+  static double? _asDouble(dynamic value) {
+    if (value is double) {
+      return value;
+    }
+    if (value is int) {
+      return value.toDouble();
+    }
+    if (value is String) {
+      return double.tryParse(value);
+    }
+    return null;
   }
 }

@@ -17,6 +17,8 @@ class LocationModel with LocationModelMappable {
     this.region,
     this.postalCode,
     this.country,
+    this.latitude,
+    this.longitude,
   });
 
   /// First address line.
@@ -37,11 +39,22 @@ class LocationModel with LocationModelMappable {
   /// Country.
   final String? country;
 
+  /// Map latitude, stored on the user-details document.
+  final double? latitude;
+
+  /// Map longitude, stored on the user-details document.
+  final double? longitude;
+
+  /// Whether both map coordinates are present.
+  bool get hasCoordinates => latitude != null && longitude != null;
+
   /// Bishop Auckland fallback used by the map sheet.
   static const bishopAuckland = LocationModel(
     city: "Bishop Auckland",
     region: "County Durham",
     country: "United Kingdom",
+    latitude: 54.6561,
+    longitude: -1.6770,
   );
 
   static const fromMap = LocationModelMapper.fromMap;
