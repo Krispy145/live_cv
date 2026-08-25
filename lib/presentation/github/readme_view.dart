@@ -21,6 +21,20 @@ class ReadmeView extends StatelessWidget {
     return MarkdownBody(
       data: document.markdown,
       selectable: true,
+      imageBuilder: (uri, title, alt) {
+        final isBadge = uri.host.contains("shields.io");
+        return Padding(
+          padding: const EdgeInsets.only(right: 6, bottom: 4),
+          child: Image.network(
+            _networkImageUrl(uri),
+            height: isBadge ? 20 : null,
+            // CanvasKit cannot fetch shields.io / GitHub images unless the host
+            // sends CORS headers. HTML <img> bypasses that restriction on web.
+            webHtmlElementStrategy: WebHtmlElementStrategy.prefer,
+            errorBuilder: (context, error, stackTrace) => Text(alt ?? ""),
+          ),
+        );
+      },
       onTapLink: (text, href, title) {
         if (href == null || href.isEmpty) {
           return;
@@ -62,4 +76,12 @@ class ReadmeView extends StatelessWidget {
       ),
     );
   }
+}
+
+String _networkImageUrl(Uri uri) {
+  if (!uri.host.contains("shields.io")) {
+    return uri.toString();
+  }
+  final path = uri.path.replaceAll(" ", "_");
+  return uri.replace(path: path).toString();
 }
