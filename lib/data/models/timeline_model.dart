@@ -67,6 +67,16 @@ class TimelineModel with TimelineModelMappable {
     return "$start – $end";
   }
 
+  /// PDF / heading line, e.g. `Software Developer - Polymorph Systems`.
+  String get resumeHeading {
+    final role = title.trim();
+    final org = organization.trim();
+    if (org.isEmpty) {
+      return role;
+    }
+    return "$role - $org";
+  }
+
   static const fromMap = TimelineModelMapper.fromMap;
   static const fromJson = TimelineModelMapper.fromJson;
 

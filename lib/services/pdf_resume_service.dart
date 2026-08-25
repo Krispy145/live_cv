@@ -9,9 +9,11 @@ import "package:pdf/pdf.dart";
 import "package:pdf/widgets.dart" as pw;
 import "package:theme/data/models/colors/color_model.dart";
 
-/// Builds a one-page, two-column PDF resume from [HeaderModel].
+/// Builds a paginated two-column PDF resume from [HeaderModel].
 class PdfResumeService {
   static const _sidebarRatio = 0.25;
+  static const _columnGutter = 24.0;
+  static const _pageInset = 28.0;
 
   /// Generates resume bytes.
   static Future<Uint8List> generateResume(
@@ -29,41 +31,42 @@ class PdfResumeService {
       avatar = pw.MemoryImage(imageBytes);
     }
 
+    final sidebarWidth = PdfPageFormat.a4.width * _sidebarRatio;
+
     document.addPage(
-      pw.Page(
-        pageFormat: PdfPageFormat.a4,
-        margin: pw.EdgeInsets.zero,
-        build: (context) {
-          final pageSize = context.page.pageFormat;
-          return pw.Row(
-            crossAxisAlignment: pw.CrossAxisAlignment.stretch,
-            children: [
-              pw.SizedBox(
-                width: pageSize.width * _sidebarRatio,
-                child: pw.Container(
-                  color: primary,
-                  padding: const pw.EdgeInsets.fromLTRB(16, 28, 16, 24),
-                  child: _sidebar(
-                    header: header,
-                    details: details,
-                    avatar: avatar,
-                    onPrimary: onPrimary,
+      pw.MultiPage(
+        pageTheme: pw.PageTheme(
+          pageFormat: PdfPageFormat.a4,
+          margin: pw.EdgeInsets.fromLTRB(sidebarWidth + _columnGutter, _pageInset, _columnGutter, _pageInset),
+          buildBackground: (context) {
+            return pw.FullPage(
+              ignoreMargins: true,
+              child: pw.Row(
+                children: [
+                  pw.Container(
+                    width: sidebarWidth,
+                    color: primary,
+                    padding: const pw.EdgeInsets.fromLTRB(16, _pageInset, 18, 24),
+                    child: _sidebar(
+                      header: header,
+                      details: details,
+                      avatar: avatar,
+                      onPrimary: onPrimary,
+                    ),
                   ),
-                ),
+                  pw.Expanded(child: pw.Container(color: PdfColors.white)),
+                ],
               ),
-              pw.Expanded(
-                child: pw.Container(
-                  color: PdfColors.white,
-                  padding: const pw.EdgeInsets.fromLTRB(24, 28, 24, 24),
-                  child: _mainColumn(
-                    details: details,
-                    accent: primary,
-                  ),
-                ),
-              ),
-            ],
-          );
+            );
+          },
+        ),
+        header: (context) {
+          if (context.pageNumber == 1) {
+            return pw.SizedBox();
+          }
+          return pw.SizedBox(height: 36);
         },
+        build: (context) => _mainWidgets(details: details, accent: primary),
       ),
     );
 
@@ -121,15 +124,16 @@ class PdfResumeService {
             details.location.toString().replaceAll("\n", ", "),
             onPrimary,
           ),
-        if (details.githubUrl != null) _sidebarLine(_hostPath(details.githubUrl!), onPrimary),
-        if (details.linkedinUrl != null) _sidebarLine(_hostPath(details.linkedinUrl!), onPrimary),
+        if (details.githubUrl != null)
+          _sidebarHyperlink(label: "GitHub", url: details.githubUrl!, color: onPrimary),
+        if (details.linkedinUrl != null)
+          _sidebarHyperlink(label: "LinkedIn", url: details.linkedinUrl!, color: onPrimary),
         if (header.skillsPairs.isNotEmpty) ...[
           _sidebarHeading("Skills", onPrimary),
           ...header.skillsPairs.map(
             (pair) => _skillGroup(pair.first, pair.second, onPrimary, muted),
           ),
         ],
-        pw.Spacer(),
         _sidebarHeading("References", onPrimary),
         pw.Text(
           "Available upon request",
@@ -139,28 +143,25 @@ class PdfResumeService {
     );
   }
 
-  static pw.Widget _mainColumn({
+  static List<pw.Widget> _mainWidgets({
     required UserDetailsModel details,
     required PdfColor accent,
   }) {
-    return pw.Column(
-      crossAxisAlignment: pw.CrossAxisAlignment.start,
-      children: [
-        if (details.summary != null) ...[
-          _mainHeading("Profile", accent),
-          pw.Text(
-            _pdfSafe(details.summary!),
-            style: const pw.TextStyle(fontSize: 9, color: PdfColors.grey800, lineSpacing: 2),
-          ),
-          pw.SizedBox(height: 14),
-        ],
-        _mainHeading("Experience", accent),
-        ...details.experience.map(_experienceBlock),
-        pw.SizedBox(height: 10),
-        _mainHeading("Education", accent),
-        ...details.education.map(_educationBlock),
+    return [
+      if (details.summary != null) ...[
+        _mainHeading("Profile", accent),
+        pw.Text(
+          _pdfSafe(details.summary!),
+          style: const pw.TextStyle(fontSize: 9, color: PdfColors.grey800, lineSpacing: 2),
+        ),
+        pw.SizedBox(height: 14),
       ],
-    );
+      _mainHeading("Experience", accent),
+      ...details.experience.map(_experienceBlock),
+      pw.SizedBox(height: 10),
+      _mainHeading("Education", accent),
+      ...details.education.map(_educationBlock),
+    ];
   }
 
   static pw.Widget _skillGroup(
@@ -199,7 +200,7 @@ class PdfResumeService {
             children: [
               pw.Expanded(
                 child: pw.Text(
-                  _pdfSafe(item.title),
+                  _pdfSafe(item.resumeHeading),
                   style: pw.TextStyle(fontSize: 10.5, fontWeight: pw.FontWeight.bold, color: PdfColors.grey900),
                 ),
               ),
@@ -218,7 +219,6 @@ class PdfResumeService {
             pw.SizedBox(height: 2),
             pw.Text(
               _pdfSafe(item.description!),
-              maxLines: 4,
               style: const pw.TextStyle(fontSize: 8.5, color: PdfColors.grey800, lineSpacing: 1.6),
             ),
           ],
@@ -250,7 +250,6 @@ class PdfResumeService {
           if (item.description != null)
             pw.Text(
               _pdfSafe(item.description!),
-              maxLines: 2,
               style: const pw.TextStyle(fontSize: 8, color: PdfColors.grey800, lineSpacing: 1.5),
             ),
         ],
@@ -310,6 +309,50 @@ class PdfResumeService {
         ],
       ),
     );
+  }
+
+  static pw.Widget _sidebarHyperlink({
+    required String label,
+    required String url,
+    required PdfColor color,
+  }) {
+    return pw.UrlLink(
+      destination: _absoluteUrl(url),
+      child: pw.Padding(
+        padding: const pw.EdgeInsets.only(bottom: 6),
+        child: pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            pw.Text(
+              label,
+              style: pw.TextStyle(
+                fontSize: 7.5,
+                fontWeight: pw.FontWeight.bold,
+                color: color,
+                decoration: pw.TextDecoration.underline,
+              ),
+            ),
+            pw.Text(
+              _pdfSafe(_hostPath(url)),
+              style: pw.TextStyle(
+                fontSize: 7,
+                color: color,
+                decoration: pw.TextDecoration.underline,
+                lineSpacing: 1.3,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static String _absoluteUrl(String url) {
+    final trimmed = url.trim();
+    if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+      return trimmed;
+    }
+    return "https://$trimmed";
   }
 
   static String _hostPath(String url) {
