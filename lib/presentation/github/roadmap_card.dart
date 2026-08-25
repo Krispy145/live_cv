@@ -20,8 +20,8 @@ class RoadmapCard extends StatefulWidget {
 }
 
 class _RoadmapCardState extends State<RoadmapCard> {
-  bool _showReadme = true;
-  bool _showMilestones = false;
+  bool _showReadme = false;
+  bool _showMilestones = true;
   String _milestoneFilter = "in_progress";
 
   RoadmapSummary get data => widget.data;
@@ -69,12 +69,12 @@ class _RoadmapCardState extends State<RoadmapCard> {
             spacing: tokens.spacing.md,
             runSpacing: tokens.spacing.sm,
             children: [
-              FilledButton.icon(
+              TextButton.icon(
                 onPressed: () => setState(() => _showReadme = !_showReadme),
                 icon: Icon(_showReadme ? Icons.expand_less : Icons.expand_more, size: 18),
                 label: Text(_showReadme ? "Hide Roadmap" : "View Roadmap"),
               ),
-              TextButton.icon(
+              FilledButton.icon(
                 onPressed: () => setState(() => _showMilestones = !_showMilestones),
                 icon: Icon(_showMilestones ? Icons.expand_less : Icons.expand_more, size: 18),
                 label: Text(_showMilestones ? "Hide Milestones" : "View Milestones"),
