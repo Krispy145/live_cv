@@ -73,6 +73,12 @@ class CaseStudy {
 
   /// Stack joined for compact display.
   String get stackLabel => stack.join("     ");
+
+  /// Optional bundled mockup: `assets/showcase/<slug>/mockup.{png,webp,jpg}`.
+  List<String> get mockupAssetCandidates => [
+        for (final ext in const ["png", "webp", "jpg", "jpeg"])
+          "assets/showcase/$slug/mockup.$ext",
+      ];
 }
 
 /// Whether a case study can link to source.

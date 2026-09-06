@@ -21,6 +21,8 @@ void main() {
     );
 
     expect(find.textContaining("KISBEY"), findsOneWidget);
+    await tester.pumpAndSettle();
+    expect(find.byType(Image), findsOneWidget);
     await tester.tap(find.text("View case study  →"));
     expect(opened, isTrue);
   });

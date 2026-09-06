@@ -127,11 +127,14 @@ class $AssetsShowcaseHelpingHandGen {
 class $AssetsShowcaseKisbeyPosGen {
   const $AssetsShowcaseKisbeyPosGen();
 
+  /// File path: assets/showcase/kisbey-pos/mockup.png
+  AssetGenImage get mockup => const AssetGenImage('assets/showcase/kisbey-pos/mockup.png');
+
   /// File path: assets/showcase/kisbey-pos/openapi.json
   String get openapi => 'assets/showcase/kisbey-pos/openapi.json';
 
   /// List of all assets
-  List<String> get values => [openapi];
+  List<String> get values => [mockup.path, openapi];
 }
 
 class $AssetsShowcaseSecureAiApiGen {

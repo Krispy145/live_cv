@@ -103,6 +103,7 @@ flutter:
     - assets/images/
     - assets/themes/
     - assets/showcase/kisbey-pos/
+    - assets/showcase/kisbey-pos/mockup.png
     - assets/showcase/secure-ai-api/
     - assets/showcase/helping-hand/
     - assets/showcase/auth-clients/

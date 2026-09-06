@@ -16,6 +16,14 @@ void main() {
     }
   });
 
+  test("kisbey mockup uses the showcase asset convention", () {
+    final kisbey = ShowcaseCatalog.bySlug("kisbey-pos")!;
+    expect(
+      kisbey.mockupAssetCandidates,
+      contains("assets/showcase/kisbey-pos/mockup.png"),
+    );
+  });
+
   test("engineering stack links technologies back to case studies", () {
     final flutter = ShowcaseCatalog.stackGroups.expand((group) => group.$2).firstWhere((tech) => tech.name == "Flutter");
     expect(flutter.caseStudySlugs, containsAll(["kisbey-pos", "helping-hand", "auth-clients"]));
