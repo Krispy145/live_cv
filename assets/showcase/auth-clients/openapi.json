@@ -1,0 +1,34 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Secure AI API — client contract",
+    "version": "0.1.0",
+    "description": "Endpoints the Flutter and React Native IAM packages actually call."
+  },
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": ["AUTH"],
+        "summary": "Package login."
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "tags": ["AUTH"],
+        "summary": "Interceptor-driven refresh."
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["AUTH"],
+        "summary": "Revoke refresh and clear secure storage."
+      }
+    },
+    "/phishing/samples": {
+      "get": {
+        "tags": ["PHISHING"],
+        "summary": "Authorised list used by both showcase apps."
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Kisbey API",
+    "version": "0.0.1",
+    "description": "Sanitized excerpt. REST commands + GraphQL queries. Not the full commercial schema."
+  },
+  "paths": {
+    "/auth/sign-in": {
+      "post": {
+        "tags": ["AUTH"],
+        "summary": "Issue a JWT for a seeded café user."
+      }
+    },
+    "/catalogue/products": {
+      "get": {
+        "tags": ["CATALOGUE"],
+        "summary": "List Demo Café products for the current tenant."
+      }
+    },
+    "/commands/sales.complete": {
+      "post": {
+        "tags": ["SALES"],
+        "summary": "Idempotent sale completion. Requires an open shift."
+      }
+    }
+  }
+}

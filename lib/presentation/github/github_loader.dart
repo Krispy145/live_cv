@@ -1,0 +1,11 @@
+import "package:cv_app/presentation/github/github_state.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
+
+/// Loads GitHub repos/roadmap once if the cache is empty.
+void ensureGitHubLoaded(WidgetRef ref) {
+  final notifier = ref.read(githubNotifierProvider.notifier);
+  final state = ref.read(githubNotifierProvider);
+  if (notifier.isInitialized && !state.isLoading && state.allRepos.isEmpty && state.roadmapData == null) {
+    notifier.loadRepositories();
+  }
+}

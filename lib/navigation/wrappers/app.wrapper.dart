@@ -2,6 +2,7 @@ import "package:auto_route/auto_route.dart";
 import "package:cv_app/dependencies/injection.dart";
 import "package:cv_app/navigation/components/app_bar.dart";
 import "package:cv_app/navigation/wrappers/store.dart";
+import "package:cv_app/presentation/landing/components/contact_overlay.dart";
 import "package:flutter/material.dart";
 import "package:navigation/structures/default/widget.dart";
 import "package:utilities/widgets/load_state/builder.dart";
@@ -49,9 +50,15 @@ class _AppWrapperViewState extends State<AppWrapperView> {
     return PackageLoadStateBuilder(
       store: store,
       loadedBuilder: (context) {
-        return DefaultShellStructure(
-          appBar: MainAppBar(title: store.userDetails!.fullName),
-          store: store.appWrapperStore,
+        return Stack(
+          fit: StackFit.expand,
+          children: [
+            DefaultShellStructure(
+              appBar: MainAppBar(title: store.userDetails!.fullName),
+              store: store.appWrapperStore,
+            ),
+            const ContactOverlay(),
+          ],
         );
       },
     );

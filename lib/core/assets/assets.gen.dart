@@ -75,6 +75,22 @@ class $AssetsImagesGen {
       ];
 }
 
+class $AssetsShowcaseGen {
+  const $AssetsShowcaseGen();
+
+  /// Directory path: assets/showcase/auth-clients
+  $AssetsShowcaseAuthClientsGen get authClients => const $AssetsShowcaseAuthClientsGen();
+
+  /// Directory path: assets/showcase/helping-hand
+  $AssetsShowcaseHelpingHandGen get helpingHand => const $AssetsShowcaseHelpingHandGen();
+
+  /// Directory path: assets/showcase/kisbey-pos
+  $AssetsShowcaseKisbeyPosGen get kisbeyPos => const $AssetsShowcaseKisbeyPosGen();
+
+  /// Directory path: assets/showcase/secure-ai-api
+  $AssetsShowcaseSecureAiApiGen get secureAiApi => const $AssetsShowcaseSecureAiApiGen();
+}
+
 class $AssetsThemesGen {
   const $AssetsThemesGen();
 
@@ -88,10 +104,51 @@ class $AssetsThemesGen {
   List<String> get values => [baseTheme, componentsTheme];
 }
 
+class $AssetsShowcaseAuthClientsGen {
+  const $AssetsShowcaseAuthClientsGen();
+
+  /// File path: assets/showcase/auth-clients/openapi.json
+  String get openapi => 'assets/showcase/auth-clients/openapi.json';
+
+  /// List of all assets
+  List<String> get values => [openapi];
+}
+
+class $AssetsShowcaseHelpingHandGen {
+  const $AssetsShowcaseHelpingHandGen();
+
+  /// File path: assets/showcase/helping-hand/openapi.json
+  String get openapi => 'assets/showcase/helping-hand/openapi.json';
+
+  /// List of all assets
+  List<String> get values => [openapi];
+}
+
+class $AssetsShowcaseKisbeyPosGen {
+  const $AssetsShowcaseKisbeyPosGen();
+
+  /// File path: assets/showcase/kisbey-pos/openapi.json
+  String get openapi => 'assets/showcase/kisbey-pos/openapi.json';
+
+  /// List of all assets
+  List<String> get values => [openapi];
+}
+
+class $AssetsShowcaseSecureAiApiGen {
+  const $AssetsShowcaseSecureAiApiGen();
+
+  /// File path: assets/showcase/secure-ai-api/openapi.json
+  String get openapi => 'assets/showcase/secure-ai-api/openapi.json';
+
+  /// List of all assets
+  List<String> get values => [openapi];
+}
+
 class Assets {
   const Assets._();
 
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsShowcaseGen showcase = $AssetsShowcaseGen();
   static const $AssetsThemesGen themes = $AssetsThemesGen();
 }
 

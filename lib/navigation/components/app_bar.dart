@@ -2,16 +2,26 @@ import "package:cv_app/core/theme/theme_tokens.dart";
 import "package:cv_app/data/models/header_model.dart";
 import "package:cv_app/dependencies/injection.dart";
 import "package:cv_app/navigation/components/animated_theme_toggle.dart";
+import "package:cv_app/navigation/routes.gr.dart";
 import "package:cv_app/navigation/wrappers/store.dart";
-import "package:cv_app/presentation/landing/store.dart";
 import "package:cv_app/presentation/resume/resume_preview_dialog.dart";
 import "package:flutter/material.dart";
-import "package:flutter_mobx/flutter_mobx.dart";
 import "package:font_awesome_flutter/font_awesome_flutter.dart";
 import "package:theme/extensions/build_context.dart";
 import "package:utilities/helpers/extensions/build_context.dart";
-import "package:utilities/helpers/extensions/string.dart";
 import "package:utilities/sizes/spacers.dart";
+
+/// Top-level portfolio destinations.
+enum PortfolioNav {
+  /// Selected work / landing.
+  work,
+
+  /// Engineering stack.
+  engineering,
+
+  /// About / CV.
+  about,
+}
 
 /// [MainAppBar] is a class that defines the main app bar of the app.
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -23,14 +33,13 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(96);
 
-  LandingStore get store => Managers.landingStore;
   HeaderModel get headerModel => Managers.appWrapperStore.headerModel;
   AppStore get appStore => Managers.appWrapperStore;
 
   @override
   Widget build(BuildContext context) {
     final tokens = ThemeTokens.of(context);
-    final _headlineTextStyle = context.isScreenWidthGreaterThanTablet
+    final headlineTextStyle = context.isScreenWidthGreaterThanTablet
         ? context.textTheme.headlineMedium?.copyWith(color: context.colorScheme.onSurface)
         : context.textTheme.headlineSmall?.copyWith(color: context.colorScheme.onSurface);
     return ColoredBox(
@@ -50,65 +59,40 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
                     AnimatedThemeToggle(color: context.colorScheme.onSurface),
                     Sizes.l.spacer(axis: Axis.horizontal),
                     InkWell(
-                      onTap: () => store.scrollToIndex(0),
-                      child: Text(title, style: _headlineTextStyle),
+                      hoverColor: Colors.transparent,
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () => Managers.router.navigate(const AppWrapperRoute(children: [LandingRoute()])),
+                      child: Text(title, style: headlineTextStyle),
                     ),
                   ],
                 ),
-                // Using ResponsiveBreakpoints to switch between a Row and a Dropdown
-                Observer(
-                  builder: (context) {
-                    // Check if the current breakpoint is mobile or tablet
-                    if (context.isScreenWidthGreaterThanTablet) {
-                      return Row(
-                        children: [
-                          ...LandingOption.appbarOptions.map((option) {
-                            final index = LandingOption.values.indexOf(option);
-                            return Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: store.isCurrentIndex(index) ? context.colorScheme.secondary : context.colorScheme.primary,
-                                  foregroundColor: store.isCurrentIndex(index) ? context.colorScheme.onSecondary : context.colorScheme.onPrimary,
-                                ),
-                                onPressed: () => store.scrollToIndex(index),
-                                child: Text(option.name.capitalizeFirst()),
-                              ),
-                            );
-                          }),
-                          Sizes.xs.spacer(axis: Axis.horizontal),
-                          _buildDownloadButton(context, tokens),
-                        ],
-                      );
-                    } else {
-                      return Row(
-                        children: [
-                          PopupMenuButton<String>(
-                            onSelected: (value) {
-                              if (value == "download") {
-                                ResumePreviewDialog.show(context, header: headerModel, cachedPdfBytes: appStore.cachedPdfBytes);
-                              } else {
-                                final index = LandingOption.values.indexWhere((option) => option.name == value);
-                                if (index != -1) {
-                                  store.scrollToIndex(index);
-                                }
-                              }
-                            },
-                            icon: Icon(Icons.menu, color: context.colorScheme.onSurface),
-                            itemBuilder: (context) {
-                              return [
-                                ...LandingOption.appbarOptions.map((option) {
-                                  return PopupMenuItem<String>(value: option.name, child: Text(option.name.capitalizeFirst()));
-                                }),
-                                const PopupMenuItem<String>(value: "download", child: Text("Download Resume")),
-                              ];
-                            },
-                          ),
-                        ],
-                      );
-                    }
-                  },
-                ),
+                if (context.isScreenWidthGreaterThanTablet)
+                  ListenableBuilder(
+                    listenable: Managers.router,
+                    builder: (context, _) => Row(
+                      children: [
+                        ...PortfolioNav.values.map((nav) => _NavButton(nav: nav, tokens: tokens)),
+                        Sizes.xs.spacer(axis: Axis.horizontal),
+                        _buildDownloadButton(context, tokens),
+                      ],
+                    ),
+                  )
+                else
+                  PopupMenuButton<String>(
+                    onSelected: (value) {
+                      if (value == "download") {
+                        ResumePreviewDialog.show(context, header: headerModel, cachedPdfBytes: appStore.cachedPdfBytes);
+                      } else {
+                        _go(context, PortfolioNav.values.byName(value));
+                      }
+                    },
+                    icon: Icon(Icons.menu, color: context.colorScheme.onSurface),
+                    itemBuilder: (context) => [
+                      ...PortfolioNav.values.map((nav) => PopupMenuItem(value: nav.name, child: Text(_label(nav)))),
+                      const PopupMenuItem(value: "download", child: Text("Download Resume")),
+                    ],
+                  ),
               ],
             ),
           ),
@@ -127,6 +111,9 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
+          hoverColor: Colors.transparent,
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
           onTap: () => ResumePreviewDialog.show(context, header: headerModel, cachedPdfBytes: appStore.cachedPdfBytes),
           borderRadius: BorderRadius.circular(tokens.card.borderRadius),
           child: Padding(
@@ -144,4 +131,55 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
+}
+
+class _NavButton extends StatelessWidget {
+  const _NavButton({required this.nav, required this.tokens});
+
+  final PortfolioNav nav;
+  final ThemeTokens tokens;
+
+  @override
+  Widget build(BuildContext context) {
+    final active = _isActive(context, nav);
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: TextButton(
+        onPressed: () => _go(context, nav),
+        style: TextButton.styleFrom(
+          foregroundColor: active ? tokens.color.primary : tokens.color.onSurface,
+          overlayColor: Colors.transparent,
+          splashFactory: NoSplash.splashFactory,
+        ),
+        child: Text(
+          _label(nav),
+          style: TextStyle(fontWeight: active ? FontWeight.w700 : FontWeight.w500),
+        ),
+      ),
+    );
+  }
+}
+
+String _label(PortfolioNav nav) => switch (nav) {
+      PortfolioNav.work => "Work",
+      PortfolioNav.engineering => "Engineering",
+      PortfolioNav.about => "About",
+    };
+
+bool _isActive(BuildContext context, PortfolioNav nav) {
+  final path = Managers.router.currentPath;
+  return switch (nav) {
+    PortfolioNav.work => path.isEmpty || path == "/" || path.startsWith("/work") || path.startsWith("/projects"),
+    PortfolioNav.engineering => path.startsWith("/engineering"),
+    PortfolioNav.about => path.startsWith("/about"),
+  };
+}
+
+void _go(BuildContext context, PortfolioNav nav) {
+  final route = switch (nav) {
+    PortfolioNav.work => const LandingRoute(),
+    PortfolioNav.engineering => const EngineeringRoute(),
+    PortfolioNav.about => const AboutRoute(),
+  };
+  Managers.router.navigate(AppWrapperRoute(children: [route]));
 }
