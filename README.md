@@ -45,7 +45,7 @@ When building for production, include the environment variables:
 
 ```bash
 # Web
-flutter build web --dart-define=GITHUB_USERNAME=your-github-username --dart-define=GITHUB_TOKEN=your-pat-token
+flutter build web --no-tree-shake-icons --dart-define=GITHUB_USERNAME=your-github-username --dart-define=GITHUB_TOKEN=your-pat-token
 
 # Android
 flutter build apk --dart-define=GITHUB_USERNAME=your-github-username --dart-define=GITHUB_TOKEN=your-pat-token

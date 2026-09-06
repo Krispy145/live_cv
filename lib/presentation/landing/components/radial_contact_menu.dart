@@ -33,31 +33,31 @@ class _RadialContactMenuState extends State<RadialContactMenu> with TickerProvid
   final List<ContactItem> _contactItems = [
     ContactItem(
       type: ContactType.email,
-      icon: FontAwesomeIcons.envelope,
+      materialIcon: Icons.mail,
       label: "Email",
       color: Colors.red,
     ),
     ContactItem(
       type: ContactType.phone,
-      icon: FontAwesomeIcons.phone,
+      materialIcon: Icons.phone,
       label: "Phone",
       color: Colors.green,
     ),
     ContactItem(
       type: ContactType.github,
-      icon: FontAwesomeIcons.github,
+      faIcon: FontAwesomeIcons.github,
       label: "GitHub",
       color: Colors.black,
     ),
     ContactItem(
       type: ContactType.linkedin,
-      icon: FontAwesomeIcons.linkedin,
+      faIcon: FontAwesomeIcons.linkedin,
       label: "LinkedIn",
       color: Colors.blue,
     ),
     ContactItem(
       type: ContactType.location,
-      icon: FontAwesomeIcons.locationDot,
+      materialIcon: Icons.place,
       label: "Location",
       color: Colors.orange,
     ),
@@ -176,9 +176,9 @@ class _RadialContactMenuState extends State<RadialContactMenu> with TickerProvid
                   child: Center(
                     child: AnimatedSwitcher(
                       duration: const Duration(milliseconds: 250),
-                      child: _CenteredFaIcon(
+                      child: Icon(
                         key: ValueKey(_isExpanded),
-                        icon: _isExpanded ? FontAwesomeIcons.xmark : FontAwesomeIcons.envelope,
+                        _isExpanded ? Icons.close : Icons.mail,
                         color: tokens.color.onPrimary,
                         size: 24,
                       ),
@@ -191,6 +191,28 @@ class _RadialContactMenuState extends State<RadialContactMenu> with TickerProvid
         ],
       ),
     );
+  }
+}
+
+class _ContactGlyph extends StatelessWidget {
+  const _ContactGlyph({
+    required this.color,
+    required this.size,
+    this.materialIcon,
+    this.faIcon,
+  });
+
+  final IconData? materialIcon;
+  final FaIconData? faIcon;
+  final Color color;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    if (faIcon != null) {
+      return _CenteredFaIcon(icon: faIcon!, color: color, size: size);
+    }
+    return Icon(materialIcon, color: color, size: size);
   }
 }
 
@@ -222,15 +244,17 @@ class _CenteredFaIcon extends StatelessWidget {
 
 class ContactItem {
   final ContactType type;
-  final FaIconData icon;
+  final IconData? materialIcon;
+  final FaIconData? faIcon;
   final String label;
   final Color color;
 
   ContactItem({
     required this.type,
-    required this.icon,
     required this.label,
     required this.color,
+    this.materialIcon,
+    this.faIcon,
   });
 }
 
@@ -335,8 +359,9 @@ class _RadialMenuItemState extends State<_RadialMenuItem> with SingleTickerProvi
                       ),
                       const SizedBox(width: 8),
                     ],
-                    _CenteredFaIcon(
-                      icon: widget.item.icon,
+                    _ContactGlyph(
+                      materialIcon: widget.item.materialIcon,
+                      faIcon: widget.item.faIcon,
                       color: Colors.white,
                       size: 20,
                     ),
