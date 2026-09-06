@@ -89,35 +89,44 @@ class DevApp extends StatelessWidget {
             data: theme,
             child: Directionality(
               textDirection: TextDirection.ltr,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  Column(
-                    children: [
-                      Material(
-                        color: theme.colorScheme.surface,
-                        child: SizedBox(
-                          height: store.showDevTools ? 64 : 0,
-                          child: DevAppBar(),
-                        ),
-                      ),
-                      const Expanded(child: MainApp()),
-                    ],
-                  ),
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: Material(
-                      type: MaterialType.transparency,
-                      child: IconButton(
-                        onPressed: () => Managers.config.toggleDevTools(),
-                        icon: store.showDevTools
-                            ? Icon(Icons.visibility_off, color: theme.colorScheme.onSurface)
-                            : Icon(Icons.visibility, color: theme.colorScheme.onSurface),
-                      ),
-                    ),
-                  ),
-                ],
+              child: Navigator(
+                onGenerateRoute: (settings) {
+                  return MaterialPageRoute<void>(
+                    settings: settings,
+                    builder: (context) {
+                      return Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          Column(
+                            children: [
+                              Material(
+                                color: theme.colorScheme.surface,
+                                child: SizedBox(
+                                  height: store.showDevTools ? 64 : 0,
+                                  child: DevAppBar(),
+                                ),
+                              ),
+                              const Expanded(child: MainApp()),
+                            ],
+                          ),
+                          Positioned(
+                            top: 8,
+                            right: 8,
+                            child: Material(
+                              type: MaterialType.transparency,
+                              child: IconButton(
+                                onPressed: () => Managers.config.toggleDevTools(),
+                                icon: store.showDevTools
+                                    ? Icon(Icons.visibility_off, color: theme.colorScheme.onSurface)
+                                    : Icon(Icons.visibility, color: theme.colorScheme.onSurface),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
               ),
             ),
           ),

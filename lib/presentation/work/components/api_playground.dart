@@ -18,6 +18,7 @@ class _ApiPlaygroundState extends State<ApiPlayground> {
   late ShowcaseEndpoint _selected;
   bool _sending = false;
   bool _hasResponse = false;
+  int _sendGeneration = 0;
 
   @override
   void initState() {
@@ -26,12 +27,14 @@ class _ApiPlaygroundState extends State<ApiPlayground> {
   }
 
   Future<void> _send() async {
+    final generation = ++_sendGeneration;
+    final endpoint = _selected;
     setState(() {
       _sending = true;
       _hasResponse = false;
     });
-    await Future<void>.delayed(Duration(milliseconds: _selected.responseMs));
-    if (!mounted) {
+    await Future<void>.delayed(Duration(milliseconds: endpoint.responseMs));
+    if (!mounted || generation != _sendGeneration) {
       return;
     }
     setState(() {
@@ -41,6 +44,7 @@ class _ApiPlaygroundState extends State<ApiPlayground> {
   }
 
   void _select(ShowcaseEndpoint endpoint) {
+    _sendGeneration++;
     setState(() {
       _selected = endpoint;
       _hasResponse = false;
