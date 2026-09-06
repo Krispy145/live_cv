@@ -1,6 +1,7 @@
 import "package:auto_route/auto_route.dart";
 import "package:cv_app/core/theme/theme_tokens.dart";
 import "package:cv_app/data/models/github_repo_model.dart";
+import "package:cv_app/presentation/github/github_loader.dart";
 import "package:cv_app/presentation/github/github_repo_card.dart";
 import "package:cv_app/presentation/github/github_state.dart";
 import "package:flutter/material.dart";
@@ -27,11 +28,7 @@ class _ProjectsViewState extends ConsumerState<ProjectsView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final notifier = ref.read(githubNotifierProvider.notifier);
-      final state = ref.read(githubNotifierProvider);
-      if (notifier.isInitialized && state.allRepos.isEmpty && !state.isLoading) {
-        notifier.loadRepositories();
-      }
+      ensureGitHubLoaded(ref);
     });
   }
 
@@ -46,7 +43,7 @@ class _ProjectsViewState extends ConsumerState<ProjectsView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("GitHub Projects"),
+        title: const Text("Other Work"),
       ),
       body: Padding(
         padding: EdgeInsets.all(tokens.spacing.lg),

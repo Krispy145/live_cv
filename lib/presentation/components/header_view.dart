@@ -1,172 +1,139 @@
+import "package:cv_app/core/assets/assets.gen.dart";
 import "package:cv_app/core/theme/theme_tokens.dart";
 import "package:cv_app/data/models/header_model.dart";
 import "package:cv_app/presentation/components/avatar.dart";
 import "package:flutter/material.dart";
 import "package:utilities/helpers/extensions/build_context.dart";
 
+/// Typography-led hero for the portfolio landing page.
 class HeaderView extends StatelessWidget {
+  /// [HeaderView] constructor.
+  const HeaderView({
+    super.key,
+    required this.headerModel,
+    this.onExploreWork,
+    this.onOpenGithub,
+  });
+
   final HeaderModel headerModel;
-  const HeaderView({super.key, required this.headerModel});
+  final VoidCallback? onExploreWork;
+  final VoidCallback? onOpenGithub;
+
+  static const _stack = "Flutter / TypeScript / AWS / PostgreSQL";
+
+  String get _photoPath => headerModel.userDetails.imageUrl ?? Assets.images.avatar.path;
 
   @override
   Widget build(BuildContext context) {
     final tokens = ThemeTokens.of(context);
+    final wide = context.isScreenWidthGreaterThanTablet;
 
-    return Container(
-      width: double.infinity,
-      color: tokens.color.primary,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          minHeight: context.screenHeight - 148,
-        ),
-        child: _buildHeader(context),
+    return ConstrainedBox(
+      constraints: BoxConstraints(minHeight: context.screenHeight * 0.72),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: tokens.spacing.xl, vertical: tokens.spacing.xxl),
+        child: wide
+            ? Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(child: _Copy(tokens: tokens, title: headerModel.title, onExploreWork: onExploreWork, onOpenGithub: onOpenGithub)),
+                  SizedBox(width: tokens.spacing.xxl),
+                  CVAvatar.asset(
+                    width: (context.screenWidth * 0.22).clamp(220.0, 320.0),
+                    assetPath: _photoPath,
+                  ),
+                ],
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _Copy(tokens: tokens, title: headerModel.title, onExploreWork: onExploreWork, onOpenGithub: onOpenGithub),
+                  SizedBox(height: tokens.spacing.xxl),
+                  Align(
+                    alignment: Alignment.center,
+                    child: CVAvatar.asset(
+                      width: 200,
+                      assetPath: _photoPath,
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
   }
+}
 
-  Widget _buildHeader(BuildContext context) {
-    final tokens = ThemeTokens.of(context);
+class _Copy extends StatelessWidget {
+  const _Copy({
+    required this.tokens,
+    required this.title,
+    this.onExploreWork,
+    this.onOpenGithub,
+  });
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: tokens.spacing.xl),
+  final ThemeTokens tokens;
+  final String title;
+  final VoidCallback? onExploreWork;
+  final VoidCallback? onOpenGithub;
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 640),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height: tokens.spacing.xxl),
-
-          CVAvatar.asset(
-            width: context.screenWidth * 0.2 < 200 ? 200 : context.screenWidth * 0.2,
-            assetPath: headerModel.userDetails.imageUrl ?? "https://via.placeholder.com/150",
-          ),
-
-          SizedBox(height: tokens.spacing.xxl),
-
-          // Decorative divider
-          Container(
-            height: 4,
-            width: context.screenWidth * 0.3,
-            decoration: BoxDecoration(
-              color: tokens.color.onPrimary,
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-
-          SizedBox(height: tokens.spacing.xxl),
-
-          // Main title
           Text(
-            headerModel.title,
-            textAlign: TextAlign.center,
-            style: tokens.text.heroTitle.copyWith(
-              color: tokens.color.onPrimary,
+            "Software Engineer",
+            style: tokens.text.bodyMedium?.copyWith(
+              letterSpacing: 1.4,
+              fontWeight: FontWeight.w600,
+              color: tokens.color.onSurfaceWithOpacity(0.55),
             ),
           ),
-
-          // Subtitle
-          if (headerModel.subtitle != null) ...[
-            SizedBox(height: tokens.spacing.lg),
-            Text(
-              headerModel.subtitle!,
-              textAlign: TextAlign.center,
-              style: tokens.text.titleLarge?.copyWith(
-                color: tokens.color.onPrimary.withValues(alpha: 0.9),
-                fontWeight: FontWeight.w400,
-              ),
+          SizedBox(height: tokens.spacing.lg),
+          Text(
+            title,
+            style: tokens.text.heroTitle,
+          ),
+          SizedBox(height: tokens.spacing.lg),
+          Text(
+            "Building applications from\ninterface to infrastructure.",
+            style: tokens.text.headlineSmall?.copyWith(
+              fontWeight: FontWeight.w400,
+              height: 1.3,
+              color: tokens.color.onSurfaceWithOpacity(0.85),
             ),
-          ],
-
-          // Skills chips
-          if (headerModel.skillsPairs.isNotEmpty) ...[
-            SizedBox(height: tokens.spacing.xl),
-            _buildFadingScrollView(
-              context,
-              children: headerModel.skills
-                  .map(
-                    (skill) => Padding(
-                      padding: EdgeInsets.symmetric(horizontal: tokens.spacing.xs),
-                      child: Chip(
-                        label: Text(skill.name),
-                        labelStyle: tokens.chip.labelStyle.copyWith(
-                          color: tokens.color.primary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        backgroundColor: tokens.color.onPrimary.withValues(alpha: 0.15),
-                        side: BorderSide(
-                          color: tokens.color.primary.withValues(alpha: 0.3),
-                        ),
-                      ),
-                    ),
-                  )
-                  .toList(),
-            ),
-          ],
+          ),
+          SizedBox(height: tokens.spacing.lg),
+          Text(
+            HeaderView._stack,
+            style: tokens.text.bodyLarge?.copyWith(color: tokens.color.onSurfaceWithOpacity(0.55)),
+          ),
           SizedBox(height: tokens.spacing.xxl),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFadingScrollView(BuildContext context, {required List<Widget> children}) {
-    final tokens = ThemeTokens.of(context);
-
-    return SizedBox(
-      height: 40, // Fixed height for the scroll area
-      child: Stack(
-        children: [
-          // Scrollable content with proper clipping
-          Positioned.fill(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: tokens.spacing.xl),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: children,
+          Wrap(
+            spacing: tokens.spacing.md,
+            runSpacing: tokens.spacing.sm,
+            children: [
+              FilledButton(
+                onPressed: onExploreWork,
+                style: FilledButton.styleFrom(
+                  overlayColor: Colors.transparent,
+                  splashFactory: NoSplash.splashFactory,
                 ),
+                child: const Text("Explore my work"),
               ),
-            ),
-          ),
-          // Left fade overlay
-          Positioned(
-            left: 0,
-            top: 0,
-            bottom: 0,
-            child: Container(
-              width: 50,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  stops: const [0.0, 0.3, 0.7, 1.0],
-                  colors: [
-                    tokens.color.primary, // Match the gradient background
-                    tokens.color.primary.withValues(alpha: 0.8),
-                    tokens.color.primary.withValues(alpha: 0.3),
-                    Colors.transparent,
-                  ],
+              OutlinedButton(
+                onPressed: onOpenGithub,
+                style: OutlinedButton.styleFrom(
+                  overlayColor: Colors.transparent,
+                  splashFactory: NoSplash.splashFactory,
                 ),
+                child: const Text("GitHub  ↗"),
               ),
-            ),
-          ),
-          // Right fade overlay
-          Positioned(
-            right: 0,
-            top: 0,
-            bottom: 0,
-            child: Container(
-              width: 50,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.centerRight,
-                  end: Alignment.centerLeft,
-                  stops: const [0.0, 0.3, 0.7, 1.0],
-                  colors: [
-                    tokens.color.primary, // Match the gradient background
-                    tokens.color.primary.withValues(alpha: 0.8),
-                    tokens.color.primary.withValues(alpha: 0.3),
-                    Colors.transparent,
-                  ],
-                ),
-              ),
-            ),
+            ],
           ),
         ],
       ),

@@ -44,7 +44,7 @@ class HeaderModel {
   /// Default personal header.
   static final personal = HeaderModel(
     title: "David Kisbey-Green",
-    subtitle: "Flutter · React / React Native Developer | Transitioning into AI & Cybersecurity",
+    subtitle: "Software Engineer — Flutter / TypeScript / AWS / PostgreSQL",
     userDetails: UserDetailsModel.personal,
     skillsPairs: UserDetailsModel.personal.skillsPairs,
   );

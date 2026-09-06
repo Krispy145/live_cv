@@ -86,6 +86,9 @@ class _AnimatedThemeToggleState extends State<AnimatedThemeToggle> with TickerPr
         final iconColor = widget.color ?? Theme.of(context).colorScheme.onSurface;
 
         return InkWell(
+          hoverColor: Colors.transparent,
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
           onTap: _handleToggle,
           child: AnimatedBuilder(
             animation: _animationController,

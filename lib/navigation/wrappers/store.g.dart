@@ -111,6 +111,18 @@ mixin _$AppStore on _AppStore, Store {
         .run(() => super.removeTimeline(id: id, isEducation: isEducation));
   }
 
+  late final _$updateContactDetailsAsyncAction =
+      AsyncAction('_AppStore.updateContactDetails', context: context);
+
+  @override
+  Future<RequestResponse> updateContactDetails(
+      {required String? email,
+      required String? phone,
+      required LocationModel location}) {
+    return _$updateContactDetailsAsyncAction.run(() => super
+        .updateContactDetails(email: email, phone: phone, location: location));
+  }
+
   late final _$refreshPdfCacheAsyncAction =
       AsyncAction('_AppStore.refreshPdfCache', context: context);
 
@@ -139,25 +151,6 @@ mixin _$AppStore on _AppStore, Store {
         name: '_AppStore.upsertEducation');
     try {
       return super.upsertEducation(entry);
-    } finally {
-      _$_AppStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  Future<RequestResponse> updateContactDetails({
-    required String? email,
-    required String? phone,
-    required LocationModel location,
-  }) {
-    final _$actionInfo = _$_AppStoreActionController.startAction(
-        name: '_AppStore.updateContactDetails');
-    try {
-      return super.updateContactDetails(
-        email: email,
-        phone: phone,
-        location: location,
-      );
     } finally {
       _$_AppStoreActionController.endAction(_$actionInfo);
     }

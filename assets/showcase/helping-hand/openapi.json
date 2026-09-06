@@ -1,0 +1,34 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Helping Hand API",
+    "version": "0.1.0",
+    "description": "Excerpt from Nest Swagger /api and published API contracts."
+  },
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": ["AUTH"],
+        "summary": "Email + password. JWT, not Firebase Auth."
+      }
+    },
+    "/requests/draft/{id}/submit": {
+      "post": {
+        "tags": ["REQUESTS"],
+        "summary": "Move a draft into pending vetting."
+      }
+    },
+    "/requests/nearby": {
+      "get": {
+        "tags": ["REQUESTS"],
+        "summary": "Vetted requests only."
+      }
+    },
+    "/requests/{id}/accept": {
+      "post": {
+        "tags": ["SESSIONS"],
+        "summary": "Helper accepts. Creates a session-locked chat."
+      }
+    }
+  }
+}

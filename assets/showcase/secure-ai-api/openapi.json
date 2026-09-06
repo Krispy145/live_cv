@@ -1,0 +1,40 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Secure AI API",
+    "version": "0.1.0",
+    "description": "Exported excerpt of FastAPI /docs. JWT, phishing inference, and RAG."
+  },
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": ["AUTH"],
+        "summary": "Password login."
+      }
+    },
+    "/v1/predict/phishing": {
+      "post": {
+        "tags": ["PHISHING"],
+        "summary": "Classify a URL. Requires a bearer token."
+      }
+    },
+    "/v1/rag/query": {
+      "post": {
+        "tags": ["RAG"],
+        "summary": "Retrieve context and generate an answer."
+      }
+    },
+    "/phishing/samples": {
+      "get": {
+        "tags": ["PHISHING"],
+        "summary": "List labelled samples."
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": ["OPS"],
+        "summary": "Health check."
+      }
+    }
+  }
+}
